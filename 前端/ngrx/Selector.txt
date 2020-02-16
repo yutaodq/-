@@ -1,0 +1,15 @@
+1 - 学习资料
+https://segmentfault.com/a/1190000017566273?utm_source=tag-newest
+
+2 - 学习笔记
+createFeatureSelector: 
+   它为状态（state）创建一个feature selector。
+
+export const getAuthState = createFeatureSelector<State>(
+  'auth'
+);
+
+泛型，就你这个函数来说，<State>State
+
+
+https://segmentfault.com/a/1190000017566273?utm_source=tag-newest

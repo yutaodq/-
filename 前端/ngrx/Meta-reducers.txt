@@ -1,0 +1,28 @@
+﻿Meta-reducers
+@ngrx/store将多个reducers组合成一个reducer。
+开发者可以认为meta-reducers像是一个在action -> reducer管道中的钩子。Meta-reducers允许开发者在调用普通Reducer之前预处理操作。
+使用metaReducers配置meta-reducers。metaReducers会从你提供的数组中，从右到左的执行。
+
+注意：Meta-reducers在NgRx中类似于Redux的中间件。
+
+使用meta-reducer来记录所有的actions
+app.module.ts
+
+import { StoreModule, ActionReducer, MetaReducer } from '@ngrx/store';
+import { reducers } from './reducers';
+
+export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
+    return function (state, action) {
+        console.log('state', state);
+        console.log('action', action);
+        
+        return reduccer(state, action);
+    }
+}
+
+export const metaReducers: MetaReducer<any>[] = [debug];
+
+@NgModule({
+    imports: [StoreModule.forRoot(reducers, { metaReducers })],
+})
+export class AppMpdule{}

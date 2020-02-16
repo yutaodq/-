@@ -1,0 +1,26 @@
+
+**、Webpack 的配置
+webpack.config.js 是 webpack 的默认配置文件（也可以通过--config 配置其他文件）
+项目中的配置文件是在webpack目录下定义的
+webpack/webpack.dev.js
+webpack/webpack.prod.js
+
+package.json文件中使用这些配置文件
+
+**、Webpack-dev-server 配置
+1 - Webpack-dev-serve 是 NodeJS 下的小型 Express 服务器，
+  我们可以使用它来测试 webpack 所生成的文件。
+  同时它通过 websocket 与服务器建立通信，
+  支持对模块的代码监控，从而在文件变动时，动态的编译程序并自动刷新页面。
+2 - 使用
+  在package.json文件中 ：
+  "webpack:dev": "yarn run webpack-dev-server 
+     -- --config webpack/webpack.dev.js 
+     --inline --hot --port=9060 
+     --watch-content-base --env.stats=minimal",
+
+
+什么是 Express  服务器，
+   Express  服务器 是一个简洁而灵活的 node.js Web应用框架, 
+提供了一系列强大特性帮助你创建各种 Web 应用，和丰富的 HTTP 工具。
+使用 Express 可以快速地搭建一个完整功能的网站。

@@ -1,0 +1,17 @@
+1- 应用程序的路径别名
+   (1)- 修改 tsconfig.json 否则拼写错误
+           "paths": {
+            "app/*": ["src/main/webapp/app/*"],
+            "env/*": ["src/environments/*"]
+        },
+
+   (2)- 修改 webpack.common.js
+    alias: {
+      app: utils.root("src/main/webapp/app/"),
+      env: utils.root("src/environments/"),
+      ...rxPaths()
+    }
+   修改完这二个文件后可这样导入
+   import {environment as env} from "env/environment";
+   
+   注意：一定要重新启动服务器

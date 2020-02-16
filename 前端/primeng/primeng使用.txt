@@ -1,0 +1,21 @@
+﻿1 - 安装
+tyarn add  primeng 
+tyarn add  primeicons 
+tyarn add  primeflex
+
+2 - 在样式部分配置所需的样式，
+    D:\yutao\zyweb\src\main\webapp\app\vendor.ts
+    @import '~primeicons/primeicons.css';
+    @import '~primeng/resources/themes/nova-light/theme.css';
+    @import '~primeng/resources/primeng.min.css';
+    @import '~primeflex/primeflex.css';
+
+3 - primeng 模块
+  D:\yutao\zyweb\src\main\webapp\app\shared\theme-primeng.module.ts
+  
+4- shared.module模块导入 primeng 模块
+   D:\yutao\zyweb\src\main\webapp\app\shared\component.module.ts
+
+5 - ChartModule模块 需要在pack.json 中加入chart.js包
+import { ChartModule } from 'primeng/chart';
+    "chart.js": "2.7.3",

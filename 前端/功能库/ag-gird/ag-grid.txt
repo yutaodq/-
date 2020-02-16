@@ -1,0 +1,36 @@
+网格框架ag-Grid
+ag-grid 分为：
+   community（社区）  遵循MIT开源协议，可随意使用，但使用时须声明版权许可
+   enterprise（企业） 属于商业产品，非免费
+
+1 - 安装ag-grid
+tyarn add ag-grid-community ag-grid-angular ag-grid-enterprise
+
+2 - 引入样式
+D:\yutao\zyweb\src\main\webapp\content\scss\vendor.scss
+
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+
+3 - 加入模块
+D:\yutao\zyweb\src\main\webapp\app\shared\shared.module.ts
+
+项目地址
+git: https://github.com/ag-grid/ag-grid
+
+官方文档
+https://www.ag-grid.com/documentation-main/documentation.php 
+
+中文文档：https://blog.fundodoo.com/docs
+          http://www.itxst.com/ag-grid/tutorial.html  比较好
+
+文档
+
+非常好的一篇文章： https://blog.fundodoo.com/source/ag-grid
+http://m.itxst.com/ag-grid/tutorial.html
+
+重点学习案例： https://www.ag-grid.com/angular-markup/
+
+https://blog.csdn.net/sleepwalker_1992/article/details/83584037
+
+https://www.ag-grid.com/angular-grid/?utm_source=ag-grid-readme&utm_medium=repository&utm_campaign=github

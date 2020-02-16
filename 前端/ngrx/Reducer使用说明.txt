@@ -1,0 +1,42 @@
+﻿import { merge } from 'ramda';
+import { PostsActionsTypes, PostsActionsUnion } from './actions';
+import { initialState, postsAdapter, PostsState } from './state';
+
+export function postsReducer(
+  state: PostsState = initialState,
+  action: PostsActionsUnion
+): PostsState {
+  switch (action.type) {
+    case PostsActionsTypes.LoadPosts: {
+      return merge(state, { loading: true });
+    }
+    case PostsActionsTypes.LoadPostsSuccess: {
+      return merge(postsAdapter.upsertMany(action.payload.posts, state), {
+        loading: false,
+        lastCheckedId: action.payload.lastCheckedId
+      });
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+
+2-  StoreModule: StoreModule是@ngrx/storeAPI中的一个模块，它被用来在应用模块中配置reducer。
+E:\temp\steeditor-master\src\app\store\posts-store\posts-store.module.ts
+
+@NgModule({
+  imports: [
+    StoreModule.forFeature('posts', postsReducer),
+    EffectsModule.forFeature([PostsEffects]),
+    MatSnackBarModule
+  ],
+  providers: [PostsEffects],
+  declarations: [BroadcastResultSheetComponent],
+  entryComponents: [BroadcastResultSheetComponent]
+})
+export class PostsStoreModule {}
+
+
+StoreModule.forRoot()函数会注册一个用于访问store的全局变量。

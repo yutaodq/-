@@ -1,0 +1,44 @@
+﻿Toolbar：通常用来放置基本的品牌logo、简单的搜寻、常用的功能和切换左右sidenav的按钮等等。
+
+SideNav：放置使用者资讯，或是主要的功能选单等等、可以选择常驻在左边或右边，也可以选择平常隐藏起来，需要的时候可以动态的打开来。
+
+Content：当然就是主要的功能画面啦。
+
+一、 SideNav
+<mat-sidenav-container>：代表整个包含边栏导览的容器
+
+<mat-sidenav>：实际上边栏导览的内容
+
+<mat-sidenav-content>：导览以外的实际内容
+
+二、 设定主题
+
+// 引入material自定义主题支持
+@import '~@angular/material/theming';
+// 引入material公用的主题风格
+@include mat-core();
+
+// 自定义颜色
+$my-app-primary: mat-palette($mat-blue);
+$my-app-accent: mat-palette($mat-teal, A200, A100, A400);
+$my-app-warn: mat-palette($mat-red);
+
+// 利用自定义颜色组装自定义主题
+$my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
+
+// 设置自定义主题，使其生效
+@include angular-material-theme($my-app-theme);
+
+***关于 mat-sidenav的使用
+<mat-sidenav-container>  //容器
+    <mat-sidenav mode="side" opened>  //辅助内容
+        {{ 'login.title' | translate}}
+    </mat-sidenav>
+    <mat-sidenav-content>   //主内容
+        Main content
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+在容器中只定义辅助内容，页面不显示
+
+

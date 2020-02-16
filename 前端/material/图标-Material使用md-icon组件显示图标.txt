@@ -1,0 +1,44 @@
+﻿Material使用md-icon组件显示svg图标
+1- 资料
+   首先分享一个图标库，由阿里巴巴分享：iconfont.cn。
+   
+   https://www.jianshu.com/p/11a00d45fcfd
+
+2- 新建app/utils/svg.util.ts文件，代码如下
+   案例见 《Angular 打造企业级协作平台》
+import {MdIconRegistry} from '@angular/material';
+import {DomSanitizer} from '@angular/platform-browser';
+export const loadSvgResources = (ir: MdIconRegistry, ds: DomSanitizer) => {
+  ir.addSvgIcon('gifts', ds.bypassSecurityTrustResourceUrl('assets/fullscreen-exit.svg'));
+};
+
+3、在core.Module.ts文件中一次性引入
+...
+import {HttpModule} from '@angular/http';//因为使用到安全连接加载svg，所以必须引入http模块
+import {MdIconRegistry} from '@angular/material';
+import {DomSanitizer} from '@angular/platform-browser';
+import {loadSvgResources} from '../utils/svg.util';
+
+@NgModule({
+  imports: [
+   ...
+    MdToolbarModule,
+    MdIconModule,
+    MdButtonModule,
+    HttpModule
+  ],
+  declarations: [HeaderComponent, HeaderComponent, SidebarComponent],
+  exports: [
+    HeaderComponent, SidebarComponent, HeaderComponent
+  ]
+})
+export class CoreModule {
+  constructor(ir: MdIconRegistry, ds: DomSanitizer) {
+    loadSvgResources(ir, ds);
+  }
+}
+
+4、模板文件中使用方式
+<md-icon svgIcon="gifts"></md-icon>
+最后补充下，如果需要使用普通字体图标，可以直接这么写
+<md-icon>menu</md-icon>

@@ -1,0 +1,44 @@
+2- 国际化模块
+(1) tyarn add @ngx-translate/core @ngx-translate/http-loader
+   参考：文章https://blog.csdn.net/u012125121/article/details/79447614
+         项目https://github.com/tomastrajan/angular-ngrx-material-starter
+(2) 修改 D:\yutao\zyweb\webpack\webpack.common.js
+        new MergeJsonWebpackPlugin({
+            output: {
+                groupBy: [
+                  { pattern: "./src/main/webapp/i18n/zh/*.json", fileName: "./i18n/zh.json" }
+                    // fileName: "./i18n/zn.json" 和 new TranslateHttpLoader( http, `./i18n/`,   '.json'  );
+                ]
+            }
+        }),
+
+(3) app.module.ts
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+@NgModule({
+  imports: [
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+export class AppModule {
+  constructor(private translate: TranslateService) {
+    this.initTranslateConfig();
+    // this.languageService.changeLanguage(languageKey);
+  }
+  initTranslateConfig() {
+    // 参数类型为数组，数组元素为本地语言json配置文件名
+    this.translate.addLangs(["zh"]);
+    // 设置默认语言
+    this.translate.setDefaultLang("zh");
+    // 检索指定的翻译语言，返回Observable
+  }
+
+}
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader( http, `./i18n/`,   '.json'  );
+}

@@ -1,0 +1,15 @@
+﻿1 - 在想居中元素两边都放了自动扩大充满的元素。
+
+在styles.scss中加入
+
+.fill-remaining-space {
+  // 使用 flexbox 填充剩余空间
+  // @angular/material 中的很多控件使用了 flex 布局
+  flex: 1 1 auto;
+}
+<mat-toolbar color="primary">
+  <span class="fill-remaining-space"></span>
+  <span>&copy; strof 版权声明</span>
+  <span class="fill-remaining-space"></span>
+</mat-toolbar>
+

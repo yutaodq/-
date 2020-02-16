@@ -1,0 +1,49 @@
+﻿1- 快速掌握Angular的Http方法  - 讲座
+  https://study.163.com/course/introduction.htm?courseId=1006401005#/courseDetail?tab=1
+1 - 激动人心的 Angular HttpClient
+https://segmentfault.com/a/1190000010116848
+2 - Angular的HttpClient介绍 
+https://www.sohu.com/a/224755851_100072094
+
+3 - HttpClient-4.5.2官方教程完整翻译
+https://blog.csdn.net/ron_2016/article/details/81587492
+
+坑01：HttpClient对象提供的get、post、delete、put方法的
+返回值都是一个已经转化成了JSON数据的JavaScript对象，
+如果想获取该对象中的某个属性就必须使用  对象名[ ‘属性名’ ]  
+这样的格式，不能使用   对象名.属性名  这种格式；
+如果使用   对象名.属性名   这种格式时就必须在调用HttpClient
+对象提供的方法时通过泛型来对响应数据进行类型指定，例如：
+
+eturn this.http.get<responseResult<ClientBaseInfo>>(‘http://127.0.0.1:8888/dev/client/findAll‘);
+
+
+
+  /**
+   * 返回json 格式的obj 对象
+   * @param url
+   * @param body
+   * @param urlSearchParams
+   * @returns {Observable<{}>}
+   */
+  apiPost(url, body, urlSearchParams?: any): Observable<{}> {
+    let options = {
+      body: body ? body : null,
+      params: urlSearchParams,
+      responseType: 'json'
+    };
+    return this.httpClient.request(Service.METHOD_POST, url, options);
+  }
+  /**
+   * 返回一个obj 对象
+   * @param url
+   * @param urlSearchParams url 的查询参数
+   * @returns {Observable<{}>}
+   */
+  apiGet(url, urlSearchParams?: any): Observable<{}> {
+    let options = {
+      params: urlSearchParams,
+      responseType: 'json'
+    };
+    return this.httpClient.request(Service.METHOD_GET, url, options);
+  }

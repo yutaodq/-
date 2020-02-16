@@ -1,0 +1,42 @@
+﻿一、 定义webpack文件
+     D:\yutao\zyweb\webpack\webpack.dev.js和product
+  entry: {
+    polyfills: "./src/main/webapp/app/polyfills",
+    global: './src/main/webapp/content/scss/global.scss',
+    main: "./src/main/webapp/app/app.main"
+  },
+
+二、 bootstrap 文件
+
+  bootstrap 文件，习惯上这个文件名为main.ts
+  bootstrap的任务就是选择平台，并识别出根模块。
+  platformBrowserDynamic方法用于创建浏览器运行时，
+  bootstrapModule方法用于指定根模块
+  
+   D:\yutao\zyweb\app\main.ts
+ platformBrowserDynamic()
+  .bootstrapModule(ZyxtAppModule, { preserveWhitespaces: true })
+  .then(success => console.log(`应用程序启动成功`))
+  .catch(err => console.error(`应用程序启动失败，错误如下：` + err));
+
+三、 根模块 ，习惯上这个文件名为app.module.ts
+
+根模块描述了应用程序，设置了应用程序的基本功能
+1- imports属性
+   用来列出应用程序所需的其他模块，
+
+2-2- declarations属性
+
+   用来提供应用程序所需的指令、组件、管道的列表
+   这些类统称为可声明类（declarable classes）
+   
+   因为在declarations属性中声明了这些类，所以可以用在
+   应用程序的其他某处。
+   
+3- provides属性
+   用于定义服务提供程序。
+
+4- bootstrap属性
+   指定应用程序的根组件或根组件集合。Angular处理主HTML文档时
+   （一般名为index.html），需要检查根组件，并使用@Component
+   装饰器的selector属性值来应用根组件。

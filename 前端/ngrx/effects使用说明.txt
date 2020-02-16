@@ -1,0 +1,13 @@
+﻿ngrx/effects
+@ngrx/effects 提供一套API(装饰器 @Effect( ) 和 Action) 
+来帮助检查Store.dispatch( )出来的 Action。
+将特定类型的 Action 过滤出来进行处理，监听特定Action，
+当发现特定的Action发出之后，自动执行某些操作，
+然后将处理的结果重新发送回 store 中。
+
+核心：
+
+1 - 监听派发出来(@ngrx/store 的Store.dispatch)的Action
+2 - 隔离业务和组件(Component只通过select state 和 dispatch actions即可)
+3 - 提供新的reducer state(基于网络请求、web socket 消息 或 time事件驱动[定时刷新])
+

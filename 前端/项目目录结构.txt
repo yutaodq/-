@@ -1,0 +1,65 @@
+��Ŀ�ṹ
+1- �ļ�˵��
+https://juejin.im/post/58ec25655c497d0062c3493b
+
+��ĿĿ¼�ṹ��
+zyweb
+  |-angular.json
+  |-Dockerfile
+  |-json-server.json
+  |-package.json.json
+  |-pom.xml
+  |-postcss.config.js
+  |-proxy.conf.json
+  |-tsconfig-aot.json
+  |-tsconfig.json
+  |-tslint.json
+  |-mock
+  |   |-db.json
+  |-webpack
+  |   |-webpack.common.js
+  |   |-webpack.dev.js
+  |   |-webpack.prod.js
+  |   |-webpack.test.js
+  |   |-util.js       
+  |-src
+  |   |-assets
+  |   |-environments
+  |   |-main
+  |   |   |-docker
+  |   |   |    |-  
+  |   |   |-webapp
+  |   |   |    |-404.html
+  |   |   |    |-favicon.ico
+  |   |   |    |-index.html
+  |   |   |    |-manifest.webapp
+  |   |   |    |-robots.txt  
+  |   |   |    |-content
+  |   |   |    |    |-images
+  |   |   |    |    |-scss
+  |   |   |    |    |   |-themes
+  |   |   |    |-i18n
+  |   |   |    |    |-zh
+  |   |   |    |-swagger-ui
+  |   |   |    |-app
+  |   |   |    |   |-config.module.ts
+  |   |   |    |   |-app-routing.module.ts 
+  |   |   |    |   |-app.component.ts 
+  |   |   |    |   |-app.config.ts   
+  |   |   |    |   |-app.constants.ts 
+  |   |   |    |   |-app.module.ts 
+  |   |   |    |   |-main.ts 
+  |   |   |    |   |-polyfills.ts        //�����ļ� �ļ�������������AngularӦ��ʱ�����һЩ��׼js��
+  |   |   |    |   |-vendor.ts          //�ļ�����������һЩ��������������
+  |   |   |    |   |-core 
+  |   |   |    |   |   |-index.tx 
+  |   |   |    |   |   |-core.state.ts   
+  |   |   |    |   |   |-core.module.ts   
+  |   |   |    |   |-shared   
+  |   |   |    |   |   |-blocks
+  |   |   |    |   |   |    |- jhipster ��ʹ�õ���main.ts ʹ����
+  |   |   |    |   |   |-core  
+  |   |   |    |   |   |-shared    
+  |   |   |    |   |   |-models  
+  |   |-test
+  |   |     

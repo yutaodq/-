@@ -1,0 +1,14 @@
+学习组件 ：td-search-box
+covalent/src/platform/core/search/search-box/search-box.component.ts
+git : https://github.com/Teradata/covalent/tree/develop/src/platform/core/search
+
+/***
+
+项目安装： tyarn add @covalent/core
+      tyarn add @covalent/http @covalent/highlight @covalent/markdown @covalent/dynamic-forms @covalent/echarts
+
+git: https://github.com/Teradata/covalent
+
+学习文档： https://teradata.github.io/covalent/#/
+
+

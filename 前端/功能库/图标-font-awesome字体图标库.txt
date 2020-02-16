@@ -1,0 +1,60 @@
+﻿font-awesome字体图标库
+
+1 一个图标库 Font-Awesome
+  (1) 图库
+      https://fontawesome.com/
+  (2) 
+     https://github.com/FortAwesome/Font-Awesome
+          @fortawesome/fontawesome-svg-core 
+  (3)
+     @fortawesome/angular-fontawesome
+     https://github.com/FortAwesome/angular-fontawesome
+
+2 - 在angualar中使用Font-Awesome
+    使用安装的官网说明文件
+    https://www.npmjs.com/package/@fortawesome/angular-fontawesome
+
+关于angular
+https://fontawesome.com/how-to-use/on-the-web/using-with/angular
+编辑软件:  Font Manager
+
+3- 自己的总结
+（1） 安装
+tyarn add @fortawesome/fontawesome-svg-core 
+          @fortawesome/free-solid-svg-icons 
+          @fortawesome/angular-fontawesome
+
+（2）D:\yutao\work\zyweb\src\main\webapp\app\vendor.ts
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faUser } from "@fortawesome/free-solid-svg-icons";  
+// Adds the SVG icon to the library so you can use it in your page
+library.add(faUser);
+ 
+ （3）:\yutao\work\zyweb\src\main\webapp\app\app.module.ts
+
+import "./vendor.ts";
+// 一个开源的图标库
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+@NgModule({
+  imports: [FontAwesomeModule]
+ 
+  bootstrap: [AppComponent]
+})
+export class ZyxtAppModule {}
+
+（4）模板中使用图标
+    <button mat-icon-button routerLink="settings" class="d-none d-sm-inline">
+       <fa-icon icon="cog"></fa-icon>设置
+    </button>
+
+三、深入学习
+    资料 ：
+     https://blog.csdn.net/qq_40663357/article/details/99655930
+
+1 - 安装样式依赖
+Font Awosome 为我们提供了 Solid、Regular、Brands 这三种免费样式（日常使用完全足够）
+
+npm i --save @fortawesome/free-solid-svg-icons
+npm i --save @fortawesome/free-regular-svg-icons
+npm i --save @fortawesome/free-brands-svg-icons
+

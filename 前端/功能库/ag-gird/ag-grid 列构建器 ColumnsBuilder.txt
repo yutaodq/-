@@ -1,0 +1,15 @@
+ag-grid 列构建器 ColumnsBuilder
+
+1 - 列构建器的根类是 BaseGridColumnsBuilder
+import { LsCellFormatters } from 'zyapp/core/components/grid/formatter/ls-cell-formatters';
+
+import {BaseGridColumnsBuilder, DataGridColumns} from "zyapp/zy-core/component/grid";
+
+export class WarehouseListColumnsBuilder extends BaseGridColumnsBuilder {
+
+}
+
+2 - 列构建器主要是用格式化工具类  LsCellFormatters
+
+    使用的一些工具： 格式化工具类 'zyapp/zy-core/util/formatter
+

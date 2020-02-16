@@ -1,0 +1,148 @@
+export abstract class BaseInfiniteGridViewModel<T> extends ViewModel implements IDataGridViewModel, IDataSourceContext {
+    constructor(injector: Injector, gridDataSource: IInfiniteGridDatasource, gridColumnsBuilder: IGridColumnsBuilder) {
+        super(injector);
+        this.messagingService = injector.get(MessagingService);
+        this.confirmDialog = injector.get(ConfirmDialog);
+        this._gridDataSource = gridDataSource;
+        this._gridColumnsBuilder = gridColumnsBuilder;
+        this._gridRowDetailHelper = injector.get(GridRowDetailHelper);
+        this.enableSorting = true;
+        this.cacheBlockSize = 50;
+        this.createGridStateValueAccessors(injector.get(TabStateManager));
+        this.enableFilter = true;
+    }
+    
+    // ViewModel 
+    public ngOnInit(): void {
+        this.registerWithParentChildRegistry();
+        this.loadData().then(() => {
+            this.setupData();
+        });
+        this.onViewModelInitialized();
+    }
+
+    public loadData(): Promise<void> {
+        this.setResolvedMetaData();  //abstract class ViewModel 
+        this.restoreGridState();
+        this.gridOptions = this.getGridOptions();
+        this.bindGridReady();
+        return Promise.resolve();
+    }
+
+    protected restoreGridState(): void {
+        if (this.gridStateValueAccessor.hasValue()) {
+            this.gridState = this.gridStateValueAccessor.getValue();
+        }
+    }
+    
+    public getGridOptions(): IDataGridOptions {
+        this.setGridColumns();
+        this.setColumnSortOrder();
+        const gridOptions = DataGridOptionsUtil.getGridOptions(
+            {
+                columnDefs: this._gridColumns.getLayout(),
+                rowModelType: 'infinite',
+                cacheBlockSize: this.cacheBlockSize, // fetch 50 rows at a time (~200K)
+                maxBlocksInCache: 10, // keep maximum 500 rows in cache (~2000K)
+                enableServerSideSorting: true,
+                rowSelection: this.getRowSelectionType(),
+                checkboxColumn: this.showCheckboxColumn(),
+                rowDeselection: true,
+                enableColResize: true,
+                maxConcurrentDatasourceRequests: 2,
+                enableFilter: this.enableFilter,
+                frameworkComponents: GridFilterFrameworkComponents,
+                enableSorting: this.enableSorting,
+                enableRowDetail: this.enableRowDetail,
+                headerRows: this.getHeaderRowsCount(),
+                rowData: [],
+                rows: this.getGridMinRows(),
+                context: {
+                    hostComponent: this
+                }
+            },
+            DataGridCommonOptions
+        );
+        return gridOptions;
+    }
+    
+    private bindGridReady(): void {
+        this.gridOptions.onGridReady = (event: GridReadyEvent) => {
+            this.setColumnFilters();
+        };
+    }
+}
+
+///////////////////////////
+public getGridOptions(): IDataGridOptions {
+        this.setGridColumns();
+        this.setColumnSortOrder();
+        const gridOptions = DataGridOptionsUtil.getGridOptions(
+            {
+                columnDefs: this._gridColumns.getLayout(),
+                rowModelType: 'infinite',
+                rowSelection: this.getRowSelectionType(),
+                checkboxColumn: this.showCheckboxColumn(),
+                rowData: [],
+                rows: this.getGridMinRows(),
+                context: {
+                    hostComponent: this
+                }
+            },
+            DataGridCommonOptions
+        );
+        return gridOptions;
+}
+
+       --------------    
+       protected setGridColumns(): void {
+           this._gridColumns = this.getGridColumns();
+       }
+
+           public getGridColumns(): DataGridColumns {
+               return this.getGridColumnsBuilder().build();
+           }
+
+               protected getGridColumnsBuilder(): IGridColumnsBuilder {
+                   return this._gridColumnsBuilder;
+               }
+      --------------  
+      --------------
+      protected setColumnSortOrder(): void {
+             //有排序模型
+          if (this.sortModelExist()) {
+              if (this.sortOrderDefined()) {
+                  this.clearColumnSortOrder();
+              }
+
+             this.gridState.sortModel.forEach(sortModel => {
+                   const column: IDataGridColumn = this._gridColumns.itemByField(sortModel.colId);
+                  if (column) {
+                      column.sort = sortModel.sort;
+                  }
+             });
+          }
+      }
+              private sortModelExist(): boolean {
+                 return this.gridState && this.gridState.sortModel && this.gridState.sortModel.length > 0;
+              }
+                 // returns true if any of the column has sort order defined
+                 // 如果任何列定义了排序顺序，则返回true
+                 private sortOrderDefined(): boolean {
+                      return this._gridColumns.getLayout().some(item => !!item.sort);
+                 }
+                    private clearColumnSortOrder(): void {
+                        this._gridColumns.getLayout().forEach(column => {
+                           if (column.sort) {
+                                column.sort = undefined;
+                           }
+                        });
+                    }
+
+      --------------    
+      --------------    
+      --------------    
+      --------------    
+      
+end getGridOptions()
+///////////////////////////

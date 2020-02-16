@@ -1,0 +1,93 @@
+案例
+
+**应用程序使用的基础案例
+   https://github.com/jhipster/jhipster-sample-app
+   https://github.com/tomastrajan/angular-ngrx-material-starter
+*****************
+真实案例
+https://github.com/lxcancino/sx-contabilidad
+
+
+12- http的使用
+
+https://github.com/ghudeihed/TravisCiPOC
+https://github.com/abhisheksirigari/Hannsaa-Home-Tutor-app
+
+445-+拦截器
+https://github.com/abhisheksirigari/Hannsaa-Home-Tutor-app/tree/6b22a56d5ff4cead40e893ae6ab17b830838d1db
+https://github.com/GeaninaAtomulesei/EffiParking/tree/217421d971149ff7fe04c1a64ea3e18509bc5d04
+
+
+212- 图书《angular 高级编程-第三版》
+https://github.com/Apress/pro-angular-6
+
+
+33 -- jhipster      
+    https://github.com/jhipster/jhipster-sample-app
+    https://github.com/nebojsa-zakic/todoNGRX
+1- Material
+   https://github.com/tomastrajan/angular-ngrx-material-starter
+
+2- Ngrx
+   (1)- 官方案例
+   https://github.com/avatsaev/angular-contacts-app-example   
+   
+   https://github.com/UltimateAngular/ngrx-store-effects-app
+
+
+3 - 认证
+  (1) angular 
+   https://github.com/lynx-r/angular-spring-authentication-web-angular
+   java spring
+   https://github.com/lynx-r/angular-spring-authentication-server-spring   
+   
+   Angular 8 User Registration and Login Example 
+   https://github.com/cornflourblue/angular-8-registration-login-example/blob/master/package.json
+   
+   
+   (2) ngrx+OAuth2
+   https://github.com/jakipatryk/steeditor
+4- 
+   有 ngrx 比较全的一个案例 ： 是一个真实程序
+   https://github.com/SciCatProject/catanie/tree/develop/src/app
+   
+   有lunr.js 这是个用于浏览器的轻量级 JavaScript 全文搜索引擎
+   https://github.com/compodoc/compodoc
+   
+   有 ngrx 比较全的一个案例
+   https://github.com/imolorhe/altair
+   
+      
+flex-layout  
+   1-有 Search bar, to look for heroes
+   https://github.com/Ismaestro/angular8-example-app
+
+
+1233 - ngx-datatable 和 ngrx 组合的比较好的    
+https://github.com/psy-man/angular-crud
+
+222-  比较成熟的案例
+
+addisalemtafere/EIC_Inv_1  比较好
+https://github.com/addisalemtafere/EIC_Inv_1/tree/e730b0fa609ee3887178691016e94d882a9b3c91
+
+ https://github.com/oreon/mya2
+https://github.com/btangQuote2/VmAngular
+
+https://github.com/andcoir/aryan
+https://github.com/Randgrior/CourseWork
+
+1 - 学习案例
+https://github.com/NaOH123321/QQmusic
+    return this.http.get<Message>(url, {
+        headers: this.headers,
+        params,
+        observe: 'response'
+      })
+
+
+搜索引擎      
+      lunr.js   https://github.com/olivernn/lunr.js
+      Solr
+      elasticsearch
+      angular-instantsearch : https://github.com/algolia/angular-instantsearch

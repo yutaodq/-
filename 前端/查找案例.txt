@@ -1,0 +1,17 @@
+﻿12- http 错误处理
+
+addisalemtafere/EIC_Inv_1  比较好
+https://github.com/addisalemtafere/EIC_Inv_1/tree/e730b0fa609ee3887178691016e94d882a9b3c91
+
+somaliaims/Somali-AIMSUI 比较好
+https://github.com/somaliaims/Somali-AIMSUI/tree/da1f0f6acf60a763bd43b97a3f5d1b2b0475d6e1
+
+sartography/star-drive
+https://github.com/sartography/star-drive/tree/dae2d632199db855d4baad3676d7f68b8165f2ab/frontend
+
+CommanderSnow/GiveMeABrake
+https://github.com/CommanderSnow/GiveMeABrake/tree/5076cbc5bf6cb58b4aa75502c5e01e5d6eef75ff
+
+mmacknight/mmdj
+https://github.com/mmacknight/mmdj/tree/b20982e0d8e73f91b21fbc3934829b2a74f95325
+
