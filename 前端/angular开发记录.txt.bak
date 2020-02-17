@@ -1,6 +1,8 @@
 angular 
 2020-2-11
 -----------
+以后的记录转移到云盘上了
+
 2 -  加入类库 lodash
 
 /src/main/webapp/app/base-ui/util/lang/object.util.ts

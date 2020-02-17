@@ -1,4 +1,41 @@
 angular 
+2020-2-17
+
+
+2020-2-14
+5 - 学习自定义过滤器 
+4 - 修改 text-filter.component.html 文件
+3 - ag-grid 加入自定义组件。.
+     zyweb\src\main\webapp\app\grid\options\data-grid-options.ts
+      export class DataGridOptionsUtil {  }  
+2 - DataGridFilterModule 模块文件无问题，模块的组件需要进一步验证。
+1 - 解决 DataGridFilterModule 模块导入LfFormsModule  模块 问题
+     可直接使用
+今天正式上井
+2020-2-13 
+LfInputDateModule  有问题
+4 - LfInputDateModule  可用 
+3 - LfInputNumberModule 可用
+2 - LfInputsModule  模块
+1 - 解决 DataGridFilterModule 模块导入 LfInputsModule  模块 问题
+
+今天办公楼值班，负责检测体温，消毒 上创业城
+
+2020-2-12
+7 - export class LfSplitInfoButton extends LfSplitButton
+      LfSplitInfoButton.html 有问题明天解决
+6 -最小化LfButtonModule 的组件 LfSplitInfoButton 
+5 - 提交简版的 DataGridFilterModule
+
+4 - 最小化 AuthorizationUtil  ( 没有解决)
+     export class AuthorizationUtil {
+3 - 最小化 LfButton
+      export class LfButton implements ISecureComponent, AfterViewInit, OnDestroy {
+2 - 最小化LfButtonModule
+      export class LfButtonModule {}
+1 - 最小化 DataGridFilterModule
+      export class DataGridFilterModule {}  
+
 2020-2-11
 -----------
 以后的记录转移到云盘上了
