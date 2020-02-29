@@ -1,5 +1,7 @@
 angular 
-2020-2-17
+2020-2-18
+1 - 快速过滤器 Quick Filter 
+    this.getGridOptions().api.setQuickFilter($event.target.value);
 
 
 2020-2-14
