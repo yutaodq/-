@@ -1,4 +1,14 @@
 angular 
+
+20200302
+
+2 - 列表选择列
+https://github.com/mananppandya7/EmployeeManagementSystem
+
+1 - 学习
+D:\应用程序案例\angular\ls_perfect-master\src\lifesuite-app\business\home\policy-list\list\policy-list.component.html
+
+D:\应用程序案例\angular\ls_perfect-master\src\lifesuite-app\life-core\component\grid\data-grid.ts
 2020-2-18
 1 - 快速过滤器 Quick Filter 
     this.getGridOptions().api.setQuickFilter($event.target.value);
