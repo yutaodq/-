@@ -2,6 +2,13 @@ angular
 
 20200302
 
+4 - ag-gird 自定义组件
+   （1）组件
+   （2）D:\yutao\zyweb\src\main\webapp\app\grid\options\data-grid-options\data-grid-options.ts
+        配置自定义组件
+
+3 - 加入ButtonRenderedComponent 文件
+
 2 - 列表选择列
 https://github.com/mananppandya7/EmployeeManagementSystem
 
