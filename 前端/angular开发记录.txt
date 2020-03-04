@@ -1,5 +1,12 @@
 angular 
 20200304
+4 - 有ag-gird 的使用
+  https://github.com/jason216/eiz-front
+
+3 - angular-fontawesome 的使用
+2 - 
+   ag-gird 可路由到明显
+1 - 
 E:\计算机\案例\angular\ls_perfect-master\src\lifesuite-app\business\home\tasks\task-list\task-list-columns.builder.ts
 
 20200302
