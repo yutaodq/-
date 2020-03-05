@@ -1,0 +1,16 @@
+一、在页面使用常量
+
+<a (click)="onClick($event)">
+  <fa-icon [icon]=  "['fas', 'info-circle']" ></fa-icon>
+</a>
+
+二、在页面使用变量
+
+<a (click)="onClick($event)">
+  <fa-icon [icon]=  fa >  </fa-icon>
+</a>
+
+export class ButtonRenderedComponent implements ICellRendererAngularComp {
+
+  fa: 'info-circle';
+｝

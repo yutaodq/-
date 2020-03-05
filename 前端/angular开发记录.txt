@@ -1,4 +1,8 @@
 angular 
+
+20200305
+1 - 修改路由模块
+   路由名称使用常量
 20200304
 4 - 有ag-gird 的使用
   https://github.com/jason216/eiz-front

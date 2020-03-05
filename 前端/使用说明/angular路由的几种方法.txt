@@ -1,0 +1,55 @@
+一、在程序中路由
+   import { Router } from "@angular/router";
+   export class WarehouseListContainerComponent implements OnInit {
+       constructor( private _router: Router) {
+       }
+       
+       editWarehouse(warehouse: Warehouse) {
+           this._router.navigate(["/system/warehouses", warehouse.id, "edit"]);
+          //实例  http://localhost:9000/#/system/warehouses/1/edit
+       }
+       showWarehouse(warehouse: Warehouse) {
+           this._router.navigate(["/system/warehouses", warehouse.id]);
+          //实例  http://localhost:9000/#/system/warehouses/1
+
+       }
+   ｝
+例如：    
+  this.router.navigate([‘/heroes‘, { id: heroId, foo: ‘foo‘ }]);
+  localhost:3000/heroes;id=15;foo=foo
+
+获得路由参数：
+  1 -
+     const id = this.route.snapshot.paramMap.get(‘id‘);
+  2 - 
+     warehouse$ = this.activatedRoute.params.pipe(
+         map( params => params.warehouseId),
+        switchMap(id => this.warehousesFacade.getWarehouseById(id))
+     );
+
+
+二、在页面中路由
+   1 - 使用常量   routerLink="settings"
+      <button mat-icon-button routerLink="settings" class="d-none d-sm-inline">
+          <fa-icon [icon]=  "['fas', 'cog']" ></fa-icon>
+      </button>
+      //实例  http://localhost:9000/#/settings
+   
+   2 - 使用变量 [routerLink]="[item.link]"
+      <button mat-button class="nav-button" *ngFor="let item of navigation"
+          [routerLink]="[item.link]" routerLinkActive="active">
+          {{item.label | translate}}
+      </button>
+
+   3 - 
+     system = [
+         { link: '/system/warehouses', label: 'zy.system.menu.warehouse' },
+         { link: '/system/organizations', label: 'zy.system.menu.organization' },
+     ];
+
+      <mat-option *ngFor="let e of system"
+        [value]="e"
+        [routerLink]="e.link"
+        [disabled]="e.auth && !(isAuthenticated$ | async)">
+          {{e.label | translate}}
+      </mat-option>
