@@ -1,4 +1,14 @@
 angular 
+2020306
+
+export class DataService extends BaseDataService<UIResponse> {
+D:\应用程序案例\angular\ls_perfect-master\src\lifesuite-app\ls-core\service\data.service.ts
+｝
+
+export abstract class BaseDataService<T> implements IDataService<T> {
+D:\应用程序案例\angular\ls_perfect-master\src\lifesuite-app\life-core\service\base-data.service.ts
+｝
+
 
 20200305
 1 - 修改路由模块
