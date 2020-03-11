@@ -53,3 +53,39 @@
         [disabled]="e.auth && !(isAuthenticated$ | async)">
           {{e.label | translate}}
       </mat-option>
+
+
+
+///  案例说明
+
+const DefaultSystemRoute: Route = {
+  path: '',
+  redirectTo: ZyRoutePath.Warehouses,
+  // pathMatch: 'prefix'   错误的  
+  pathMatch: 'full'
+};
+const WarehousesRoute: Route = {
+  path: ZyRoutePath.Warehouses,
+  loadChildren: () =>
+      import('./warehouse/warehouse.module').then(m => m.WarehouseModule)
+};
+const OrganizationsRoute: Route = {
+  path: ZyRoutePath.Organizations,
+  loadChildren: () =>
+      import('./organization/organization.module').then(m => m.OrganizationModule)
+};
+const SystemRoute: Routes = [{
+  path: '',
+  component: SystemComponent,
+  children: [
+    DefaultSystemRoute,
+    WarehousesRoute,
+    OrganizationsRoute
+      ]
+}
+];
+
+1 - 使用 pathMatch: 'prefix'   
+   进入 http://localhost:9000/#/system/warehouses
+   当 导航 organizations 时出错
+    http://localhost:9000/#/system/warehouses/organizations
