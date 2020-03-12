@@ -1,4 +1,25 @@
 angular 
+20200312
+2 - 学习 ngx-socket-io 库
+
+
+
+1 - 出现以下错误：
+Shadowed name: 'id'(no-shadowed-variable)
+
+    destroy$ = createEffect(() => this.actions$.pipe(
+        ofType(remove),
+        pluck("id"),
+        switchMap(id => this.warehousesService.delete(id).pipe(
+            pluck("id"),
+            map(id => removeSuccess({id})
+            )
+            )
+        )
+    ));
+2 - 解决方案：
+   修改tslint.json 
+     "no-shadowed-variable": false
 
 20200309 
 1 - Monorepo 是什么，为什么大家都在用？
