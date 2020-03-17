@@ -1,0 +1,47 @@
+一 、ngrx库 地址
+   https://github.com/ngrx/platform
+
+二、
+   ngrx是angular的状态管理库，与react-redux相同，都是由redux的基础上延伸出来。
+   
+    "@ngrx/effects": "^8.0.0",
+    "@ngrx/entity": "^8.0.0",
+    "@ngrx/router-store": "^8.0.0",
+    "@ngrx/schematics": "^8.0.0",
+    "@ngrx/store": "^8.0.0",
+    "@ngrx/store-devtools": "^8.0.0",
+
+三、Redux介绍
+
+   1 - 什么是状态
+       Redux通过，使用一个纯函数将整个应用程序的状态存储在一个单独的对象中。
+       
+       对状态的所有修改遵循单一的路径，而不允许每个视图（view）与对应的模型进行交互。
+           例如：用户单击Submit按钮时，会向应用程序的唯一dispatcher(调度程序)发送一个
+           操作（action）。然后，该dispatcher将数据发送到合适的数据存储进行更新。一旦，
+           更新后，视图将会知道要渲染的新数据。
+           
+    2 - 什么是Redux
+        Redux是JavaScript应用程序的可预测状态的容器
+        
+        Redux将状态管理职责划分成以下几个独立的单元
+        1- store将应用程序的所有状态都存储在单个对象中
+        2- 只能使用action更新store,action是描述事件的对象。
+        3- 被称作reducer的函数指定了如何转换应用程序的状态。reducer是函数，它接收store中
+           的当前状态和一个action，然后返回更新后的下一个状态。
+           
+        使用高度可读性的流来实时描述应用的行为 （怎么实现的）
+        
+        将Redux视为对应用程序中发生了什么以及如何响应事件的解耦。
+        action处理发生了什么
+        reducer是负责更新状态已响应action的函数
+        
+        store 
+        
+        reducer描述了如何更新状态已响应action,但他们无法直接修改状态。这种特权仅限于store拥有
+        store有以下角色：
+           1 - 持有应用程序状态
+           2 - 提供一种访问状态的方式
+           
+           3 - 提供一种方式来制定对状态的更新。store要求派发一个action来修改状态
+           4 - 允许其他实体订阅更新。

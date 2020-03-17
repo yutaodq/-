@@ -6,6 +6,24 @@
 4 - 事件-驱动——捕获事件而不是命令，因为你要分离事件的描述和事件的处理
 5 - 描述——提供针对唯一事件的上下文，其中包含可用于帮助开发人员进行调试的更详细信息
 
+/*
+*  创建 action
+*/
+import { createAction, props, union } from "@ngrx/store";
+
+export const create = createAction(
+  '[Contacts] Create',
+  props<{contact: Contact}>()
+);
+
+/*
+*  使用 action
+*/
+
+this.store.dispatch(create({contact}));
+
+
+
 一、操作类型枚举
 export enum AuthActionsTypes {
   Login = '[Auth] Login',
