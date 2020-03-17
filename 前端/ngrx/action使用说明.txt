@@ -8,6 +8,9 @@
 
 /*
 *  创建 action
+*  action创建器（createAction），是返回一个action的函数。
+*  action - 描述事件的对象
+*  action创建器（createAction）- 返回action的函数
 */
 import { createAction, props, union } from "@ngrx/store";
 
@@ -16,11 +19,17 @@ export const create = createAction(
   props<{contact: Contact}>()
 );
 
+
+怎么在action创建器中实现核心逻辑，如：发送AJAX请求，执行跳转，创建程序内通知等任务。
 /*
 *  使用 action
+*  
 */
 
 this.store.dispatch(create({contact}));
+
+
+
 
 
 
