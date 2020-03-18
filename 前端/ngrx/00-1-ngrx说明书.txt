@@ -68,10 +68,10 @@ export function authReducer(
     state: AuthState | undefined,
     action: Action
 ): AuthState {
-  return reducer(state, action);
+  return _reducer(state, action);
 }
 
-const reducer = createReducer(
+const _reducer = createReducer(
     initialState,
     on(authLogin, state => ({ ...state, isAuthenticated: true })),
     on(authLogout, state => ({ ...state, isAuthenticated: false }))
@@ -112,4 +112,69 @@ export class AuthEffects {
     ) {}
 }
 
-5 - 
+5 - 组合
+
+  （1）状态
+export interface AppState {
+  auth: AuthState;
+  settings: SettingsState;
+  router: RouterReducerState<RouterStateUrl>;
+}
+
+  （2） ActionReducerMap注册了一系列的reducer，
+        在应用中使用StoreModule对它进行配置。
+
+export const reducers: ActionReducerMap<AppState> = {
+  auth: authReducer,
+  settings: settingsReducer,
+  router: routerReducer
+};
+
+   （3）MetaReducer: 在应用中使用StoreModule
+       配置的MetaReducer构成了根的meta-reducer。 
+
+export const metaReducers: MetaReducer<AppState>[] = [
+  initStateFromLocalStorage
+];
+
+   （4）FeatureSelector 特征选择器
+       createFeatureSelector: 是一个返回顶级feature state的便捷方法。
+       它返回一个按特征切片的state的typed selector方法。
+  
+export const selectAuthState = createFeatureSelector<AppState, AuthState>(
+  'auth'
+);
+
+export const selectRouterState = createFeatureSelector<
+  AppState,
+  RouterReducerState<RouterStateUrl>
+  >('router');
+
+6 - select 选择器
+    createSelector: 它创建一个selector（选择器）用于生成一个指定的状态。
+
+import {AuthState} from "zyapp/core/auth/store/states/auth.states";
+import {selectAuthState} from "zyapp/core/core.state";
+
+export const selectAuth = createSelector(
+  selectAuthState,
+  (state: AuthState) => state
+);
+
+export const selectIsAuthenticated = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.isAuthenticated
+);
+
+
+7 - store
+    (1) 在store中注册reducer
+        使用StoreModule.forRoot()注册states可以在应用启动时定义状态。
+        通常，您注册的state始终需要立即用于应用的所有区域。
+    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreRouterConnectingModule.forRoot(),
+    EffectsModule.forRoot([
+      AuthEffects,
+      SettingsEffects,
+      GoogleAnalyticsEffects
+    ]),
