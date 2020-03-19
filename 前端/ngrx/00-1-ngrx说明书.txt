@@ -1,7 +1,14 @@
-一 、ngrx库 地址
+一 、ngrx资源
+1 、ngrx库 地址
    https://github.com/ngrx/platform
 
-二、
+2 - 官方文档
+    https://ngrx.io/docs
+
+3 - 文章
+https://segmentfault.com/a/1190000017566273
+
+二、库
    ngrx是angular的状态管理库，与react-redux相同，都是由redux的基础上延伸出来。
    
     "@ngrx/effects": "^8.0.0",

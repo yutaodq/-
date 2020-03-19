@@ -1,0 +1,13 @@
+1 - 资源
+   （1）官网
+        https://github.com/ReactiveX/rxjs
+        https://rxjs.dev/
+   （2）学习网站
+        https://github.com/btroncone/learn-rxjs
+
+2 - 什么事Rxjs
+
+再代码层面什么是Rxjs说到底是要理解什么是Observable。
+RXJS是Observable的Javascript实现。
+
+Observable是惰性的，需要subscribe的时候才输出值。

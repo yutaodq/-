@@ -1,0 +1,114 @@
+angular里forRoot的作用
+
+1 - forRoot的作用
+   forRoot()的目的是在应用程序中使用单例服务。 
+   forRoot()的意义是仅有一个由ModuleWithProviders导出的service实例。 
+   如果没有forRoot()方法，你在模块的providers里面添加一个service并在多处用到这个module，
+   那么你在这个应用的不同级都会实例化这个service。用forRoot()，它会创建这个service的新实例
+
+2 - 案例
+
+  （1）没使用 forRoot，模块A是这样定义的
+
+       @NgModule({ 
+           providers: [AService]，
+           declarations: [ TitleComponent ],
+           exports:      [ TitleComponent ],
+       })
+       export class A {}
+
+   如果有惰性模块lazyModule导入模块A，那么会生成子注入器将AService重新生成
+ 
+   这时如果想将AService变成全局唯一的，那么在lazyModule导入的时候就不要导入providers而只导入TitleComponent
+
+   怎么实现呢？使用forRoot
+   
+   （2）使用 forRoot，注意模块A没有在@NgModule装饰器中声明任何提供者（providers），
+        而是在static forRoot（）方法中声明任的providers: [AService]。
+
+   @NgModule({ 
+       providers: []，
+       declarations: [ TitleComponent ],
+       exports:      [ TitleComponent ],
+   })
+   export class A {
+      static forRoot() {
+         return {ngModule: A, providers: [AService]};
+      }
+   }
+
+   
+   （3）使用forRoot，在appModule中使用A.forRoot导入A模块
+
+   @NgModule({
+      imports: [A.forRoot()]
+   })
+   export class AppModule {}
+
+   在lazyModule中正常导入A模块
+
+   @NgModule({
+     imports: [A]
+   })
+   export class LazyModule{}
+
+3 - forRoot()到底返回什么呢？ 
+   通常情况下，这个方法的返回类型是一个符合 ModuleWithProviders interface的一个object。
+
+   interface ModuleWithProviders { 
+       ngModule: Type 
+       providers?: Provider[] 
+   }
+
+   forRoot()方法返回一个NgModule和他的provider依赖项。
+
+4 - 根NgModule为什么重要？原文：https://blog.csdn.net/railsbug/article/details/79664916
+    
+   尽管导入forRoot（）方法的额外providers，理论上可用于子模块NgModules，
+   但将其注册到应用程序的根目录中有许多帮助。   
+   
+   
+   （1）首先，考虑提供者的注入方式与组件和指令的注入方式不同。
+   
+        提供者的注入方式：在使用@Injectable装饰类并在NgModule中注册为提供者时，
+        这个类创建一次，并且一个实例在整个应用程序中共享。
+        当Angular引导根NgModule时，所有NgModule中的所有可用导入都会在当时注册，
+        并可供整个应用程序使用 - 它们是全局的。 
+        
+        组件和指令的注入方式：组件和指令被多次实例化，每个实例在标记中被实例化一次。
+        此外，组件和指令的作用范围为导入它们的NgModule，以防止两个组件可能具有相同选择器的命名冲突，
+        由于依赖注入（DI）行为有所不同，因此需要区分包含组件，
+        指令和来自包含组件、指令和提供程序的ModuleWithProviders的NgModule，
+        这对于forRoot（）方法作出区分的位置很有帮助。
+
+     （2）但是，依赖注入并不总是这么简单。
+          
+          在引导过程中，有时候所有应用程序的NgModule都不可用。延迟加载就是这样一个例子。
+          
+          在路由过程中延迟加载NgModule时，在启动过程中注册在延迟加载的NgModule及其子代中的提供程序不可用，
+          并且Angular无法在此时注册它们。
+          
+          因此，只有在加载路由时它们才会作为提供者添加，而且它们的范围是从延迟加载的NgModule及其子节点开始注入。
+          如果有多个延迟加载的NgModules尝试注册相同的提供程序，则NgModule树中的每个节点都会以不同的实例结束。
+          
+          通过在根中导入提供程序，它有助于确保所有延迟加载的NgModule都获得提供程序的相同实例，
+          并且也是为什么forRoot（）被这样命名的原因。
+          
+          
+       (3)何时使用forRoot
+
+          作为消费者，当库依赖需要时使用它。在应用程序的根目录下导入模块，并使用forRoot（）方法进行注册以全局导入提供程序。在其他NgModules中，必要时使用适当的非根形式的导入来导入组件和指令。
+
+在Angular Routing和ngx-bootstrap的情况下，这个约定有助于在指令和组件的多个实例之间共享提供程序，以实现应用程序的全局关注。例如，ngx-bootstrap将这个约定用于模态对话框组件。虽然在应用程序的标记中可能定义了许多模式实例，但模式会接管整个UI，因此对话框的所有实例都应了解它们如何影响此全局关注点。
+
+在路由的情况下，应用程序只有一个window.location，所以即使可能有子路由和router-outlet组件的各种实例，它们都需要窗口位置的全局依赖关系，以便它们可以一起工作。
+
+在这两种情况下，模态对话框或路由器的使用者不需要知道这些项目如何沟通和管理共同关心的问题。通过这种方式，forRoot（）方法抽象出必要的提供者注册。
+
+简而言之，当您有多个自定义组件或指令时，请考虑使用约定，这些组件或指令都依赖于全局UI关注点，并且需要一起工作才能管理此全局状态。要明确的是，forRoot（）约定是一种耦合形式，只能在仔细考虑设计后才能使用。
+
+最好避免在第三方库中使用这个约定。例如，不要试图用这个约定来冒泡应用程序的所有NgModule依赖关系。由forRoot（）方法返回的提供程序应该是内部依赖项，它们只与ModuleWithProviders中包含的其他组件一起工作。第三方依赖关系应该像npm peerDependencies一样对待，并直接在根NgModule中导入并注册，以便其他组件可以更轻松地共享相同的依赖关系，并帮助确保所有使用者在npm版本化解决时引用相同的程序包版本。
+————————————————
+版权声明：本文为CSDN博主「railsbug」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/railsbug/article/details/79664916   
+

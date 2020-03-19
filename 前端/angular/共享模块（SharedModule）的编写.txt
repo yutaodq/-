@@ -1,0 +1,54 @@
+共享模块SharedModule
+
+当您为应用程序编写共享模块时，该模块包含您在同一应用程序的其他模块中使用的内容，
+通常希望该模块中的所有服务仅共享一次。
+
+如果您只是将providers中的services放在共享模块的NgModule（）中，
+那么您可能会遇到奇怪的情况，特别是在延迟加载时，感觉该服务有多个实例。
+如果你想拥有共享状态，这很糟糕。
+
+所以，有更好的方法来编写你的共享模块：
+import {NgModule, ModuleWithProviders} from '@angular/core';
+import {CommonModule} from '@angular/common';
+// ... other imports
+
+export const providers = [
+    // ... your shared services here
+];
+
+@NgModule({
+    declarations: [...],
+    imports: [
+        CommonModule, 
+        SomeLibraryModule,
+        ...],
+    exports: [
+        SomeLibraryModule.forRoot()
+        ...
+    ]
+})
+export class SharedModule {
+    static forRoot() : ModuleWithProviders {
+        return {
+            ngModule: SharedModule,
+            providers: [...providers]
+        };
+    }
+}
+
+forRoot（）模式/约定在库中很常见，你会在ng-bootstrap和其他的东西中看到它。
+该名称对于编译器/框架并不特别，但它是一种常见模式。 
+使用时，可以在imports部分导入模块本身（它可以为您提供任何被需要declarations ，诸如指令等），
+并且在导出中使用模块的forRoot（）版本，以便它可用于共享模块的使用者。 
+然后在其他应用程序模块中，除了AppModule，您可以将SharedModule添加到其正常导入的NgModule中。
+
+AppModule将是您添加SharedModule.forRoot（）的唯一位置，如下所示：
+
+@NgModule({
+    declarations: [...],
+    imports: [BrowserModule, SharedModule.forRoot(), ...],
+    ...
+})
+export class AppModule {
+
+}
