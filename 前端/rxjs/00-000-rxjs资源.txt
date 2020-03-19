@@ -16,16 +16,4 @@
         
         https://www.jdon.com/reactive.html
         
-2 - 什么是Rxjs
-
-我们都知道 JS 是什么，那么什么是 Rx 呢？Rx 是 Reactive Extension（也叫 ReactiveX）的简称，
-指的是实践响应式编程的一套工具，Rx 官网首页的介绍是一套通过可监听流来做异步编程的 API
-
-RxJS 引入了两种重要的编程思想：函数式编程和响应式编程。
-
-
-
-再代码层面什么是Rxjs说到底是要理解什么是Observable。
-RXJS是Observable的Javascript实现。
-
-Observable是惰性的，需要subscribe的时候才输出值。
+        https://zhuanlan.zhihu.com/p/34357403
