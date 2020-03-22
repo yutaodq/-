@@ -1,0 +1,7 @@
+Subject
+
+Subject本身既可以是Observable也可以是Observer，
+   也就是说subject既可以作为一个数据源，
+   也可以本身成为一组订阅者的代理。
+   
+   

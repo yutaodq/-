@@ -6,15 +6,20 @@ ObservableÆäÊµ¾ÍÊÇ¿É¹Û²âÊı¾İÁ÷£¨stream£©£¬ Á÷ÊÇÔÚÊ±¼äÁ÷ÊÅµÄ¹ı³ÌÖĞ²úÉúµÄÒ»ÏµÁĞÊÂ¼
 
 ÎÒÃÇ¿ÉÒÔ°ÑÒ»ÇĞÊäÈë¶¼µ±×öÊı¾İÁ÷À´´¦Àí£¬±ÈÈçËµ£º
 
-ÓÃ»§²Ù×÷ ÍøÂçÏìÓ¦   ¶¨Ê±Æ÷   Worker
+    ÓÃ»§²Ù×÷ ÍøÂçÏìÓ¦   ¶¨Ê±Æ÷   Worker
 
 
 RxJS µÄ¹Û²ìÕß + µü´úÆ÷Ä£Ê½
-RxJS ÖĞº¬ÓĞÁ½¸ö»ù±¾¸ÅÄî£ºObservables Óë Observer¡£Observables ×÷Îª±»¹Û²ìÕß£¬ÊÇÒ»¸öÖµ»òÊÂ¼şµÄÁ÷¼¯ºÏ£»¶ø Observer Ôò×÷Îª¹Û²ìÕß£¬¸ù¾İ Observables ½øĞĞ´¦Àí¡£
+RxJS ÖĞº¬ÓĞÁ½¸ö»ù±¾¸ÅÄî£ºObservables Óë Observer¡£
+
+Observables ×÷Îª±»¹Û²ìÕß£¬ÊÇÒ»¸öÖµ»òÊÂ¼şµÄÁ÷¼¯ºÏ£»
+¶ø Observer Ôò×÷Îª¹Û²ìÕß£¬¸ù¾İ Observables ½øĞĞ´¦Àí¡£
 Observables Óë Observer Ö®¼äµÄ¶©ÔÄ·¢²¼¹ØÏµ(¹Û²ìÕßÄ£Ê½) ÈçÏÂ£º
 
 ¶©ÔÄ£ºObserver Í¨¹ı Observable Ìá¹©µÄ subscribe() ·½·¨¶©ÔÄ Observable¡£
 ·¢²¼£ºObservable Í¨¹ı»Øµ÷ next ·½·¨Ïò Observer ·¢²¼ÊÂ¼ş¡£
+
+
 ÏÂÃæÎª Observable Óë Observer µÄÎ±´úÂë
 
 // Observer

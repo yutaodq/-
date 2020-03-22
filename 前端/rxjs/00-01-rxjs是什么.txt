@@ -1,27 +1,54 @@
-1 - 资源
-   （1）官网
-        https://github.com/ReactiveX/rxjs
-        https://rxjs.dev/
-   （2）学习网站
+
         
-        https://github.com/btroncone/learn-rxjs
-        学习社区 
-        https://github.com/RxJS-CN
-        https://rxjs-cn.github.io/learn-rxjs-operators/
-        
-        https://www.jianshu.com/p/aa5c30a9eeef
-        
-        30 天精通 RxJS
-        https://www.jianshu.com/p/bc9fdfce728e
-        
-        https://www.jdon.com/reactive.html
-        
-2 - 什么是Rxjs
+2 - 什么是Rxjs （https://www.imooc.com/article/70323）
 
 我们都知道 JS 是什么，那么什么是 Rx 呢？Rx 是 Reactive Extension（也叫 ReactiveX）的简称，
 指的是实践响应式编程的一套工具，Rx 官网首页的介绍是一套通过可监听流来做异步编程的 API
 
 RxJS 引入了两种重要的编程思想：函数式编程和响应式编程。
+
+函数式编程（Functional Programming，简称 FP）是一种编程范式，强调使用函数来思考问题、编写代码。
+
+函数式编程的主要设计点在于避免使用状态和可变的数据，即 stateless and immutable。
+
+函数式编程对函数的使用有一些特殊要求：
+
+声明式（Declarative） 纯函数（Pure Function）数据不可变性（Immutability）
+
+声明式的函数，让开发者只需要表达”想要做什么”，而不需要表达“怎么去做”
+
+纯函数指的是执行结果由输入参数决定，参数相同时结果相同，不受其他数据影响，
+并且不会带来副作用（Side Effect）的函数。副作用指的是函数做了和本身运算返回值没有关系的事情，
+如修改外部变量或传入的参数对象，甚至是执行 console.log 都算是 Side Effect。
+前端中常见的副作用有发送 http 请求、操作 DOM、调用 alert 或者 confirm 函数等。
+满足纯函数的特性也叫做引用透明度
+
+数据不可变就是指这个数据一旦产生，它的值就永远不会变。
+JavaScript 中字符串类型和数字类型就是不可改变的，而对象基本都是可变的，可能会带来各种副作用。
+现在有各种库可以实现 Immutable 特性，如 immutable.js 和 immer.js
+
+响应式流可以认为是随着时间发出的一系列元素。响应式和观察者模式有点相似，订阅者订阅后，
+发布者吐出数据时，订阅者会响应式进行处理。实际上Rx 组合了观察者模式（Observer pattern ）、
+迭代器模式（Iterator pattern）和函数式编程。
+
+RxJS 的特点
+数据流抽象了很多现实问题
+
+擅长处理异步问题
+
+把复杂问题分解为简单问题的组合
+
+前端中的 DOM 事件、WebSocket 推送消息、AJAX 请求资源、动画都可以看作是数据流。
+
+RxJS 对数据采用“推”的方式，当一个数据产生时，会将其推送给对应的处理函数，这个处理函数不用关心数据时同步产生还是异步产生的，因此处理异步将会变得非常简单。
+
+RxJS 中很多操作符，每个操作符都提供了一个小功能，学习 RxJS 最重要的就是学习如何组合操作符来解决复杂问题。
+
+RxJS 要点
+RxJS 有一个核心和三个重点，一个核心是 Observable 再加上相关的 Operators，三个重点分别是 Observer、Subject、Schedulers。
+
+
+
 
 
 
