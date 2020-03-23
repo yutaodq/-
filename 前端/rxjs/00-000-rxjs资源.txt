@@ -5,7 +5,7 @@
         https://rxjs.dev/
         
         操作符使用说明及宝珠图
-        https://rxmarbles.com 
+        https://rxmarbles.com/ 
    (*)  在线编辑器
         https://jsbin.com/?html,output
 

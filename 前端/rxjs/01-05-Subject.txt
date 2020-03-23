@@ -4,4 +4,18 @@ Subject本身既可以是Observable也可以是Observer，
    也就是说subject既可以作为一个数据源，
    也可以本身成为一组订阅者的代理。
    
+    作为Observable, Subject是比较特殊的, 它可以对多个Observer进行广播, 
+而普通的Observable只能单播, 它有点像EventEmitters(事件发射器), 
+维护着多个注册的Listeners.
+
+    作为Observable, 你可以去订阅它, 提供一个Observer就会正常的收到推送的值. 
+从Observer的角度是无法分辨出这个Observable是单播的还是一个Subject.
+
+    从Subject内部来讲, subscribe动作并没有调用一个新的执行来传递值, 
+它只是把Observer注册到一个列表里, 就像其他库的AddListener一样.
+
+    作为Observer, 它是一个拥有next(), error(), complete()方法的对象, 
+调用next(value)就会为Subject提供一个新的值, 
+然后就会多播到注册到这个Subject的Observers.   
+   
    

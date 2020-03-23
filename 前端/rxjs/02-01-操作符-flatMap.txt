@@ -1,0 +1,69 @@
+flatMap
+
+https://www.jianshu.com/p/52cd2d514528
+
+/** map
+
+flatMap是一个比教难理解的一个转换，在这里先假设一个需求，需要打印多个Student所学的课程。这跟之前获取Student的name又不同了，这里先确定一下关系，一个Student类中只有一个name，而一个Student却有多门课程（Course），Student我们可以理解成这样：
+
+    /**
+     * 学生类
+     */
+    class Student {
+        private String name;//姓名
+        private List<Course> coursesList;//所修的课程
+        ...
+    }
+    /**
+     * 课程类
+     */
+    class  Course {
+        private String name;//课程名
+        private String id;
+        ...
+    }
+如果使用map来实现打印所有学生所修个课程名，实现的代码是这样的：
+
+        List<Student> students = new ArrayList<Student>();
+        students.add...
+        ...
+
+        Action1<List<Course>> action1 = new Action1<List<Course>>() {
+            @Override
+            public void call(List<Course> courses) {
+                //遍历courses，输出cuouses的name
+                 for (int i = 0; i < courses.size(); i++){
+                    Log.i(TAG, courses.get(i).getName());
+                }
+            }
+        };
+        Observable.from(students)
+                .map(new Func1<Student, List<Course>>() {
+                    @Override
+                    public List<Course> call(Student student) {
+                        //返回coursesList
+                        return student.getCoursesList();
+                    }
+                })
+                .subscribe(action1);
+可以看到，在Action1中出现了for来循环打印课程名，使用RxJava就是为了剔除这样的嵌套结构，使得整体的逻辑性更强。这时候就可以使用flatMap了，使用flatMap实现的代码是这样的：
+
+        List<Student> students = new ArrayList<Student>();
+        students.add...
+        ...
+
+        Observable.from(students)
+                .flatMap(new Func1<Student, Observable<Course>>() {
+                    @Override
+                    public Observable<Course> call(Student student) {
+                        return Observable.from(student.getCoursesList());
+                    }
+                })
+                .subscribe(new Action1<Course>() {
+                    @Override
+                    public void call(Course course) {
+                        Log.i(TAG, course.getName());
+                    }
+                });
+这样就实现了跟上面代码一样的效果，看起来有点懵？确实，flatMap理解起来有点绕，刚接触flatMap的时候我也是懵逼一个。下面我将flatMap的示意图，希望能帮助理解：
+
