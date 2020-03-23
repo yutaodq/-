@@ -1,4 +1,4 @@
-flatMap
+flatMap => mergeMap
 
 https://www.jianshu.com/p/52cd2d514528
 
