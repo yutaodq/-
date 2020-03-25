@@ -1,6 +1,45 @@
 flatMap => mergeMap
 
+// 没使用 flatMap
+
+const length = document.getElementById('length');
+const length$ = Rx.Observable.fromEvent(length, 'keyup')
+.pluck('target', 'value')
+.map(_ => Rx.Observable.interval(1000));
+
+length$.subscribe(val => { val.subscribe(v => console.log(v))})
+
+// 使用 flatMap
+
+const length = document.getElementById('length');
+const length$ = Rx.Observable.fromEvent(length, 'keyup')
+.pluck('target', 'value')
+.flatMap(_ => Rx.Observable.interval(1000));
+
+length$.subscribe(val => console.log(val))
+
+// 使用 switchMap
+const length$ = Rx.Observable.fromEvent(length, 'keyup')
+.pluck('target', 'value')
+.switchMap(_ => Rx.Observable.interval(1000));
+
+length$.subscribe(val => console.log(val))
+
+
+//**********
+const length = document.getElementById('length');
+const length$ = Rx.Observable.fromEvent(length, 'keyup')
+.pluck('target', 'value')
+.flatMap(_ => Rx.Observable.interval(1000));
+
+length$.subscribe(val => console.log(val))
+
 https://www.jianshu.com/p/52cd2d514528
+
+https://www.jianshu.com/p/52cd2d514528
+
+
+
 
 /** map
 

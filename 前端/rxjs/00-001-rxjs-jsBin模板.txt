@@ -33,3 +33,5 @@ const width$ = Rx.Observable.fromEvent(width, 'keyup').pluck('target', 'value');
 
 length$.subscribe( val => console.log(val) );
 width$.subscribe( val => console.log(val) );
+
+

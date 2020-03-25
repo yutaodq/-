@@ -1,42 +1,72 @@
-﻿import { merge } from 'ramda';
-import { PostsActionsTypes, PostsActionsUnion } from './actions';
-import { initialState, postsAdapter, PostsState } from './state';
+﻿
+/** reducer (归集器)
 
-export function postsReducer(
-  state: PostsState = initialState,
-  action: PostsActionsUnion
-): PostsState {
-  switch (action.type) {
-    case PostsActionsTypes.LoadPosts: {
-      return merge(state, { loading: true });
-    }
-    case PostsActionsTypes.LoadPostsSuccess: {
-      return merge(postsAdapter.upsertMany(action.payload.posts, state), {
-        loading: false,
-        lastCheckedId: action.payload.lastCheckedId
-      });
-    }
-    default: {
-      return state;
-    }
-  }
+1 - 概念：接收旧的state和action并返回新的state
+    reducer必须是一个纯函数
+        （1）纯函数不能修改当前的state
+         (2) 纯函数不会使用参数之外的任何数据
+    reducer把当前state当作只读的，不修改state，而是返回一个新state
+
+2 - Reducer接口
+
+  interface Reducer<T> {
+     (state: T, action: Action)
+  }     
+  
+  
+export interface On<S> {
+    reducer: ActionReducer<S>;
+    types: string[];
 }
 
+export interface OnReducer<S, C extends ActionCreator[]> {
+    (state: S, action: ActionType<C[number]>): S;
+}
 
-2-  StoreModule: StoreModule是@ngrx/storeAPI中的一个模块，它被用来在应用模块中配置reducer。
-E:\temp\steeditor-master\src\app\store\posts-store\posts-store.module.ts
+export declare function createReducer<S, A extends Action = Action>(initialState: S, ...ons: On<S>[]): ActionReducer<S, A>;
+
+/** 案例
+
+1 - \contacts\store\contacts-reducer.ts
+
+export interface State extends EntityState<Contact> {
+  // additional props here
+}
+
+export const INIT_STATE: State = contactsAdapter.getInitialState({
+  // additional props default values here
+});
+
+export const reducer = createReducer<State>(
+  INIT_STATE,
+  on(loadAllSuccess, (state, {contacts}) =>
+    contactsAdapter.addAll(contacts, state)
+  ),
+  on(loadSuccess, (state, {contact}) =>
+    contactsAdapter.upsertOne(contact, state)
+  )
+);
+  
+2 - \contacts\store\index.ts
+
+export interface ContactsState {
+  contacts: fromContacts.State;
+}
+
+/** Provide reducers with AoT-compilation compliance */
+export function reducers(state: ContactsState | undefined, action: Action) {
+  return combineReducers({
+    contacts: fromContacts.reducer
+  })(state, action)
+}
+
+3 - \contacts\contacts.module.ts
 
 @NgModule({
   imports: [
-    StoreModule.forFeature('posts', postsReducer),
-    EffectsModule.forFeature([PostsEffects]),
-    MatSnackBarModule
+    CommonModule,
+    SharedModule,
+    ContactsRoutingModule,
+    StoreModule.forFeature('contacts', reducers),
+    EffectsModule.forFeature([ContactsEffects])
   ],
-  providers: [PostsEffects],
-  declarations: [BroadcastResultSheetComponent],
-  entryComponents: [BroadcastResultSheetComponent]
-})
-export class PostsStoreModule {}
-
-
-StoreModule.forRoot()函数会注册一个用于访问store的全局变量。
