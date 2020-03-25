@@ -17,5 +17,77 @@ Subject本身既可以是Observable也可以是Observer，
     作为Observer, 它是一个拥有next(), error(), complete()方法的对象, 
 调用next(value)就会为Subject提供一个新的值, 
 然后就会多播到注册到这个Subject的Observers.   
+
+/**html   
+<h3>从Subject共享Observable到多个Subscribers</h3>
+<input type="text" placeholder="start typing" (input)="mySubject.next($event)" (keyup)="mySubject.next($event)">
+
+<br> Subscriber to input events got {{inputValue}}
+<br>
+<br> Subscriber to keyup events got {{keyValue}}   
+
+/**angular
+
+export class AppComponent {
+  title = 'app';
+
+  keyValue: string;
+  inputValue: string;
+
+  mySubject: Subject<Event> = new Subject();
+
+  constructor() {
+    // subscriber 1
+    this.mySubject.filter(({ type }) => type === 'keyup')
+      .map(e => (<KeyboardEvent>e).key)
+      .subscribe(value => this.keyValue = value);
+
+    // subscriber 2
+    this.mySubject.filter(({ type }) => type === 'input')
+      .map(e => (<HTMLInputElement>e.target).value)
+      .subscribe(value => this.inputValue = value);
+  }
+}
+
+input和keyup动作都把event推送到mySubject,
+   然后mySubject把值推送给订阅者, 
+   订阅者1通过过滤和映射它只处理keyup类型的事件,
+   而订阅者2只处理input事件.
    
-   
+/****
+BehaviorSubject
+***/
+BehaviorSubject 是Subject的一个变种, 它有一个当前值的概念, 它会把它上一次发送给订阅者值保存起来, 一旦有新的Observer进行了订阅, 那这个Observer马上就会从BehaviorSubject收到这个当前值.
+
+也可以这样理解BehaviorSubject的特点:
+
+它代表一个随时间变化的值, 例如, 生日的流就是Subject, 而一个人的年龄流就是BehaviorSubject.
+每个订阅者都会从BehaviorSubject那里得到它推送出来的初始值和最新的值.
+用例: 共享app状态.
+例子 behavior-subject.ts:
+
+复制代码
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+
+const subject = new BehaviorSubject(0);
+
+subject.subscribe({
+    next: v => console.log(`Observer1: ${v}`)
+});
+
+subject.next(1);
+subject.next(2);
+
+subject.subscribe({
+    next: v => console.log(`Observer2: ${v}`)
+});
+
+subject.next(3);
+
+效果：
+Observer1: 0
+Observer1: 1
+Observer1: 2
+Observer2: 2
+Observer1: 3
+Observer1: 3
