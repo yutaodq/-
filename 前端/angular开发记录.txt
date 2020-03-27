@@ -1,4 +1,12 @@
 angular 
+20200327
+
+
+2 - core目录下加入store目录
+
+1 - 使用 ngrx 实现路由
+   https://github.com/gmahechas/web
+
 20200325
 https://github.com/gmahechas/web
 
