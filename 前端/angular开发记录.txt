@@ -1,4 +1,25 @@
 angular 
+
+20200328
+3 - 
+https://github.com/storybookjs/storybook
+
+2 - 学习案例
+    https://github.com/MargaritaSklyarenko/Angular8
+    https://github.com/ZsZs/easysailman/tree/bf6cad0a8db0346be2177fd7c1fcb9c4183fffcd
+    https://github.com/devonfw/my-thai-star/tree/56d7f2543652f976e88a1e4827b0efceabedd36f
+    https://github.com/nyandrianinamamy/alc4-challenge2
+https://github.com/JsDaddy/ng-shop/tree/31c4036af7d7597173aaea864de64499046bd5b5
+
+https://github.com/AngularAtTrivadis/AdvancedAngular/tree/a0a33e916e8044adf0758a7ea565386ae790a6d2
+
+
+1 - 组件WarehouseDetailsContainerComponent 实现路由派发
+        this._store.dispatch(RouterActions.Go({
+            path: ["/system/warehouses", this.getWarehouseId(), "edit"]
+        }));
+
+
 20200327
 
 
