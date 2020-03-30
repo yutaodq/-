@@ -2,6 +2,7 @@ angular
 20200329
 
 1- 加入product模块
+https://github.com/MargaritaSklyarenko/Angular8
 
 20200328
 3 - 
