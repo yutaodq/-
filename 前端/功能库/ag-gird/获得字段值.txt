@@ -1,0 +1,11 @@
+this.columnDefs = [
+            {
+                headerName: 'S.No', field: 'sno',
+                valueGetter: function (params) {
+                    return params.node.rowIndex + 1;
+                },
+                type: 'valueColumn',
+                editable: false,
+            },
+            
+            
