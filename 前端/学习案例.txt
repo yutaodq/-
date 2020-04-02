@@ -3,6 +3,8 @@
 **应用程序使用的基础案例
    https://github.com/jhipster/jhipster-sample-app
    https://github.com/tomastrajan/angular-ngrx-material-starter
+   
+   https://github.com/akveo/ngx-admin
 *****************
 真实案例
 https://github.com/lxcancino/sx-contabilidad
