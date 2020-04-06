@@ -1,4 +1,27 @@
 angular 
+
+20200405
+4 - 重构 abstract class StoreFacadeService
+3 - 重构core.module
+
+2 - 初步实现store模块
+
+1 - 学习 Ngrx-企业Angular应用的最佳实践
+
+
+20200404
+1 - 案例
+https://github.com/SAP/spartacus
+Spartacus是一个面向SAP商业云的精简的、基于角度的JavaScript店面，它专门通过Commerce REST API进行通信。
+2 - angular设计模式
+https://github.com/MathieuNls/Angular-Design-Patterns-and-Best-Practices
+
+
+20200403
+1 - 加入库 Teradata/covalent
+https://github.com/teradata/covalent
+    "@covalent/core": "^2.1.0",
+
 20200329
 
 1- 加入product模块
