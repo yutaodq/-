@@ -1,4 +1,7 @@
 angular 
+20200409
+
+1 - 修改 core/config/ConfigModule 模块
 
 20200405
 4 - 重构 abstract class StoreFacadeService
