@@ -1,5 +1,12 @@
 angular 
 
+20200413
+
+package.json
+{
+    "json-server": "json-server --watch mock/db.json --config json-server.config.json",
+}
+
 20200411
 
 1 - i18n Module模块加入
