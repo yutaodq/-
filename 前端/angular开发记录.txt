@@ -1,4 +1,10 @@
 angular 
+20200503
+4 - MainModule 移动到lib目录
+3- 分离出MainModule
+2 - 完成croe/routing
+1 - 对原rotuer进行改动前的备份，如果不正确，可回滚到这里
+
 20200416
 
 1 - 新建zycore目录，新建OccModule 模块
