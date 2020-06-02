@@ -1,4 +1,10 @@
 angular 
+20200602-
+
+3 - 加入intershop-pwa程序中的FormsSharedModule模块
+2 - 学习ngx-formly的案例“ https://github.com/intershop/intershop-pwa”
+1 - 学习 ngx-formly 
+
 20200503
 4 - MainModule 移动到lib目录
 3- 分离出MainModule
