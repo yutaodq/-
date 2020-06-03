@@ -1,4 +1,8 @@
 angular 
+20200603
+
+1 - tyarn add angular2-uuid
+
 20200602-
 
 3 - 加入intershop-pwa程序中的FormsSharedModule模块
