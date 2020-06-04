@@ -1,6 +1,6 @@
 angular 
 20200603
-
+2 - tyarn add ng2-validation
 1 - tyarn add angular2-uuid
 
 20200602-
