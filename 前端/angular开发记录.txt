@@ -1,4 +1,34 @@
 angular 
+
+20200608
+
+2 - C:\yutao\zyweb\src\main\webapp\app\lib\layout\main\storefront.component.html
+<ng-template zyOutlet="zy-app">
+        lllllll
+</ng-template>
+
+1 -   export class OutletDirective implements OnDestroy, OnChanges {
+
+20200607
+4 -   providers: [{ provide: LayoutConfig, useExisting: Config }],
+   有两个实现： 
+      1 - D:\应用程序案例\spartacus\projects\storefrontlib\src\recipes\config\b2c-layout-config.ts
+      
+      2 - D:\应用程序案例\spartacus\projects\storefrontlib\src\recipes\config\optional-layouts\plp-accessibility-layout-config.ts
+3 - lib\cms-structure\page\page-layout\page-layout.service.ts
+依赖：
+     @Optional()
+     @Inject(PAGE_LAYOUT_HANDLER)
+     private handlers: PageLayoutHandler[]
+ 
+  没有具体的实现
+  
+2 - 学习 PageLayoutModule 
+1- 成功加入CmsModule.forRoot()
+
+20200605
+2 - CmsModule.forRoot() 出现错误
+1- PwaModule 可用
 20200603
 2 - tyarn add ng2-validation
 1 - tyarn add angular2-uuid
