@@ -1,4 +1,9 @@
 angular 
+20200615
+
+https://github.com/jhipster/jhipster-sample-app
+
+1 - https://github.com/akveo/ngx-admin
 
 20200608
 
