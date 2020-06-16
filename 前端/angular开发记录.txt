@@ -1,4 +1,8 @@
 angular 
+20200616 
+注册案例：
+https://github.com/HossamElBeshoty/Admin-Head-Coach/tree/14d6c15ee042a2da58345e1ca03b7830eef9ed5b
+
 20200615
 
 https://github.com/jhipster/jhipster-sample-app
