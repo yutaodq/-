@@ -1,4 +1,41 @@
 angular 
+20200627
+https://github.com/kitsoRik/kit-services/blob/37e006a129ac372be83f62fe652e204e130f7579/web/src/app/providers/diy-ui/generated/components/kit-input-file/kit-input-file.component.ts
+
+2 - 监听input框输入值的改变
+如果是使用的表单form,可以使用form表单的valueChanges订阅事件
+
+Angular6中监听DOM元素事件
+@HostListener('window:keydown', ['$event'])
+　　　　
+1 - RegisterFormComponent 使用服务程序RegisterService 实现了异步验证
+    private createRegistrationForm(): FormGroup {
+        return this._fb.group(
+            {
+                username: ['', Validators.required,
+                 this._registerService.usernameUnique.bind(this._registerService)],
+            }
+        );
+    }
+
+D:\应用程序案例\真实案例\sx-compras-master\sx-gastos\src\app\productos\components\producto-form\producto-form.component.ts
+20200626
+1 - 验证：
+https://github.com/Nightapes/ngx-validators
+
+20200625
+
+1 - 自定义组件 YuInputComponent 可用
+
+20200624 
+1 - 学习自定义组件 YuInputComponent
+    参照 https://github.com/intershop/intershop-pwa/blob/4d1e806121af809f37449ff052a7e9abb8396aee/src/app/shared/forms/components/input/input.component.ts
+
+20200623
+表单错误提示：
+https://github.com/elvisthomas/jwtAngular/blob/45acb2f6d054a443354e1d165b419bddc5e8ce84/angular/src/app/components/signup/signup.component.html
+<app-alert></app-alert>
+
 20200618  angular开发实战
 1 - angular开发实战 源代码
 https://github.com/Farata/angulartypescript
