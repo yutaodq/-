@@ -1,4 +1,7 @@
 angular 
+20200628
+1 - YuCheckboxModule组件
+
 20200627
 https://github.com/kitsoRik/kit-services/blob/37e006a129ac372be83f62fe652e204e130f7579/web/src/app/providers/diy-ui/generated/components/kit-input-file/kit-input-file.component.ts
 
