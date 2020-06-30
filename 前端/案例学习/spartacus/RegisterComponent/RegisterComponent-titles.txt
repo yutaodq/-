@@ -1,0 +1,236 @@
+export class RegisterComponent implements OnInit, OnDestroy {
+  titles$: Observable<Title[]>;
+  ngOnInit() {
+    this.titles$ = this.userService.getTitles().pipe(
+      tap((titles) => {
+        if (Object.keys(titles).length === 0) {
+          this.userService.loadTitles();
+        }
+      }),
+      map((titles) => {
+        return titles.sort(sortTitles);     (1)
+      })
+    );
+  }
+  
+(1)   
+D:\应用程序案例\spartacus\projects\storefrontlib\src\shared\utils\forms\title-utils.ts
+export const titleScores = {
+  mr: 1,
+  mrs: 2,
+  miss: 3,
+  ms: 4,
+  dr: 5,
+  rev: 6,
+};
+export function sortTitles(title1: Title, title2: Title) {
+  if (!titleScores[title1.code] || !titleScores[title2.code]) {
+    return 1;
+  } else {
+    return titleScores[title1.code] - titleScores[title2.code];
+  }
+}
+
+(2)
+
+***  Facade 
+D:\应用程序案例\spartacus\projects\core\src\user\facade\user.service.ts
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  constructor(
+    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected authService: AuthService
+  ) {}
+
+  /**
+   * Returns titles
+   */
+  getTitles(): Observable<Title[]> {
+    return this.store.pipe(select(UsersSelectors.getAllTitles));
+  }
+
+  /**
+   * Retrieves titles
+   */
+  loadTitles(): void {
+    this.store.dispatch(new UserActions.LoadTitles());
+  }
+
+}
+
+
+** Store
+1 - state
+import { Title, User } from '../../model/misc.model';
+
+export const USER_FEATURE = 'user';
+
+export interface StateWithUser {
+  [USER_FEATURE]: UserState;
+}
+
+export interface UserState {
+  account: UserDetailsState;
+  titles: TitlesState;
+}
+
+export interface TitleEntities {
+  [key: string]: Title;
+}
+
+export interface TitlesState {
+  entities: TitleEntities;
+}
+
+export interface UserDetailsState {
+  details: User;
+}
+
+
+2  - action
+
+export const LOAD_TITLES = '[User] Load Tiltes';
+export const LOAD_TITLES_FAIL = '[User] Load Titles Fail';
+export const LOAD_TITLES_SUCCESS = '[User] Load Titles Success';
+
+export class LoadTitles implements Action {
+  readonly type = LOAD_TITLES;
+  constructor() {}
+}
+
+export class LoadTitlesFail implements Action {
+  readonly type = LOAD_TITLES_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class LoadTitlesSuccess implements Action {
+  readonly type = LOAD_TITLES_SUCCESS;
+  constructor(public payload: Title[]) {}
+}
+
+export type TitlesAction = LoadTitles | LoadTitlesFail | LoadTitlesSuccess;
+
+3 - reducer
+
+export const initialState: TitlesState = {
+  entities: {},
+};
+
+export function reducer(
+  state = initialState,
+  action: UserActions.TitlesAction | UserActions.ClearUserMiscsData
+): TitlesState {
+  switch (action.type) {
+    case UserActions.LOAD_TITLES_SUCCESS: {
+      const titles = action.payload;
+      const entities = titles.reduce(
+        (titleEntities: { [code: string]: Title }, name: Title) => {
+          return {
+            ...titleEntities,
+            [name.code]: name,
+          };
+        },
+        {
+          ...state.entities,
+        }
+      );
+
+      return {
+        ...state,
+        entities,
+      };
+    }
+
+    case UserActions.CLEAR_USER_MISCS_DATA: {
+      return initialState;
+    }
+  }
+
+  return state;
+}
+
+4 - selector
+
+import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { Title } from '../../../model/misc.model';
+import {
+  StateWithUser,
+  TitleEntities,
+  TitlesState,
+  UserState,
+} from '../user-state';
+import { getUserState } from './feature.selector';
+
+export const getTitlesState: MemoizedSelector<
+  StateWithUser,
+  TitlesState
+> = createSelector(getUserState, (state: UserState) => state.titles);
+
+export const getTitlesEntites: MemoizedSelector<
+  StateWithUser,
+  TitleEntities
+> = createSelector(getTitlesState, (state: TitlesState) => state.entities);
+
+export const getAllTitles: MemoizedSelector<
+  StateWithUser,
+  Title[]
+> = createSelector(getTitlesEntites, (entites) =>
+  Object.keys(entites).map((code) => entites[code])
+);
+
+export const titleSelectorFactory = (
+  code: string
+): MemoizedSelector<StateWithUser, Title> =>
+  createSelector(getTitlesEntites, (entities) =>
+    Object.keys(entities).length !== 0 ? entities[code] : null
+  );
+
+5 - effect
+import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserConnector } from '../../connectors/user/user.connector';
+import { UserActions } from '../actions/index';
+
+@Injectable()
+export class TitlesEffects {
+  @Effect()
+  loadTitles$: Observable<UserActions.TitlesAction> = this.actions$.pipe(
+    ofType(UserActions.LOAD_TITLES),
+    switchMap(() => {
+      return this.userAccountConnector.getTitles().pipe(
+        map((titles) => {
+          return new UserActions.LoadTitlesSuccess(titles);
+        }),
+        catchError((error) =>
+          of(new UserActions.LoadTitlesFail(makeErrorSerializable(error)))
+        )
+      );
+    })
+  );
+
+  constructor(
+    private actions$: Actions,
+    private userAccountConnector: UserConnector
+  ) {}
+}
+
+
+*** Connector
+1 - 
+D:\应用程序案例\spartacus\projects\core\src\user\connectors\user\user.connector.ts
+@Injectable({
+  providedIn: 'root',
+})
+export class UserConnector {
+  constructor(protected adapter: UserAdapter) {}
+
+  getTitles(): Observable<Title[]> {
+    return this.adapter.loadTitles();
+  }
+}
+
+2 - D:\应用程序案例\spartacus\projects\core\src\user\connectors\user\user.adapter.ts
+export abstract class UserAdapter {
+
+  abstract loadTitles(): Observable<Title[]>;
+}
+
