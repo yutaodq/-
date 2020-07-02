@@ -4,7 +4,7 @@
        tyarn global add json-server
   （2）配置
        把所有的配置放到一个配置文件中，这个配置文件默认名称为json-server.json
-       默认目录 zywe/json-server.json
+       默认目录 zyweb/json-server.json
        package.json文件中
           "json-server": "json-server --watch src/assets/data/db.json"
        使用的就是默认的配置文件json-server.json
@@ -37,8 +37,24 @@
    
       问题解决
       
-      
+4 -  自定义路由
+自定义路由通俗的讲就是给api请求地址起了个别名，而且和后台商量好后就避免后期了修改接口地址的麻烦。
+
+在mock目录下创建router.json文件，注意每个路由文件应该以/开头。
+
+{
+  "/api": "/list",
+  "/api/list/:id": "/list/:id",
+  "/api/users?name=:name":"/users?name=:name"
+}
+在这个json文件里key就是真实部署时要访问的api路径，对应的value就是我们开发时虚拟的api路径。
+现在访问 /api/list/1和访问/list/1 都返回/list/1的内容
+
+
+
 2 - 学习资料
+https://www.imooc.com/article/details/id/44976
+
 https://www.cnblogs.com/fly_dragon/p/9150732.html
 WebStorm工作环境搭建
 https://www.jianshu.com/p/49ae3a176a0d
