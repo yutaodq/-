@@ -1,0 +1,134 @@
+1 - 启动模块  \storefrontapp\src\app\app.module.ts
+
+@NgModule({
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
+    BrowserTransferStateModule,
+
+    B2cStorefrontModule.withConfig({
+      backend: {
+        occ: {
+          baseUrl: environment.occBaseUrl,
+          legacy: false,
+        },
+      },
+      context: {
+        urlParameters: ['baseSite', 'language', 'currency'],
+        baseSite: [
+          'electronics-spa',
+          'electronics',
+          'apparel-de',
+          'apparel-uk',
+          'apparel-uk-spa',
+        ],
+      },
+
+      // custom routing configuration for e2e testing
+      routing: {
+        routes: {
+          product: {
+            paths: ['product/:productCode/:name', 'product/:productCode'],
+          },
+        },
+      },
+      // we bring in static translations to be up and running soon right away
+      i18n: {
+        resources: translations,
+        chunks: translationChunksConfig,
+        fallbackLang: 'en',
+      },
+      features: {
+        level: '1.5',
+        anonymousConsents: true,
+      },
+    }),
+    JsonLdBuilderModule,
+
+    TestOutletModule, 
+    // custom usages of cxOutletRef only for e2e testing
+    TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), 
+    // Injects config dynamically from e2e tests. Should be imported after other config modules.
+
+    ...devImports,
+    ConfigModule,
+  ],
+
+  bootstrap: [StorefrontComponent],
+})
+export class AppModule {}
+
+2 - B2cStorefrontModule 模块
+  D:\应用程序案例\spartacus\projects\storefrontlib\src\recipes\b2c-storefront.module.ts
+  
+  @NgModule({
+  imports: [
+    StorefrontModule,
+
+    // the cms lib module contains all components that added in the bundle
+    CmsLibModule,
+  ],
+  providers: [
+    provideDefaultConfig({
+      pwa: {
+        enabled: true,
+        addToHomeScreen: true,
+      },
+    }),
+    provideDefaultConfig(b2cLayoutConfig),
+    provideDefaultConfigFactory(defaultCmsContentConfig),
+  ],
+  exports: [StorefrontModule],
+})
+export class B2cStorefrontModule {
+  static withConfig(
+    config?: StorefrontConfig
+  ): ModuleWithProviders<B2cStorefrontModule> {
+    return {
+      ngModule: B2cStorefrontModule,
+      providers: [provideConfig(config)],
+    };
+  }
+}
+
+3 - StorefrontModule
+D:\应用程序案例\spartacus\projects\storefrontlib\src\recipes\storefront.module.ts
+
+@NgModule({
+  imports: [
+    RouterModule.forRoot([], {
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled',
+    }),
+
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+
+    // ASM module must be imported before the `AuthModule (which is imported in `StorefrontFoundationModule`)
+    // since we might have conflicting interceptor logic. See #5461.
+    AsmModule,
+
+    StorefrontFoundationModule,
+    MainModule,
+    SiteContextModule.forRoot(), // should be imported after RouterModule.forRoot, because it overwrites UrlSerializer
+
+    SmartEditModule.forRoot(), // should be custom
+    PersonalizationModule.forRoot(), // should be custom
+
+    // opt-in explicitly
+    OccModule.forRoot(),
+    ProductDetailsPageModule,
+    ProductListingPageModule,
+    ExternalRoutesModule.forRoot(),
+  ],
+  exports: [MainModule, StorefrontFoundationModule],
+})
+export class StorefrontModule {
+  static withConfig(
+    config?: StorefrontConfig
+  ): ModuleWithProviders<StorefrontModule> {
+    return {
+      ngModule: StorefrontModule,
+      providers: [provideConfig(config)],
+    };
+  }
+}
