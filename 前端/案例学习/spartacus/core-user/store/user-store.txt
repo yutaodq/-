@@ -1,6 +1,6 @@
-一、 action (略)
+一、功能
 
-二、 feature state
+1、 feature state
 export interface Title {
   code?: string;
   name?: string;
@@ -8,7 +8,7 @@ export interface Title {
 
 export interface TitlesState extends EntityState<Title> {}
 
-三、reducer
+2、reducer
 
 export const titlesAdapter = createEntityAdapter<Title>({
     selectId: (title: Title) => title.code,
@@ -28,21 +28,80 @@ export function reducer(state: TitlesState, action: Action) {
     return titleReducer(state, action);
 }
 
-四、selector
 
+二 - 功能模块
+1 - 
+E:\计算机\spartacus\projects\core\src\user\store\user-store.module.ts
+import { metaReducers, reducerToken, reducerProvider } from './reducers/index';
+import { effects } from './effects/index';
+import { USER_FEATURE } from './user-state';
+import { StateModule } from '../../state/state.module';
 
+@NgModule({
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    StateModule,
+    StoreModule.forFeature(USER_FEATURE, reducerToken, { metaReducers }),
+    EffectsModule.forFeature(effects),
+    RouterModule,
+  ],
+  providers: [reducerProvider],
+})
+export class UserStoreModule {}
 
+2 - State
 
-D:\应用程序案例\spartacus\projects\core\src\user\store\user-state.ts
 export const USER_FEATURE = 'user';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
 }
 
+
 export interface UserState {
   account: UserDetailsState;
   addresses: LoaderState<Address[]>;
   titles: TitlesState;
-  resetPassword: boolean;
+}
+
+3 - reducer
+
+export const reducerToken: InjectionToken<ActionReducerMap<
+  UserState
+>> = new InjectionToken<ActionReducerMap<UserState>>('UserReducers');
+
+export const reducerProvider: Provider = {
+  provide: reducerToken,
+  useFactory: getReducers,
+};
+
+export function clearUserState(
+  reducer: ActionReducer<any>
+): ActionReducer<any> {
+  return function (state, action) {
+    if (action.type === AuthActions.LOGOUT) {
+      state = undefined;
+    }
+
+    return reducer(state, action);
+  };
+}
+
+export const metaReducers: MetaReducer<any>[] = [clearUserState];
+
+
+
+export function getReducers(): ActionReducerMap<UserState> {
+  return {
+    account: combineReducers({
+      details: fromUserDetailsReducer.reducer,
+    }),
+    addresses: loaderReducer<Address[]>(
+      USER_ADDRESSES,
+      fromAddressesReducer.reducer
+    ),
+    titles: fromTitlesReducer.reducer,
+    resetPassword: fromResetPasswordReducer.reducer,
+  };
 }
