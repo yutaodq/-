@@ -114,3 +114,8 @@ ng generate library state
 8 - state/reducers
 8 - state/services
 
+九、创建processModule
+
+ng generate library process 
+
+processModule模块依赖stateModule模块
