@@ -1,0 +1,22 @@
+20200722
+一 、 多项目工作空间
+多项目工作空间适用于对所有 Angular 项目使用单一存储库（单仓库模型）和全局配置的企业。多项目工作空间也能为库开发提供支持。
+https://angular.cn/guide/file-structure#multiple-projects
+
+1 - 安装angular/cli
+   tyarn global add @angular/cli
+
+2 - 创建一个包含全工作空间级配置文件的工作空间，但没有根应用
+
+   ng new webwork --createApplication="false" --strict
+   (1) --strict  是严格模式
+       https://angular.cn/guide/strict-mode
+   
+3 - 创建应用程序
+   cd webwork
+   ng generate application zy-app --strict
+
+4 - 库项目文件
+   ng generate library zy-lib
+
+   库项目不能使用 --strict
