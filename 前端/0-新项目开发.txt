@@ -1,22 +1,62 @@
 20200722
+
 一 、 多项目工作空间
 多项目工作空间适用于对所有 Angular 项目使用单一存储库（单仓库模型）和全局配置的企业。多项目工作空间也能为库开发提供支持。
 https://angular.cn/guide/file-structure#multiple-projects
 
 1 - 安装angular/cli
-   tyarn global add @angular/cli
-
+   tyarn global add @angular/cli@^9.1.9
+   tyarn global remove  @angular/cli (删除库)
+   
+   ## - ng version  
+      查看版本号
 2 - 创建一个包含全工作空间级配置文件的工作空间，但没有根应用
 
-   ng new webwork --createApplication="false" --strict
-   (1) --strict  是严格模式
+   ## 非严格模式的工作空间 （应用程序使用的是这个）
+   ng new webwork --createApplication="false" 
+
+   ## --strict  是严格模式
+       ng new webwork --createApplication="false" --strict
        https://angular.cn/guide/strict-mode
    
 3 - 创建应用程序
+
    cd webwork
+   ## 非严格模式的应用程序
+   ng generate application zy-app 
+   
+   ## 严格模式的应用程序
    ng generate application zy-app --strict
 
 4 - 库项目文件
    ng generate library zy-lib
 
    库项目不能使用 --strict
+
+5 - 配置库
+   ng generate library core-config
+
+二、 cli
+1 - ng g <schematic> [options]
+ng generate可以生成或者修改多种类型的文件，
+通过schematic来指定生成或者修改的文件类型。
+schematic可以设置的类型有：
+   appShell、 生成用于运行应用程序的服务器端版本的应用程序shell。
+   application、在当前工作区的“projects”文件夹下生成一个新的Angular应用。
+   class、在给定或默认项目中创建类
+   component、在给定或默认项目中创建组件
+   directive、在给定或默认项目中创建新的通用指令
+   enum、为给定或默认项目生成新的通用枚举。
+   guard、在给定或默认项目中生成新的通用路由守卫定义。
+   interface、  在给定或默认项目中创建新的通用接口定义。
+   library、在当前工作空间中创建新的通用库项目
+   module、在给定或默认项目中创建新的通用NgModule。
+   pipe、在给定或默认项目中创建新的通用管道。
+   service、在给定或默认项目中创建新的通用服务。
+   serviceWorker、将此原理图传递给“run”命令以创建serviceWorker。
+   universal。将此原理图传递给“run”命令，为应用程序设置服务器端渲染。
+
+三 、 coreConfigModule 模块
+
+1 - 错误
+ expected call-signature: 'configInitializerFactory' to have a typedef(typedef)
