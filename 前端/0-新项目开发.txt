@@ -85,6 +85,8 @@ export class B2cStorefrontModule {
 
 五、创建stateModule
 ng generate library event
+ng generate library window
+
 六、创建stateModule
 
 ng generate library model
@@ -107,4 +109,8 @@ ng generate library state
     （1）错误
       D:\应用程序案例\spartacus\projects\core\src\state\utils\scoped-loader\scoped-loader.reducer.ts
       依赖 product模块
+
+8 - state/event
+8 - state/reducers
+8 - state/services
 
