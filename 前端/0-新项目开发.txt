@@ -82,4 +82,29 @@ export class B2cStorefrontModule {
     };
   }
 }
-     
+
+五、创建stateModule
+ng generate library event
+六、创建stateModule
+
+ng generate library model
+
+七、创建utilModule
+ng generate library util
+
+八、创建stateModule
+
+ng generate library state 
+
+1 - state/config
+
+2 - state/utils/entity
+3 - state/utils/loader
+4 - state/utils/entity-loader
+5 - state/utils/processes-loader
+6 - state/utils/entity-processes-loader
+7 - state/utils/scoped-loader
+    （1）错误
+      D:\应用程序案例\spartacus\projects\core\src\state\utils\scoped-loader\scoped-loader.reducer.ts
+      依赖 product模块
+
