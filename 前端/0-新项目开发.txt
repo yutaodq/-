@@ -34,7 +34,7 @@ https://angular.cn/guide/file-structure#multiple-projects
    库项目不能使用 --strict
 
 5 - 配置库
-   ng generate library core-config
+   ng generate library config
 
 二、 cli
 1 - ng g <schematic> [options]
@@ -59,4 +59,27 @@ schematic可以设置的类型有：
 三 、 coreConfigModule 模块
 
 1 - 错误
- expected call-signature: 'configInitializerFactory' to have a typedef(typedef)
+TSLint: Don't use 'Function' as a type. Avoid using the `Function` type. Prefer a specific function type, like `() => void`.(ban-types)
+
+修改tslint.json文件 ， 加入    "disable-next-line": "ban-types"
+
+2 - 完成ConfigModule的学习
+    （1）
+    @NgModule({
+       imports: [
+       CommonModule,
+       ConfigModule.withConfig(defaultSkipLinkConfig),
+      ],
+ 
+     （2）
+export class B2cStorefrontModule {
+  static withConfig(
+    config?: StorefrontConfig
+  ): ModuleWithProviders<B2cStorefrontModule> {
+    return {
+      ngModule: B2cStorefrontModule,
+      providers: [provideConfig(config)],
+    };
+  }
+}
+     
