@@ -83,7 +83,7 @@ export class B2cStorefrontModule {
   }
 }
 
-五、创建stateModule
+五、创建eventModule、windowModule
 ng generate library event
 ng generate library window
 
@@ -117,5 +117,8 @@ ng generate library state
 九、创建processModule
 
 ng generate library process 
-
 processModule模块依赖stateModule模块
+
+十、创建FeaturesConfigModule
+ng generate library features-config
+FeaturesConfigModule模块依赖ConfigModule模块
