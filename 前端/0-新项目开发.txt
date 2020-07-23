@@ -38,6 +38,8 @@
       ],
     }
 
+3 - 
+An unhandled exception occurred: Invalid or unexpected token
 
 20200722
 
@@ -48,7 +50,7 @@ https://angular.cn/guide/file-structure#multiple-projects
 1 - 安装angular/cli
    tyarn global add @angular/cli@^9.1.9
    tyarn global remove  @angular/cli (删除库)
-   
+   npm cache clean --force (删除后建议清理下缓存)
    ## - ng version  
       查看版本号
 2 - 创建一个包含全工作空间级配置文件的工作空间，但没有根应用
