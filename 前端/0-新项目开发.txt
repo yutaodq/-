@@ -1,3 +1,44 @@
+20200723
+
+1- 设置主件的前缀 
+   修改D:\yutao\webwork\projects\zy-lib\tslint.json
+   {
+  "extends": "../../tslint.json",
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "miao",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "miao",
+      "kebab-case"
+    ]
+  }
+}
+
+2 - 项目的组件的路径
+
+    (1) 在工作区设置路径
+    D:\yutao\webwork\tsconfig.json
+    "paths": {
+      "zy/zy-lib": [
+        "projects/zy-lib/src/public-api"
+      ],
+     }
+     
+    (2) 在各个项目中设置路径
+    D:\yutao\webwork\projects\zy-lib\tsconfig.lib.json
+         "paths": {
+      "zy/zy-lib": [
+        "projects/zy-lib/src/public-api"
+      ],
+    }
+
+
 20200722
 
 一 、 多项目工作空间
@@ -122,3 +163,8 @@ processModule模块依赖stateModule模块
 十、创建FeaturesConfigModule
 ng generate library features-config
 FeaturesConfigModule模块依赖ConfigModule模块
+
+十、创建SiteContextModule
+ng generate library site-context
+
+ng generate library shared
