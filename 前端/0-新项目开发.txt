@@ -1,3 +1,11 @@
+20200724
+
+1 - 加入库
+@ngrx/store-devtools": "~9.0.0",
+
+2 - 修改AppModule
+   加入additionalImports
+   
 20200723
 
 1- 设置主件的前缀 
