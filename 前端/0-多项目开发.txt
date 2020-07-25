@@ -1,6 +1,46 @@
+20200724
+
+1 - 创建工作区 ，不创建Application,跳过依赖的安装
+    ng new webwork --createApplication="false" --skipInstall=true
+2 - 创建应用程序项目
+    cd webwork
+    ng generate application zyapp --skipInstall=true --style=scss
+3 - 创建库项目   
+    ng generate library zylib --skipInstall=true
+    ng generate library core --skipInstall=true
+
+4 - 安装依赖
+    tyarn     
+5 - 改变端口 
+    修改 angular.json    
+     "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "zyapp:build",
+            "port": 4222
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "zyapp:build:production"
+            }
+          }
+        },
+
+ng serve --open --project=zyapp --baseHref /zyapp/
+由于使用了—baseHref参数，它将以URL http://localhost:4222/zyapp 打开一个web浏览器。
+
+
 一 、 多项目工作空间
 多项目工作空间适用于对所有 Angular 项目使用单一存储库（单仓库模型）和全局配置的企业。多项目工作空间也能为库开发提供支持。
+
+** 说明文件
+https://octoperf.com/blog/2019/08/22/kraken-angular-workspace-multi-application-project/
 https://angular.cn/guide/file-structure#multiple-projects
+
+https://segmentfault.com/a/1190000021711128
+
+** 案例
+https://github.com/OctoPerf/kraken/tree/1.3.0/frontend
 
 1 - 安装angular/cli
    tyarn global add @angular/cli@^9.1.9
@@ -35,5 +75,5 @@ https://angular.cn/guide/file-structure#multiple-projects
 4 - 库项目文件
    ng generate library zylib
    ng generate library core
-
+   ng generate library vendors  --skipInstall=true
    库项目不能使用 --strict

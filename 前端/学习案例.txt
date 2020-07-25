@@ -4,6 +4,8 @@
    https://github.com/jhipster/jhipster-sample-app
    https://github.com/tomastrajan/angular-ngrx-material-starter
    
+   https://github.com/SAP/spartacus
+
    https://github.com/akveo/ngx-admin
 *****************
 ÕæÊµ°¸Àý

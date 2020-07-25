@@ -1,0 +1,24 @@
+1 - 安装PowerShell
+若要在 Windows 上安装 PowerShell，请从 GitHub“发布”页下载安装包。 向下滚动到“版本”页的“资产” 部分。 
+由于“资产” 部分可能处于折叠状态，因此可能需要单击展开它。
+
+     GitHub“发布”页 :  https://github.com/PowerShell/PowerShell/releases
+
+WMF 
+
+PowerShell
+
+Get-Host | Select-Object Version
+
+### 说明
+https://docs.microsoft.com/zh-cn/powershell/scripting/install/installing-powershell-core-on-windows?view=powershell-7
+
+依次单击“开始”、“所有程序”、“附件”和“Windows PowerShell”，然后单击“Windows PowerShell”。
+
+
+安装 Scoop
+https://github.com/lukesampson/scoop
+
+Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+
+iwr -useb get.scoop.sh | iex

@@ -1,0 +1,51 @@
+一、 Chocolatey简介
+一个windows下的软件安装管理器（The Package Manager for Windows），用于自动管理软件（安装，更新，卸载）。Chocolatey官网
+
+二、安装要求
+   1 - Windows 7+ / Windows Server 2003+
+   2 - PowerShell v2+
+   3 - .NET Framework 4+ (安装过程会检测，如果未安装会自动下载安装)
+三、开始安装
+
+使用管理员权限运行 powershell，检查并设置 执行策略
+
+1 - 检查
+    C:\> Get-ExecutionPolicy
+如果返回的是 Restricted，那么需要更改为Bypass或AllSigned
+
+2 - 更改
+可以使用以下两种中的一种（AllSigned - 要求所有脚本和配置文件由可信发布者签名, 包括在本地计算机编写的脚本.）
+
+ C:\> Set-ExecutionPolicy AllSigned
+ 
+ 
+或（Bypass- 不阻止任何执行项, 不显示警告和提示.） 
+
+
+ C:\> Set-ExecutionPolicy Bypass -Scope Process
+
+
+检查
+安装后重新检查是否更改完成
+
+C:\> Get-ExecutionPolicy
+
+
+安装：
+方法1
+iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex 
+方法2
+iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
+方法3
+iwr https://cin.st | iex
+
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+
+在安装过程中出现以下问题：
+## 问题：the request was aborted: could not create ssl/tls secure channel 
+         请求被中止: 未能创建 SSL/TLS 安全通道
+ PowerShell 中： [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+用法： 
+输入 choco命令，如果显示出了版本号，说明安装成功了
