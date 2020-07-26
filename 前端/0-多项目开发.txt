@@ -1,3 +1,18 @@
+20200726
+
+1 - 库项目文件
+   ng generate library vendors
+   ng generate library icon
+   ng generate library color
+   库项目不能使用 --strict
+2- webstorm 提示： TSLint: " should be '(quotemark)
+   D:\yutao\zyweb\tslint.json
+   修改 ：
+       "quotemark": [false, "single", "avoid-escape"],
+3 - ThemeMaterialModule 可用
+
+20200725
+一家人去林甸温泉玩   
 20200724
 
 1 - 创建工作区 ，不创建Application,跳过依赖的安装

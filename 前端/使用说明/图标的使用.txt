@@ -1,3 +1,5 @@
+tyarn add @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-free-webfonts @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/angular-fontawesome
+
 一、在页面使用常量
 
 <a (click)="onClick($event)">
