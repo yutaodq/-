@@ -1,3 +1,23 @@
+20200728
+1 - footerModule
+
+2 - 全局样式库
+    新建目录： styles
+
+3 - 错误： 浏览器控制台显示：
+   Uncaught TypeError: ng.probe is not a function
+
+   您也可以在没有Ivy的情况下运行tsconfig.app.json
+  "angularCompilerOptions": { "enableIvy": false }
+
+    https://stackoverflow.com/questions/56373044/error-in-console-ng-probe-is-not-a-function
+4 - 全局样式库
+    scss themes 目录
+
+5- _index.scss
+    
+    ok
+
 20200727
 1 - 库项目文件
    ng generate library components
