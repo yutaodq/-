@@ -1,0 +1,12 @@
+# - Create Application
+
+*
+    yarn global add nx
+
+* Create a New Workspace 
+    npx create-nx-workspace@latest
+
+*  
+npx nx serve todos
+ or
+nx serve todos
