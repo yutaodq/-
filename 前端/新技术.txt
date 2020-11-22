@@ -2,3 +2,7 @@
 Angular 中使用apollo-angular操作GraphQl Server API接口
 案例 sacker96/kintai1
 https://github.com/sacker96/kintai1/tree/bc7db2546d9f111a03437f2c98ddd4149efd3164
+
+1- angular 领域驱动
+
+https://github.com/manfredsteyer/ddd-bk/blob/master/manuscript/00.md
