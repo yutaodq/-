@@ -1,0 +1,31 @@
+https://github.com/nrwl/nx
+https://nx.dev/latest/angular/getting-started/why-nx
+
+
+##
+    yarn global add nx
+
+## - Create Application
+
+* Create a New Workspace 
+
+npx create-nx-workspace@latest
+
+? Workspace name (e.g., org name)     zy.yutao
+? What to create in the new workspace angular
+? Application name                    webzy
+? Default stylesheet format           SCSS
+
+generate命令将两个项目添加到我们的工作区：
+
+Angular应用程序
+Angular应用程序的端到端测试
+
+*  现在已经设置了应用程序，可以通过以下方式在本地运行它：
+npx nx serve todos
+ or
+nx serve todos
+
+请注意nx serve和ng serve
+在内部，运行命令或生成代码时，Nx CLI委托给Angular CLI。该nx serve命令产生与相同的结果ng serve，并且nx build产生与相同的结果ng build。但是，Nx CLI支持Angular CLI不支持的高级功能。例如，Nx的计算缓存仅在使用Nx CLI时有效。换句话说，使用nx替代ng会产生相同的输出，但是通常会表现更好。阅读有关Nx CLI和Angular CLI的更多信息。
+
