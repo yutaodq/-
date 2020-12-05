@@ -1,0 +1,13 @@
+## lib 模块命名
+
+   libs/booking/feature 的主模块的文件名为：
+      booking-feature.module.ts
+
+## lib 类型
+   feature / feature-*
+   ui / ui-*
+   data-access / data-access-*
+   util / util-*
+   
+   
+   

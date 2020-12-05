@@ -45,6 +45,25 @@ ng add @nrwl/schematics
 
 1- 默认libs文件夹下，创建mylib类库
 
-ng generate lib mylib
+ng generate lib mylib  
 
-2 - 
+2 - 自定义文件夹
+ng g lib feature-destination --directory=booking --tags=booking,feature
+
+
+     文件夹 libs/booking/feature-destination
+     
+     
+注意，nx.json 
+
+    "booking-feature-destination": { "tags": ["scope:booking", "type:feature"] } 
+    
+    
+3 
+ng generate lib mylib --tags=scope:shared,type:feature
+
+
+## lib 模块命名
+
+   libs/booking/feature 的主模块的文件名为：
+      booking-feature.module.ts
