@@ -9,7 +9,7 @@ https://nx.dev/latest/angular/getting-started/why-nx
 
    yarn create nx-workspace  »ò  npx create-nx-workspace@latest
 
-? Workspace name (e.g., org name)     webwork
+? Workspace name (e.g., org name)     zy-frontend
 ? What to create in the new workspace angular
 ? Application name                    webwork
 ? Default stylesheet format           SCSS
