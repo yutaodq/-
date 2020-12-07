@@ -9,9 +9,9 @@ https://nx.dev/latest/angular/getting-started/why-nx
 
    yarn create nx-workspace  或  npx create-nx-workspace@latest
 
-? Workspace name (e.g., org name)     zy-frontend
+? Workspace name (e.g., org name)     frontend-work
 ? What to create in the new workspace angular
-? Application name                    webwork
+? Application name                    ivds
 ? Default stylesheet format           SCSS
 
 generate命令将两个项目添加到我们的工作区：
