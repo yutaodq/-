@@ -1,0 +1,667 @@
+####   app\app.module.ts
+import { ROOT_REDUCERS, metaReducers } from '@example-app/reducers';
+import { UserEffects, RouterEffects } from '@example-app/core/effects';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    AuthModule,
+    AppRoutingModule,
+
+    /**
+     StoreModule。forRoot在根模块中导入一次，用于接受reducer函数或reducer函数的对象映射。
+     如果传递一个reducers的对象，combineReducers将会创建你的应用程序的meta-reducer。
+     这将返回基于@ngrx/store的应用程序的所有提供商。
+     
+     */
+    StoreModule.forRoot(ROOT_REDUCERS, {
+      metaReducers,
+      runtimeChecks: {
+        // 缺省情况下，使能strictStateImmutability和strictActionImmutability
+        strictStateSerializability: true,
+        strictActionSerializability: true,
+        strictActionWithinNgZone: true,
+        strictActionTypeUniqueness: true,
+      },
+    }),
+
+    /**
+     * @ngrx/router-store在存储中保持路由器状态为最新。
+     */
+    StoreRouterConnectingModule.forRoot(),
+
+    /**
+     *Store devtools使Store保留过去版本的状态并重新计算新状态。
+     这使得强大的时间旅行调试成为可能。
+     
+     * 要使用调试器，请为Chrome或Firefox安装Redux Devtools扩展
+     *
+     * See: https://github.com/zalmoxisus/redux-devtools-extension
+     */
+    StoreDevtoolsModule.instrument({
+      name: 'NgRx Book Store App',
+
+      // 在生产版本中，您可能希望禁用Store Devtools
+      // logOnly: environment.production,
+    }),
+
+    /**
+     * EffectsModule.forRoot()会在根模块中导入一次，
+     并设置要在应用程序启动时立即初始化的effects类。
+     *
+     * See: https://ngrx.io/guide/effects#registering-root-effects
+     */
+    EffectsModule.forRoot([UserEffects, RouterEffects]),
+    CoreModule,
+  ],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+
+
+
+####  app\reducers\index.ts
+
+import {
+  createSelector,
+  createFeatureSelector,
+  ActionReducer,
+  MetaReducer,
+  Action,
+  ActionReducerMap,
+} from '@ngrx/store';
+import { environment } from '../../environments/environment';
+import * as fromRouter from '@ngrx/router-store';
+
+/**
+ 每个reducer模块的默认导出是reducer功能本身。
+此外，每个模块应该导出一个类型或接口，该类型或接口描述reducer的状态以及任何选择器函数。
+' * as ' *符号将所有导出打包到单个对象中。
+ */
+
+import * as fromLayout from '@example-app/core/reducers/layout.reducer';
+import { InjectionToken } from '@angular/core';
+
+/**
+如前所述，我们将每个reducer视为数据库中的一个表。
+这意味着我们的顶级状态接口只是键到内部状态类型的映射
+
+ */
+export interface State {
+  [fromLayout.layoutFeatureKey]: fromLayout.State;
+  router: fromRouter.RouterReducerState<any>;
+}
+
+/**
+ * 我们的状态是由一系列reducer函数组成的。
+对于每个分派的操作和当前或初始状态，都会调用这些reducer函数，并返回一个新的不可变状态。
+ */
+ 
+export const ROOT_REDUCERS = new InjectionToken<
+  ActionReducerMap<State, Action>
+>('Root reducers token', {
+  factory: () => ({
+    [fromLayout.layoutFeatureKey]: fromLayout.reducer,
+    router: fromRouter.routerReducer,
+  }),
+});
+
+// console.log all actions
+export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
+  return (state, action) => {
+    const result = reducer(state, action);
+    console.groupCollapsed(action.type);
+    console.log('prev state', state);
+    console.log('action', action);
+    console.log('next state', result);
+    console.groupEnd();
+
+    return result;
+  };
+}
+
+/**
+*默认情况下，@ngrx/store使用combineReducers和reducer map来组成根meta-reducer。
+要添加更多的meta-reducer，请提供一个meta-reducer数组，这些meta-reducer将组成根meta-reducer。
+ */
+export const metaReducers: MetaReducer<State>[] = !environment.production
+  ? [logger]
+  : [];
+
+/**
+ * Layout Reducers
+ */
+export const selectLayoutState = createFeatureSelector<State, fromLayout.State>(
+  fromLayout.layoutFeatureKey
+);
+
+export const selectShowSidenav = createSelector(
+  selectLayoutState,
+  fromLayout.selectShowSidenav
+);
+
+
+
+####app\books\reducers\index.ts
+
+import * as fromSearch from '@example-app/books/reducers/search.reducer';
+import * as fromBooks from '@example-app/books/reducers/books.reducer';
+import * as fromCollection from '@example-app/books/reducers/collection.reducer';
+import * as fromRoot from '@example-app/reducers';
+
+export const booksFeatureKey = 'books';
+
+export interface BooksState {
+  [fromSearch.searchFeatureKey]: fromSearch.State;
+  [fromBooks.booksFeatureKey]: fromBooks.State;
+  [fromCollection.collectionFeatureKey]: fromCollection.State;
+}
+
+export interface State extends fromRoot.State {
+  [booksFeatureKey]: BooksState;
+}
+
+/** 以aot编译的方式提reducer   */
+export function reducers(state: BooksState | undefined, action: Action) {
+  return combineReducers({
+    [fromSearch.searchFeatureKey]: fromSearch.reducer,
+    [fromBooks.booksFeatureKey]: fromBooks.reducer,
+    [fromCollection.collectionFeatureKey]: fromCollection.reducer,
+  })(state, action);
+}
+
+/**
+ * 选择器函数是一个映射函数工厂。
+ 我们给它传递参数，它返回一个函数，该函数从较大的状态树映射到较小的状态。
+ 这个选择器简单地选择“books”状态。
+ 
+ * 选择符与' select '操作符一起使用。
+ *
+ * ```ts
+ * class MyComponent {
+ *   constructor(state$: Observable<State>) {
+ *     this.booksState$ = state$.pipe(select(getBooksState));
+ *   }
+ * }
+ * ```
+ */
+
+/**
+ *createFeatureSelector函数从状态对象的根中选择一条状态。
+ * 这用于选择急切加载或惰性加载的特性状态。
+ */
+export const selectBooksState = createFeatureSelector<State, BooksState>(
+  booksFeatureKey
+);
+
+/**
+每个减速机模块都导出选择器函数，但是子减速机不知道整个状态树。
+为了使它们可用，我们需要制作新的选择器来包装它们。
+
+ *
+ createSelector函数创建了非常高效的选择器，
+ 这些选择器被记忆，并且只有当参数改变时才重新计算。
+ 创建的选择器还可以组合在一起，以选择不同的状态片段。
+  */
+export const selectBookEntitiesState = createSelector(
+  selectBooksState,
+  (state) => state.books
+);
+
+export const selectSelectedBookId = createSelector(
+  selectBookEntitiesState,
+  fromBooks.selectId
+);
+
+/**
+使用@ngrx/entity创建的适配器会生成常用的选择器函数，
+包括获取记录集中的所有id、根据id创建的记录字典、记录数组和记录总数。
+这减少了从实体状态中选择记录时的样板文件。 */
+export const {
+  selectIds: selectBookIds,
+  selectEntities: selectBookEntities,
+  selectAll: selectAllBooks,
+  selectTotal: selectTotalBooks,
+} = fromBooks.adapter.getSelectors(selectBookEntitiesState);
+
+export const selectSelectedBook = createSelector(
+  selectBookEntities,
+  selectSelectedBookId,
+  (entities, selectedId) => {
+    return selectedId && entities[selectedId];
+  }
+);
+
+/**
+ * 就像书籍选择器一样，我们也必须组成搜索选择器和收集选择器。
+ */
+export const selectSearchState = createSelector(
+  selectBooksState,
+  (state) => state.search
+);
+
+export const selectSearchBookIds = createSelector(
+  selectSearchState,
+  fromSearch.getIds
+);
+export const selectSearchQuery = createSelector(
+  selectSearchState,
+  fromSearch.getQuery
+);
+export const selectSearchLoading = createSelector(
+  selectSearchState,
+  fromSearch.getLoading
+);
+export const selectSearchError = createSelector(
+  selectSearchState,
+  fromSearch.getError
+);
+
+/**
+ * 一些选择器函数在状态的不同部分之间创建连接。
+ 这个选择器组合搜索结果id以返回存储中的图书数组。
+ */
+export const selectSearchResults = createSelector(
+  selectBookEntities,
+  selectSearchBookIds,
+  (books, searchIds) => {
+    return searchIds
+      .map((id) => books[id])
+      .filter((book): book is Book => book != null);
+  }
+);
+
+export const selectCollectionState = createSelector(
+  selectBooksState,
+  (state) => state.collection
+);
+
+export const selectCollectionLoaded = createSelector(
+  selectCollectionState,
+  fromCollection.getLoaded
+);
+export const getCollectionLoading = createSelector(
+  selectCollectionState,
+  fromCollection.getLoading
+);
+export const selectCollectionBookIds = createSelector(
+  selectCollectionState,
+  fromCollection.getIds
+);
+
+export const selectBookCollection = createSelector(
+  selectBookEntities,
+  selectCollectionBookIds,
+  (entities, ids) => {
+    return ids
+      .map((id) => entities[id])
+      .filter((book): book is Book => book != null);
+  }
+);
+
+export const isSelectedBookInCollection = createSelector(
+  selectCollectionBookIds,
+  selectSelectedBookId,
+  (ids, selected) => {
+    return !!selected && ids.indexOf(selected) > -1;
+  }
+);
+
+
+####  app\books\reducers\collection.reducer.ts
+
+import { createReducer, on } from '@ngrx/store';
+
+import {
+  CollectionApiActions,
+  CollectionPageActions,
+  SelectedBookPageActions,
+} from '@example-app/books/actions';
+
+export const collectionFeatureKey = 'collection';
+
+export interface State {
+  loaded: boolean;
+  loading: boolean;
+  ids: string[];
+}
+
+const initialState: State = {
+  loaded: false,
+  loading: false,
+  ids: [],
+};
+
+export const reducer = createReducer(
+  initialState,
+  on(CollectionPageActions.enter, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(CollectionApiActions.loadBooksSuccess, (state, { books }) => ({
+    loaded: true,
+    loading: false,
+    ids: books.map((book) => book.id),
+  })),
+  /**
+   * 乐观地增加藏书。
+   * 如果成功了，就没什么可做的了。
+   * 如果失败，我们通过删除book来恢复state。
+   *
+   * ' on '支持处理多种类型的操作
+   */
+  on(
+    SelectedBookPageActions.addBook,
+    CollectionApiActions.removeBookFailure,
+    (state, { book }) => {
+      if (state.ids.indexOf(book.id) > -1) {
+        return state;
+      }
+      return {
+        ...state,
+        ids: [...state.ids, book.id],
+      };
+    }
+  ),
+  /**
+   * 乐观地将书从收藏中移除。
+   * 如果addBook失败，我们“撤消”添加这本书。
+   */
+  on(
+    SelectedBookPageActions.removeBook,
+    CollectionApiActions.addBookFailure,
+    (state, { book }) => ({
+      ...state,
+      ids: state.ids.filter((id) => id !== book.id),
+    })
+  )
+);
+
+export const getLoaded = (state: State) => state.loaded;
+
+export const getLoading = (state: State) => state.loading;
+
+export const getIds = (state: State) => state.ids;
+
+#####   app\books\reducers\books.reducer.ts
+
+import {
+  BookActions,
+  BooksApiActions,
+  CollectionApiActions,
+  ViewBookPageActions,
+} from '@example-app/books/actions';
+import { Book } from '@example-app/books/models';
+
+export const booksFeatureKey = 'books';
+
+/**
+ * @ngrx/entity提供了一个预定义的接口来处理结构化的记录字典。
+  这个接口包括一个ids数组，以及一个由id提供的模型类型的字典。
+   这个接口被扩展为包含任何附加的接口属性。
+ */
+export interface State extends EntityState<Book> {
+  selectedBookId: string | null;
+}
+
+/**
+createEntityAdapter为记录字典的单个或多个操作创建一个包含许多helper函数的对象。
+配置对象接受一个记录id选择器函数和一个sortComparer选项，
+如果要对记录进行排序，sortComparer选项被设置为一个比较函数。
+
+ */
+export const adapter: EntityAdapter<Book> = createEntityAdapter<Book>({
+  selectId: (book: Book) => book.id,
+  sortComparer: false,
+});
+
+/**
+getInitialState返回生成的实体状态的默认初始状态。
+初始状态还可以定义附加属性。
+ */
+export const initialState: State = adapter.getInitialState({
+  selectedBookId: null,
+});
+
+export const reducer = createReducer(
+  initialState,
+  /**
+创建的适配器提供的addMany函数将许多记录添加到实体字典中，并返回一个包含这些记录的新状态。
+如果要对集合进行排序，适配器将根据进入已排序数组的条目对每个记录进行排序。
+   */
+  on(
+    BooksApiActions.searchSuccess,
+    CollectionApiActions.loadBooksSuccess,
+    (state, { books }) => adapter.addMany(books, state)
+  ),
+  /**
+所创建的适配器提供的addOne函数将一条记录添加到实体字典中，
+并返回一个新的状态，包括那些已经不存在的记录。
+如果要对集合进行排序，那么适配器将把新记录插入已排序的数组中。
+   */
+   
+  on(BookActions.loadBook, (state, { book }) => adapter.addOne(book, state)),
+  on(ViewBookPageActions.selectBook, (state, { id }) => ({
+    ...state,
+    selectedBookId: id,
+  }))
+);
+
+/**
+因为数据结构是在reducer中定义的，所以在这个级别定位选择器函数是最优的。
+如果将store看作是一个数据库，并且减少了表，那么选择器可以被看作是对该数据库的查询。
+记住要让你的选择器小而集中，这样它们就可以组合起来以适应每个特定的用例。 
+*/
+
+export const selectId = (state: State) => state.selectedBookId;
+
+
+####   app\books\reducers\search.reducer.ts
+
+import {
+  BooksApiActions,
+  FindBookPageActions,
+} from '@example-app/books/actions';
+import { createReducer, on } from '@ngrx/store';
+
+export const searchFeatureKey = 'search';
+
+export interface State {
+  ids: string[];
+  loading: boolean;
+  error: string;
+  query: string;
+}
+
+const initialState: State = {
+  ids: [],
+  loading: false,
+  error: '',
+  query: '',
+};
+
+export const reducer = createReducer(
+  initialState,
+  on(FindBookPageActions.searchBooks, (state, { query }) => {
+    return query === ''
+      ? {
+          ids: [],
+          loading: false,
+          error: '',
+          query,
+        }
+      : {
+          ...state,
+          loading: true,
+          error: '',
+          query,
+        };
+  }),
+  on(BooksApiActions.searchSuccess, (state, { books }) => ({
+    ids: books.map((book) => book.id),
+    loading: false,
+    error: '',
+    query: state.query,
+  })),
+  on(BooksApiActions.searchFailure, (state, { errorMsg }) => ({
+    ...state,
+    loading: false,
+    error: errorMsg,
+  }))
+);
+
+export const getIds = (state: State) => state.ids;
+
+export const getQuery = (state: State) => state.query;
+
+export const getLoading = (state: State) => state.loading;
+
+export const getError = (state: State) => state.error;
+
+
+####  app\books\effects\collection.effects.ts
+
+import { Injectable } from '@angular/core';
+
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { defer, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+
+import {
+  CollectionApiActions,
+  CollectionPageActions,
+  SelectedBookPageActions,
+} from '@example-app/books/actions';
+import { Book } from '@example-app/books/models';
+import { BookStorageService } from '@example-app/core/services';
+
+@Injectable()
+export class CollectionEffects {
+  /**
+   * 这个effect不会产生任何返回到商店的操作。
+   将' dispatch '设置为false，以提示@ngrx/effects应该忽略此效果流中的任何元素。
+   
+   “defer”可观察对象接受一个可观察对象工厂函数，这个函数在该可观察对象被订阅时被调用。
+   
+   在“延迟”中包装支持的调用使effect更容易测试。
+   
+   */
+  checkStorageSupport$ = createEffect(
+    () => defer(() => this.storageService.supported()),
+    { dispatch: false }
+  );
+
+  loadCollection$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CollectionPageActions.enter),
+      switchMap(() =>
+        this.storageService.getCollection().pipe(
+          map((books: Book[]) =>
+            CollectionApiActions.loadBooksSuccess({ books })
+          ),
+          catchError((error) =>
+            of(CollectionApiActions.loadBooksFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  addBookToCollection$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SelectedBookPageActions.addBook),
+      mergeMap(({ book }) =>
+        this.storageService.addToCollection([book]).pipe(
+          map(() => CollectionApiActions.addBookSuccess({ book })),
+          catchError(() => of(CollectionApiActions.addBookFailure({ book })))
+        )
+      )
+    )
+  );
+
+  removeBookFromCollection$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SelectedBookPageActions.removeBook),
+      mergeMap(({ book }) =>
+        this.storageService.removeFromCollection([book.id]).pipe(
+          map(() => CollectionApiActions.removeBookSuccess({ book })),
+          catchError(() => of(CollectionApiActions.removeBookFailure({ book })))
+        )
+      )
+    )
+  );
+
+  constructor(
+    private actions$: Actions,
+    private storageService: BookStorageService
+  ) {}
+}
+
+
+###   app\books\effects\book.effects.ts
+
+import { Injectable } from '@angular/core';
+
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { asyncScheduler, EMPTY as empty, of } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  map,
+  skip,
+  switchMap,
+  takeUntil,
+} from 'rxjs/operators';
+
+import { Book } from '@example-app/books/models';
+import {
+  BooksApiActions,
+  FindBookPageActions,
+} from '@example-app/books/actions';
+import { GoogleBooksService } from '@example-app/core/services';
+
+/**
+ * effects提供了一种方法来隔离和容易地测试应用程序中的副作用。
+ *
+ *如果你不熟悉这些例子中使用的操作符，请查看以下来源:
+ *
+ * Official Docs: http://reactivex.io/rxjs/manual/overview.html#categories-of-operators
+ * RxJS 5 Operators By Example: https://gist.github.com/btroncone/d6cf141d6f2c00dc6b35
+ */
+
+@Injectable()
+export class BookEffects {
+  search$ = createEffect(
+    () => ({ debounce = 300, scheduler = asyncScheduler } = {}) =>
+      this.actions$.pipe(
+        ofType(FindBookPageActions.searchBooks),
+        debounceTime(debounce, scheduler),
+        switchMap(({ query }) => {
+          if (query === '') {
+            return empty;
+          }
+
+          const nextSearch$ = this.actions$.pipe(
+            ofType(FindBookPageActions.searchBooks),
+            skip(1)
+          );
+
+          return this.googleBooks.searchBooks(query).pipe(
+            takeUntil(nextSearch$),
+            map((books: Book[]) => BooksApiActions.searchSuccess({ books })),
+            catchError((err) =>
+              of(BooksApiActions.searchFailure({ errorMsg: err.message }))
+            )
+          );
+        })
+      )
+  );
+
+  constructor(
+    private actions$: Actions,
+    private googleBooks: GoogleBooksService
+  ) {}
+}
