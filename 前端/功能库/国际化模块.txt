@@ -1,3 +1,6 @@
+官网：
+https://github.com/ngx-translate/core
+
 2- 国际化模块
 (1) tyarn add @ngx-translate/core @ngx-translate/http-loader
    参考：文章https://blog.csdn.net/u012125121/article/details/79447614
@@ -42,3 +45,6 @@ export class AppModule {
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader( http, `./i18n/`,   '.json'  );
 }
+
+4 - 模板
+{{ 'HELLO' | translate:param }}
