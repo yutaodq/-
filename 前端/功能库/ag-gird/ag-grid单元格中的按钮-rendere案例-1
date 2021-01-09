@@ -1,0 +1,90 @@
+** lib\components\renderer\button\button-rendered.component.html
+
+<span><button class="btn btn-info" (click)="onClick($event)">Invoke Parent</button></span>
+
+** lib\components\renderer\button\button-rendered.component.ts
+
+export class ButtonRenderedComponent implements ICellRendererAngularComp {
+
+  params;
+  fa: string;
+  iconClass: string;
+
+  agInit(params): void {
+    this.params = params;
+    this.fa = this.params.fa || null;
+    this.iconClass = this.params.iconClass || null;
+  }
+
+  refresh(params?: any): boolean {
+    return true;
+  }
+
+  onClick($event) {
+    if (this.params.onClick instanceof Function) {
+      console.log(`在控制台打印:onClick($event)`);
+      const params = {
+        event: $event,
+        rowData: this.params.node.data,
+        id:  this.params.node.data.id
+      };
+      this.params.onClick(params);
+    }
+  }
+}
+
+**lib\view-model\base-grid-view-model.ts
+
+export abstract class BaseGridViewModel<T> implements OnInit, AfterViewInit {
+ 
+  ngOnInit() {
+    this._frameworkComponents = {
+      buttonRendered: ButtonRenderedComponent
+    };
+
+  }
+
+
+  public createGridOptions(): IDataGridOptions {
+    this.setGridColumns(this.createGridColumns());
+    const rowSelection = this.getRowSelectionType();
+    return DataGridOptionsUtil.getGridOptions(
+      {
+        rowData: this.items,
+        columnDefs: this.gridColumns,
+        defaultColDef: COLUMN_DEFAULT_VALUE,
+        localeText: LOCALE_TEXT_GRID,
+        frameworkComponents: this._frameworkComponents,
+
+        cacheQuickFilter: true // Quick Filter Cache
+      },
+      DataGridCommonOptions
+    );
+  }
+
+  // columnDefs: this.gridColumns.getLayout(),
+
+  public createGridColumns() {
+    const gridColumns = this.getGridColumnsBuilder().build().getLayout();
+    return [...gridColumns, {
+      headerName: '操作',
+      editable: false,
+      sortable: false,
+      filter: false,
+      cellRenderer: 'buttonRendered',
+      cellRendererParams: {
+        iconClass: 'fa-sign-out-alt',
+        onClick: this.onDetail.bind(this)
+      }
+
+    }];
+  }
+
+  onDetail(event) {
+    console.log(`在控制台打印:onDetail($event)`);
+   }
+
+ 
+}
+
+
