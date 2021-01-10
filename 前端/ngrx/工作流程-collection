@@ -1,0 +1,277 @@
+*** 
+shared\vehicle\data-acces-facade\src\lib\vehicles-facade.service.ts
+
+@Injectable()
+export class VehiclesFacade extends Sandbox {
+  public vehicles$ = this.appState$.pipe(select(fromVehicles.selectVehicleCollection));
+
+  private subscriptions: Array<Subscription> = [];
+
+  constructor(protected appState$: Store<fromVehicles.State>) {
+    super(appState$);
+    this.loadVehicles();
+  }
+
+  public loadVehicles(): void {
+    this.appState$.dispatch(fromVehicles.CollectionPageActions.loadCollection());
+  }
+ 
+}
+
+
+***
+libs\vehicle\feature-vehicle\src\lib\containers\vehicles\vehicles.component.ts
+
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { VehiclesFacade } from '@zy/shared/vehicle/data-acces-facade';
+import { TranslateService } from '@ngx-translate/core';
+import { GridOptions } from 'ag-grid-community';
+// import { ButtonRenderedComponent } from '@zy/shared/ui-grid';
+import { Router } from '@angular/router';
+import { localeTextGrid } from '@zy/shared/util';
+import { NGXLogger } from 'ngx-logger';
+import { ButtonRenderedComponent } from '@zy/shared/ui-grid';
+
+@Component({
+  selector: 'zy-vehicle-vehicle',
+  templateUrl: './vehicles.component.html',
+  styleUrls: ['./vehicles.component.scss']
+})
+
+export class VehiclesComponent implements OnInit {
+
+
+  constructor(
+    private _vehiclesFacade: VehiclesFacade,
+  ) {
+
+  }
+
+  get vehiclesSandbox() {
+    return this._vehiclesFacade;
+  }
+
+
+}
+
+***
+lib\actions\collection-page.actions.ts
+
+export const loadCollection = createAction('[Collection Page] Load');
+
+
+***
+lib\actions\collection-api.actions.ts
+
+/**
+ * Load Collection Actions
+ */
+export const loadCollectionSuccess = createAction(
+  '[Collection/API] Load Vehicles Success',
+  props<{ vehicles: Vehicle[] }>()
+);
+
+export const loadCollectionFailure = createAction(
+  '[Collection/API] Load Vehicles Failure',
+  props<{ error: any }>()
+);
+
+
+***
+lib\reducers\index.ts
+
+export const vehiclesFeatureKey = 'vehicles';
+
+export interface VehiclesState {
+  [fromVehicles.vehiclesFeatureKey]: fromVehicles.State;
+  [fromCollection.collectionFeatureKey]: fromCollection.State;
+}
+
+export interface State extends fromRoot.AppState {
+  [vehiclesFeatureKey]: VehiclesState;
+}
+
+export function reducers(state: VehiclesState | undefined, action: Action) {
+  return combineReducers({
+    [fromVehicles.vehiclesFeatureKey]: fromVehicles.reducer,
+    [fromCollection.collectionFeatureKey]: fromCollection.reducer,
+  })(state, action);
+}
+
+export const selectVehiclesState = createFeatureSelector<State, VehiclesState>(
+  vehiclesFeatureKey
+);
+
+
+export const selectVehicleEntitiesState = createSelector(
+  selectVehiclesState,
+  (state) => state.vehicles
+);
+
+export const selectSelectedVehicleId = createSelector(
+  selectVehicleEntitiesState,
+  fromVehicles.selectId
+);
+
+
+export const {
+  selectIds: selectVehicleIds,   // 获取记录集中的所有id
+  selectEntities: selectVehicleEntities,  // 一个根据id记录的字典
+  selectAll: selectAllVehicles,   // 记录的数组
+  selectTotal: selectTotalVehicles,   // 记录的总数
+} = fromVehicles.adapter.getSelectors(selectVehicleEntitiesState);
+
+
+export const selectCollectionVehicleIds = createSelector(
+  selectCollectionState,
+  fromCollection.getIds
+);
+
+export const selectVehicleCollection = createSelector(
+  selectVehicleEntities,
+  selectCollectionVehicleIds,
+  (entities, ids) => {
+    return ids
+      .map((id) => entities[id])
+      .filter((vehicle): vehicle is Vehicle => vehicle != null);
+  }
+);
+
+
+export const selectCollectionState = createSelector(
+  selectVehiclesState,
+  (state) => state.collection
+);
+
+export const selectCollectionLoaded = createSelector(
+  selectCollectionState,
+  fromCollection.getLoaded
+);
+export const getCollectionLoading = createSelector(
+  selectCollectionState,
+  fromCollection.getLoading
+);
+
+export const getCollectionLoadFailed = createSelector(
+  selectCollectionState,
+  fromCollection.getLoadFailed
+);
+
+
+
+
+***
+lib\reducers\collection.reducer.ts
+
+import {CollectionApiActions,  CollectionPageActions,} from '../actions';
+
+export const collectionFeatureKey = 'collection';
+
+export interface State {
+  loaded: boolean;
+  loading: boolean;
+  loadFailed:  boolean;
+  ids: string[];
+}
+
+const initialState: State = {
+  loaded: false,
+  loading: false,
+  loadFailed:  false,
+  ids: [],
+};
+
+export const reducer = createReducer(
+  initialState,
+  on(CollectionPageActions.loadCollection, (state) => ({
+    ...state,
+    loaded: false,
+    loading: true,
+    loadFailed:  false,
+    ids: [],
+  })),
+  on(CollectionApiActions.loadCollectionSuccess, (state, { vehicles }) => ({
+    loaded: true,
+    loading: false,
+    loadFailed:  false,
+    ids: vehicles.map((vehicle) => vehicle.id),
+  })),
+  on(CollectionApiActions.loadCollectionFailure, (state, { error }) => ({
+    loaded: true,
+    loading: false,
+    loadFailed:  true,
+    ids: [],
+  })),
+
+);
+
+export const getLoaded = (state: State) => state.loaded;
+
+export const getLoading = (state: State) => state.loading;
+
+export const getIds = (state: State) => state.ids;
+
+export const getLoadFailed = (state: State) => state.loadFailed;
+
+
+***
+lib\reducers\vehicles.reducer.ts
+
+export const vehiclesFeatureKey = 'vehicles';
+
+export interface State extends EntityState<Vehicle> {
+  selectedVehicleId: string | null;
+}
+
+
+export const adapter: EntityAdapter<Vehicle> = createEntityAdapter<Vehicle>({
+  selectId: (vehicle: Vehicle) => vehicle.id,
+  sortComparer: false,
+});
+
+
+export const initialState: State = adapter.getInitialState({
+  selectedVehicleId: null,
+});
+
+export const reducer = createReducer(
+  initialState,
+  on(
+    CollectionApiActions.loadCollectionSuccess,
+    (state, { vehicles }) => adapter.addMany(vehicles, state)
+  ),
+
+);
+
+export const selectId = (state: State) => state.selectedVehicleId;
+
+***
+lib\effects\collection.effects.ts
+
+@Injectable()
+export class CollectionEffects {
+
+  loadCollection$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CollectionPageActions.loadCollection),
+      switchMap(() =>
+        this.apiClient.getCollection().pipe(
+          map((vehicles: Vehicle[]) =>
+            CollectionApiActions.loadCollectionSuccess({ vehicles })
+          ),
+          catchError((error) =>
+            of(CollectionApiActions.loadCollectionFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+
+  constructor(
+    private actions$: Actions,
+    private apiClient: VehiclesApiClient
+  ) {}
+  
+}
