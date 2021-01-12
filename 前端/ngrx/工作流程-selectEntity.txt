@@ -1,0 +1,159 @@
+***lib\vehicle-feature-vehicle-routing.module.ts
+
+const vehiclesRoutes: Routes = [
+  {
+    path: ':id/detail',
+    component: VehicleDetailsComponent,
+    resolve: {
+      vehiclesResolver: VehiclesResolver
+    },
+  }
+];
+
+@NgModule({
+  imports: [
+    RouterModule.forChild(vehiclesRoutes)
+  ],
+  exports: [    RouterModule  ]
+})
+export class VehicleFeatureVehicleRouting {}
+
+*** lib\guard\vehicles.resolve.ts
+
+@Injectable()
+export class VehiclesResolver implements Resolve<any> {
+
+  private vehiclesSubscription;
+  constructor(public vehiclesFacade: VehiclesFacade) {}
+  
+ public resolve(route: ActivatedRouteSnapshot) {
+    if (this.vehiclesSubscription) return;
+
+    this.vehiclesSubscription = this.vehiclesFacade.vehicleDetails$.subscribe(vehicle => {
+      if (!vehicle) {
+        this.vehiclesFacade.loadVehicleDetails(route.params.id);
+        return;
+      }
+
+      this.vehiclesFacade.selectVehicle(vehicle);
+    });
+  }
+}
+
+*** data-acces-facade\src\lib\vehicles-facade.service.ts
+@Injectable()
+export class VehiclesFacade extends Sandbox {
+  public vehicleDetails$ =
+    this.appState$.pipe(select(fromVehicles.selectSelectedVehicle)) as Observable<Vehicle>;
+
+  constructor(protected appState$: Store<fromVehicles.State>) {
+    super(appState$);
+    this.loadVehicles();
+    this.registerEvents();
+  }
+
+
+  public loadVehicleDetails(id: string): void {
+    this.appState$.dispatch(fromVehicles.CollectionPageActions.selectEntity({ id }));
+  }
+
+}
+
+
+*** lib\actions\collection-page.actions.ts
+
+export const selectEntity = createAction(
+  '[Vehicle Exists Guard] Select Vehicle',
+  props<{ id: String }>()
+);
+
+
+***lib\reducers\vehicles.reducer.ts
+
+export const vehiclesFeatureKey = 'vehicles';
+
+export interface State extends EntityState<Vehicle> {
+  selectedVehicleId: string | null;
+}
+
+export const adapter: EntityAdapter<Vehicle> = createEntityAdapter<Vehicle>({
+  selectId: (vehicle: Vehicle) => vehicle.id,
+  sortComparer: false,
+});
+
+
+export const initialState: State = adapter.getInitialState({
+  selectedVehicleId: null,
+});
+
+export const reducer = createReducer(
+  initialState,
+
+  on(CollectionPageActions.selectEntity, (state, { id }) => ({
+    ...state,
+    selectedVehicleId: id,
+  }))
+);
+
+
+export const selectId = (state: State) => state.selectedVehicleId;
+
+*** src\lib\reducers\index.ts
+
+import * as fromVehicles from './vehicles.reducer';
+import * as fromCollection from './collection.reducer';
+import * as fromRoot from '@zy/store';
+
+export const vehiclesFeatureKey = 'vehicles';
+
+export interface VehiclesState {
+  [fromVehicles.vehiclesFeatureKey]: fromVehicles.State;
+  [fromCollection.collectionFeatureKey]: fromCollection.State;
+}
+
+export interface State extends fromRoot.AppState {
+  [vehiclesFeatureKey]: VehiclesState;
+}
+
+/** Provide reducer in AoT-compilation happy way */
+export function reducers(state: VehiclesState | undefined, action: Action) {
+  return combineReducers({
+    [fromVehicles.vehiclesFeatureKey]: fromVehicles.reducer,
+    [fromCollection.collectionFeatureKey]: fromCollection.reducer,
+  })(state, action);
+}
+
+
+export const selectVehiclesState = createFeatureSelector<State, VehiclesState>(
+  vehiclesFeatureKey
+);
+
+
+export const selectVehicleEntitiesState = createSelector(
+  selectVehiclesState,
+  (state) => state.vehicles
+);
+
+export const selectSelectedVehicleId = createSelector(
+  selectVehicleEntitiesState,
+  fromVehicles.selectId
+);
+
+
+export const {
+  selectIds: selectVehicleIds,
+  selectEntities: selectVehicleEntities,
+  selectAll: selectAllVehicles,
+  selectTotal: selectTotalVehicles,
+} = fromVehicles.adapter.getSelectors(selectVehicleEntitiesState);
+
+
+export const selectSelectedVehicle = createSelector(
+  selectVehicleEntities,
+  selectSelectedVehicleId,
+  (entities, selectedId) => {
+    return selectedId && entities[selectedId];
+  }
+);
+
+
