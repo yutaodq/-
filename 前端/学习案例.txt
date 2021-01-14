@@ -39,6 +39,9 @@ https://github.com/Apress/pro-angular-6
 
 2- Ngrx
    (1)- ¹Ù·½°¸Àý
+
+https://github.com/tomastrajan/angular-ngrx-material-starter
+
    https://github.com/avatsaev/angular-contacts-app-example   
    
    https://github.com/UltimateAngular/ngrx-store-effects-app
