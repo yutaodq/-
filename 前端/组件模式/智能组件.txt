@@ -1,0 +1,102 @@
+学习智能组件
+***
+angular-university 课程
+https://blog.angular-university.io/angular-2-smart-components-vs-presentation-components-whats-the-difference-when-to-use-each-and-why/
+源代码库
+https://github.com/angular-university/reactive-patterns-course
+
+***真实应用案例
+
+/*
+学习：
+https://github.com/saisureshdeveloper/ReportApp/tree/78ac33c5a2362d53af8c53067a064c4bfb7223b6
+D:\学习案例\真实案例\ReportApp\Adventui_src\src\app\modules\home\dashboard\table-control\table-control.component.ts
+ */
+ 
+ 在项目中的应用
+ 
+一、智能组件 
+*** components\search\search.component.html
+
+       <input pInputText type="text" placeholder="Search keyword"
+              [ngModel]="globalFilter" (keyup)="onGlobalFilterChanged($event.target.value)"
+       />
+       
+       <i class="pi pi-search" *ngIf=" isShowSearchIcon()"></i>
+       <i *ngIf="isShowClearIcon()"
+          class="pi pi-times" (click)="clearSearch()">
+
+****components\search\search.component.ts
+
+export class SearchComponent implements OnInit {
+
+  constructor(private searchGridService: SearchGridService,  ) { }
+
+  ngOnInit() {
+    this.searchGridService.globalFilterResetSubject.subscribe(data => {
+      this.globalFilter = '';
+    });
+  }
+
+  onGlobalFilterChanged(val) {
+    this.globalFilterInp = val;
+    this.searchGridService.globalFilterSubject.next(val);
+  }
+
+  clearSearch() {
+    this.searchGridService.clearSearchSubject.next(true);
+  }
+
+}
+
+二、服务
+***libs\shared\util\src\lib\ag-grid\service\search-grid.service.ts
+
+export class SearchGridService {
+  public globalFilterSubject = new BehaviorSubject<string>('');
+  public globalFilterResetSubject = new BehaviorSubject<any>('');
+  public changeGridPageSizeSubject = new BehaviorSubject<number>(25);
+  public clearSearchSubject = new BehaviorSubject<boolean>(false);
+
+  constructor() {
+  }
+
+  changeGridPageSize(val: number) {
+    this.changeGridPageSizeSubject.next(val);
+  }
+
+}
+
+
+三、父组件
+
+export abstract class BaseGridViewModel<T> implements OnInit, AfterViewInit {
+
+  protected constructor(private _searchGridService: SearchGridService) {
+    this.cacheBlockSize = 50;
+  }
+
+  ngOnInit() {
+    this._frameworkComponents = {
+      buttonRendered: ButtonRenderedComponent,
+      actionsColRendered: ActionsColumnRendererComponent
+    };
+    this.initGrid();
+    this._searchGridService.globalFilterSubject.subscribe(val => {
+      if (this.hasGridOptionsApi()) {
+        this.quickFilter(val);
+      }
+    });
+
+    this._searchGridService.clearSearchSubject.subscribe(flag => {
+      if (flag) {
+        if (this.hasGridOptionsApi()) {
+          this._searchGridService.globalFilterResetSubject.next('');
+          this.quickFilter('');
+        }
+      }
+    });
+
+  }
+
+}
