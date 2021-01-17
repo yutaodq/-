@@ -1,8 +1,0 @@
-1 、ngrx库 地址
-   https://github.com/ngrx/platform
-
-2 - 官方文档
-    https://ngrx.io/docs
-
-3 - 文章
-https://segmentfault.com/a/1190000017566273

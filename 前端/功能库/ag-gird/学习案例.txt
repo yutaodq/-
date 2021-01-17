@@ -1,0 +1,19 @@
+学习：
+****** 
+https://github.com/saisureshdeveloper/ReportApp/tree/78ac33c5a2362d53af8c53067a064c4bfb7223b6
+D:\学习案例\真实案例\ReportApp\Adventui_src\src\app\modules\home\dashboard\table-control\table-control.component.ts
+
+1 实际应用
+C:\yutao\software\frontend-work\libs\shared\ui-grid\src\lib\components\search\search.component.ts
+
+
+******
+1 - 官网案例 https://www.ag-grid.com/ 
+  打开https://www.ag-grid.com/ 后第一个表格 The Best JavaScript Grid in the World
+源代码：
+   https://github.com/ag-grid/ag-grid-angular-cli-example
+   
+2 - 全表格搜索功能，Quick Filter过滤器
+文档：  https://www.ag-grid.com/angular-markup/  
+源代码：
+ag-grid-master\packages\ag-grid-docs\src\angular-markup\angular-rich-grid-markup\app\rich-grid-declarative.component.html

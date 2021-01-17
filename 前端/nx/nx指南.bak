@@ -1,0 +1,91 @@
+https://github.com/nrwl/nx
+https://nx.dev/latest/angular/getting-started/why-nx
+
+
+## 安装Nx全局包
+    yarn global add nx
+
+## 创建工作区
+
+   yarn create nx-workspace  或  npx create-nx-workspace@latest
+
+? Workspace name (e.g., org name)     webwork
+? What to create in the new workspace angular
+? Application name                    webwork
+? Default stylesheet format           SCSS
+
+generate命令将两个项目添加到我们的工作区：
+
+Angular应用程序
+Angular应用程序的端到端测试
+
+##  启动应用程序：
+
+npx nx serve webwork
+ or
+nx serve webwork
+
+##  将Nx功能添加到现有的CLI项目:
+
+ng add @nrwl/schematics
+
+
+## 创建app 
+1 - 默认apps文件夹下，创建myapp应用程序，
+    ng generate app myapp
+     
+    文件夹 apps/myapp
+    
+2 - 自定义文件夹 
+  ng generate app myapp --directory=yutao     
+    
+    文件夹 apps/yutao/myapp
+
+## 创建 lib
+
+1- 默认libs文件夹下，创建mylib类库
+
+ng generate lib mylib  
+
+2 - 自定义文件夹
+ng g lib feature-destination --directory=booking --tags=booking,feature
+
+
+     文件夹 libs/booking/feature-destination
+     
+     
+注意，nx.json 
+
+    "booking-feature-destination": { "tags": ["scope:booking", "type:feature"] } 
+    
+    
+3 
+ng generate lib mylib --tags=scope:shared,type:feature
+
+## Ngrx
+
+ng g @nrwl/angular:ngrx <featurename> --module=<path-to-module> --defaults [options]
+
+// 注意:featurename和——module= 参数是必需的。默认选项选择示意图的推荐默认值，除非您覆盖它们。
+最常见的附加选项是:
+  root - 设置初始的NgModule导入
+  syntax - NgRx为动作、缩减器和效果引入了新的创建者函数，这些函数提供了相同的类型安全性，但代码比动作类少。
+  facade -选的。如果您希望从您的组件中进一步封装NgRx，那么添加一个可注入的外观。
+
+
+1 在应用程序的根目录中设置NgRx。
+
+  ng g @nrwl/angular:ngrx app --module=apps/<appname>/src/app/app.module.ts --root
+  
+2 Feature Workflow
+
+ng g @nrwl/angular:lib products
+
+ng g @nrwl/angular:ngrx products --module=libs/products/src/lib/products.module.ts --directory +state/products --defaults  
+
+使用--facade选项来生成一个可注入的facade类以及该特性。
+
+## lib 模块命名
+
+   libs/booking/feature 的主模块的文件名为：
+      booking-feature.module.ts
