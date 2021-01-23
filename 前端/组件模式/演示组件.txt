@@ -1,0 +1,5 @@
+https://indepth.dev/posts/1201/presenters-with-angular
+
+https://indepth.dev/posts/1189/angular-bad-practices-revisited
+
+https://indepth.dev/posts/1066/presentational-components-with-angular

@@ -2,6 +2,10 @@
 ngrx/entity
 ////////
 
+*****
+https://indepth.dev/posts/1312/make-ngrx-hold-business-logic-dumb-components-smart-store
+https://github.com/co-IT/ngrx-vis
+
 ****
 https://github.com/lxcancino/sx-compras
 D:\学习案例\真实案例\sx-compras\sx-compras-admin\src\app\productos\store\actions\productos.actions.ts

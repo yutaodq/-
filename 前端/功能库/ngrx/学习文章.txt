@@ -1,0 +1,6 @@
+https://indepth.dev/posts/1103/managing-different-slices-of-the-same-ngrx-state
+
+https://indepth.dev/posts/1109/ngrx-creator-functions-101
+
+https://indepth.dev/posts/1199/understanding-the-magic-behind-ngrx-store
+https://indepth.dev/posts/1206/understanding-the-magic-behind-ngrx-effects

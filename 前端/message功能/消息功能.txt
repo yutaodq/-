@@ -1,0 +1,118 @@
+*** 加入消息功能
+https://github.com/ngScaffolding/ngScaffolding-host
+
+ag-grid 的消息功能
+
+***
+D:\下载\ngScaffolding-host-master\src\app\app.module.ts
+
+@NgModule({
+  imports: [    BrowserModule,   ],
+  declarations: [    AppComponent,  ],
+  providers: [    MessageService,  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule {
+  constructor() {
+   
+  }
+}
+
+****
+D:\下载\ngScaffolding-host-master\src\app\app.component.ts
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent extends NgScaffoldingComponent implements AfterViewInit, OnDestroy, OnInit {
+
+  constructor(
+     public notificationReceiverService: NotificationReceiverService,
+  ) {  }
+
+ }
+
+***
+D:\下载\ngScaffolding-host-master\src\app\app.component.html
+
+            <p-messages *ngIf="showFullMessages$ | async"></p-messages>
+            <p-toast *ngIf="showToastMessages$ | async"></p-toast>
+
+
+
+***
+D:\下载\ngScaffolding-host-master\src\app\services\notificationReceiver\notificationReceiver.service.ts
+
+@Injectable({ providedIn: 'root' })
+export class NotificationReceiverService {
+  constructor(
+    private translationService: TranslateService,
+    private broadcast: BroadcastService,
+    private messageService: MessageService
+  ) {
+    broadcast.on(BroadcastTypes.SHOW_MESSAGE).subscribe(notification => {
+      const message = notification as Message;
+      if (message) {
+        this.messageService.add({
+          severity: message.severity,
+          life: message.life,
+          summary: this.translationService.instant(`${message.summary}`),
+          detail: this.translationService.instant(`${message.detail}`)
+        });
+      }
+    });
+  }
+}
+
+***
+D:\下载\ngScaffolding-host-master\projects\core\services\broadcast\broadcast.service.ts
+
+interface BroadcastEvent {
+  key: any;
+  data?: any;
+}
+
+export const enum BroadcastTypes {
+  SHOW_MESSAGE = 'SHOW_MESSAGE',
+
+  SHOW_SPINNER = 'SHOW_SPINNER',
+  HIDE_SPINNER = 'HIDE_SPINNER',
+  CLOSE_POPUP = 'CLOSE_POPUP'
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class BroadcastService {
+  private _eventBus: Subject<BroadcastEvent>;
+
+  constructor() {
+    this._eventBus = new Subject<BroadcastEvent>();
+  }
+
+  broadcast(key: any, data?: any) {
+    this._eventBus.next({ key, data });
+  }
+
+  on<T>(key: any): Observable<T> {
+    return this._eventBus.pipe(
+        filter(event => event.key === key),
+        map(event => <T>event.data)
+    );
+  }
+}
+
+****
+D:\下载\ngScaffolding-host-master\projects\core\services\notification\notification.service.ts
+@Injectable({  providedIn: 'root',})
+
+export class NotificationService {
+  constructor(private broadcast: BroadcastService) {}
+
+  showMessage(message: any) {
+    this.broadcast.broadcast(BroadcastTypes.SHOW_MESSAGE, message);
+  }
+
+}

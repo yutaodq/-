@@ -1,0 +1,5 @@
+angular-and-solid-principles
+
+https://indepth.dev/posts/1414/angular-and-solid-principles
+
+https://indepth.dev/posts/1288/heres-what-you-should-know-when-creating-flexible-and-reusable-components-in-angular
