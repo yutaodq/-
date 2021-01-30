@@ -1,0 +1,114 @@
+########## 20210130   ##############
+
+ng g lib base --directory=shared/data-access/facade --tags=scope:shared,type:data-access
+
+http-service
+ng g lib http-service --directory=shared/data-access/api --tags=scope:shared,type:data-access
+
+
+vehicle
+ng g lib store --directory=vehicle/use-type/data-access --tags=scope:shared,type:data-access
+
+ng g lib main --directory=vehicle/use-type --tags=scope:main,type:feature
+
+
+***
+ng g lib lvms_root --directory=shared/data-access/store --tags=scope:shared,type:data-access
+
+ng g lib lvms --directory=shared/data-access/api --tags=scope:shared,type:data-access
+
+ng g lib lvms --directory=shared/data-access/facade --tags=scope:shared,type:data-access
+
+ng g lib lvms --directory=shared/data-access/model --tags=scope:shared,type:data-access
+
+
+ng g lib ivms --directory=layout/feature --tags=scope:ivms,type:feature
+
+
+****
+1 - 样式库
+ng g lib styles --directory=shared/ui --tags=scope:shared,type:ui
+
+2 - environments（环境）库
+ng g lib environments --directory=shared/util --tags=scope:shared,type:util
+
+3 - assets(资源)库
+ng g lib assets --directory=shared/util --tags=scope:shared,type:util
+
+
+
+**** 
+common 库
+ng g lib not-found --directory=feature/common --tags=scope:not-found,type:feature
+
+containers
+##########  20210129  ##########
+
+
+ng g lib base --directory=shared/ui --tags=scope:shared,type:ui
+
+1 - 修改 zyweb\libs\shared\ui\base\tsconfig.lib.json
+    "types": ["node"],
+2 - 修改组件和指令的前缀
+  C:\yutao\software\zyweb\libs\shared\ui\base\tslint.json
+    "directive-selector": [true, "attribute", "zy", "camelCase"],
+    "component-selector": [true, "element", "zy", "kebab-case"]
+3 - 修改类库的引导路径
+   C:\yutao\software\zyweb\tsconfig.base.json
+   
+   "paths": {
+      "@zyweb/shared/ui/base": ["libs/shared/ui/base/src/index.ts"]
+    }
+
+ng g lib common --directory=shared/ui --tags=scope:shared,type:ui
+
+ng g lib grid --directory=shared/ui --tags=scope:shared,type:ui
+
+ng g lib layout --directory=shared/ui --tags=scope:shared,type:ui
+
+ng g lib layout --directory=shared/ui --tags=scope:shared,type:ui
+
+ng g lib vehicle-use-type --directory=shared/data-access/api --tags=scope:shared,type:data-access
+
+ng g lib vehicle-use-type --directory=shared/data-access/store --tags=scope:shared,type:data-access
+
+ng g lib vehicle-use-type --directory=shared/data-access/facade --tags=scope:shared,type:data-access
+
+ng g lib vehicle-use-type --directory=shared/data-access/model --tags=scope:shared,type:data-access
+
+
+ng g lib vehicle-use-type --directory=feature --tags=scope:vehicle-use-type,type:feature
+
+ng g lib vehicle --directory=feature --tags=scope:vehicle,type:feature
+
+ng g lib ivms-layout --directory=feature --tags=scope:ivms-layout,type:feature
+
+ng g lib primeng-message --directory=shared/util --tags=scope:shared,type:util
+
+### 
+加入样式  C:\yutao\software\zyweb\angular.json
+
+            "styles": [
+              "apps/ivms/src/styles.scss",
+              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css",
+              "node_modules/ag-grid-community/dist/styles/ag-grid.css",
+              "node_modules/ag-grid-community/dist/styles/ag-theme-alpine.css"
+            ],
+
+
+### 配置 json-server
+  见《20210129-JSON-Server使用说明.txt》
+  
+### 
+create-nx-workspace zyweb
+
+app name : ivms
+
+
+Intelligent Vehicle Management System
+
+车辆智能管理系统

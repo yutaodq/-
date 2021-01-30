@@ -1,0 +1,15 @@
+environments（环境）库
+1 - 创建environments（环境）库
+ng g lib environments --directory=shared/util --tags=scope:shared,type:util
+
+2 - 在应用程序中使用
+    修改 C:\yutao\software\zyweb\angular.json
+
+         "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "libs/shared/util/environments/src/lib/environment.ts",
+                  "with": "libs/shared/util/environments/src/lib/environment.prod.ts",
+                }
+              ],

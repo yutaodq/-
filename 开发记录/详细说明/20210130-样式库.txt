@@ -1,0 +1,18 @@
+1 - 创建样式库
+ng g lib styles --directory=shared/ui --tags=scope:shared,type:ui
+
+2 - 引入样式库中的样式
+
+C:\yutao\software\frontend-work\apps\ivds\src\styles.scss
+
+@import "core";
+@import "news";
+@import "topbar";
+
+3 - angular.json
+
+C:\yutao\software\frontend-work\angular.json
+
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/ui/styles/src/lib"]
+            },

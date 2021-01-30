@@ -1,0 +1,22 @@
+error TS2591: Cannot find name 'require'.
+
+ERROR in libs/feature/ivms-layout/src/lib/main/component/ivds.component.ts:12:10 - 
+error TS2591: Cannot find name 'require'. 
+
+Do you need to install type definitions for  ? 
+
+Try `npm i @types/node` and then add `node` to the types field in your tsconfig.
+
+**原因：**
+
+require是node的语法，运行环境不是node环境。
+
+**解决办法：**
+
+apps/ivms/tsconfig.app.json
+
+    "types": ["node"]
+或者
+libs/feature/ivms-layout/tsconfig.lib.json
+    "types": ["node"]
+

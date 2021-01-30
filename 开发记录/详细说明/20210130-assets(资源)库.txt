@@ -1,0 +1,16 @@
+assets(资源)库
+1 - 创建assets(资源)库
+ng g lib assets --directory=shared/util --tags=scope:shared,type:util
+
+2 - 在应用程序中使用
+    修改 C:\yutao\software\zyweb\angular.json
+
+            "assets": [
+              "apps/ivms/src/favicon.ico",
+              "apps/ivms/src/assets",
+              {
+                "input": "libs/shared/util/assets/src/assets",
+                "glob": "**/*",
+                "output": "assets"
+              }
+            ],
