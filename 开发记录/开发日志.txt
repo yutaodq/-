@@ -3,6 +3,11 @@
 ***
 ag-grid 模块
 
+ng g lib ui --directory=shared/grid --tags=scope:shared,type:ui
+
+ng g lib core --directory=shared/grid --tags=scope:shared,type:util
+
+
 ****
 translate - i18n-国际化模块
 ng g lib i18n --directory=shared/util --tags=scope:shared,type:util
