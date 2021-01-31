@@ -1,3 +1,14 @@
+########## 20210131   ##############
+
+***
+ag-grid 模块
+
+****
+translate - i18n-国际化模块
+ng g lib i18n --directory=shared/util --tags=scope:shared,type:util
+
+
+
 ########## 20210130   ##############
 
 ng g lib base --directory=shared/data-access/facade --tags=scope:shared,type:data-access
