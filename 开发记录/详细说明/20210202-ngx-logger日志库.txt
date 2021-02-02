@@ -1,0 +1,8 @@
+日志类
+
+ng g lib log4 --directory=shared/util --tags=scope:shared,type:util
+
+## 官网
+https://github.com/dbfannin/ngx-logger
+## 安装 
+yarn add  ngx-logger

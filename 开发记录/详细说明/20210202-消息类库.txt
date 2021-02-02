@@ -1,0 +1,38 @@
+/*
+*  参考学习：
+*  https://github.com/ngScaffolding/ngScaffolding-host
+
+*/
+
+
+1 - 创建类库
+ng g lib message --directory=shared/util --tags=scope:shared,type:util
+
+2 - 创建模块
+const EXPORTS_MODULES = [
+  ToastModule,
+  MessageModule
+]
+
+@NgModule({
+  imports: [CommonModule, ToastModule],
+  exports: [...EXPORTS_MODULES, ToasterComponent],
+  declarations: [ToasterComponent],
+  providers: [MessageService],
+  bootstrap: []
+})
+export class SharedUtilMessageToasterModule {}
+
+3 - 创建组件
+
+export class ToasterComponent {
+    constructor(notificationReceiverService: NotificationReceiverService
+    ) {
+    }
+}
+
+4 - 在布局模板中加入组件
+  <div class="layout-content">
+    <p-toast position="top-left"></p-toast>
+    <zyweb-util-message-toaster></zyweb-util-message-toaster>
+  </div>
