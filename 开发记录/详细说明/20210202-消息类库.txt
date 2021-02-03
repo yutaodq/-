@@ -8,7 +8,7 @@
 1 - 创建类库
 ng g lib message --directory=shared/util --tags=scope:shared,type:util
 
-2 - 创建模块
+2 - 创建模块 使用 primeng
 const EXPORTS_MODULES = [
   ToastModule,
   MessageModule
@@ -16,23 +16,25 @@ const EXPORTS_MODULES = [
 
 @NgModule({
   imports: [CommonModule, ToastModule],
-  exports: [...EXPORTS_MODULES, ToasterComponent],
-  declarations: [ToasterComponent],
+  exports: [...EXPORTS_MODULES, ],
+  declarations: [],
   providers: [MessageService],
   bootstrap: []
 })
 export class SharedUtilMessageToasterModule {}
 
-3 - 创建组件
 
-export class ToasterComponent {
-    constructor(notificationReceiverService: NotificationReceiverService
-    ) {
-    }
-}
+4 - 布局模板
+C:\yutao\software\zyweb\libs\layout\feature\ivms\src\lib\main\component\ivds.component.html
 
-4 - 在布局模板中加入组件
   <div class="layout-content">
     <p-toast position="top-left"></p-toast>
-    <zyweb-util-message-toaster></zyweb-util-message-toaster>
   </div>
+
+5 - 布局组件
+C:\yutao\software\zyweb\libs\layout\feature\ivms\src\lib\main\component\ivds.component.ts
+
+  constructor(
+    public notificationReceiverService: NotificationReceiverService
+  ) {
+
