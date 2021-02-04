@@ -1,3 +1,16 @@
+########## 20210204   ##############
+
+****
+error-page 类库
+
+ng g lib ngrx-error --directory=shared/data-access/store --tags=scope:shared,type:data-access
+/// 使用的是： 
+https://github.com/gothinkster/realworld#community-created-resources
+
+https://github.com/stefanoslig/angular-ngrx-nx-realworld-example-app
+
+
+
 ########## 20210202   ##############
 
 消息类库
