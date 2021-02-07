@@ -1,0 +1,76 @@
+### 返回数据结果统一处理
+
+通常我们API返回来的数据结构是统一的规范化结果，有利于项目前后端分离，团队合作开发。
+
+export class ResultData<T> {
+    success: boolean;
+    msg?: string;
+    data?: T;
+    errorcode?: string;
+    timestamp?: number;
+}
+
+错误处理
+
+当你发起一个网络请求，你不知道服务器会给你返回什么，你不知道请求是否能到达服务器，会不会出现网络堵塞，服务器错误等等等的问题，这时候就需要要捕获错误，并对错误进行处理。使用 RxJS 的 catchError() 操作符来建立对 Observable 结果的处理管道（pipe）
+
+
+  //post 请求
+  public post(url: string, data = {}): Observable<any> {
+    return this.http.post(url, data, httpOptions).pipe(
+      map(this.extractData),
+      catchError(this.handleError)//获取了由 HttpClient 方法返回的 Observable，并把它们通过管道传给错误处理器
+    );
+  }
+
+  // 返回结果
+  private extractData(res: Response) {
+    return res as ResultData<any>;
+  }
+
+  // 错误消息类
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error('An error occurred:', error.error.message);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, ` + `body was: ${error.error}`
+      );
+    }
+    return throwError('Something bad happened; please try again later.');
+  }
+  
+retry()
+
+有时候，错误只是临时性的，只要重试就可能会自动消失。RxJS 库提供了几个 retry 操作符，retry()可以对失败的 Observable 自动重新订阅几次。对 HttpClient 方法调用的结果进行重新订阅会导致重新发起 HTTP 请求。
+
+  public post(url: string, data = {}): Observable<any> {
+    return this.http.post(url, data, httpOptions).pipe(
+      map(this.extractData),
+      retry(3),//重试失败的请求，最多3次
+      catchError(this.handleError)
+    );
+  }
+  
+添加请求头
+
+在向API发起请求很多需要添加额外的请求头。 比如，它们可能需要一个 Content-Type 头来显式定义请求体的 MIME 类型。 也可能服务器会需要一个认证用的令牌（token）。
+
+HeroesService 在 httpOptions 对象中就定义了一些这样的请求头，并把它传给每个 HttpClient 的保存型方法。
+
+
+    public getJsonHeader(header?: HttpHeaders): HttpHeaders {
+        if (header == null) {
+            header = new HttpHeaders();
+        }
+        return header.set('Content-Type', 'application/json')
+                     .set('Authorization', 'Bearer ' + this.token);
+    }
+
+addUser (user: UserInfo): Observable<boolean> {
+  return this.http.post<boolean>(url, user, this.getJsonHeader())
+    .pipe(
+      catchError(this.handleError('addUser', user))
+    );
+}
+
