@@ -1,0 +1,84 @@
+#### 表单验证 
+
+export const isGreaterThanDate = (lowerName: string) => {
+  return (control: AbstractControl) => {
+    return !!control.parent &&
+      !!control.parent.value &&
+      control.parent.controls[lowerName].value.getTime() < control.value.getTime()
+      ? null
+      : {
+          isGreaterThanLowerBound: false
+        };
+  };
+};
+
+
+  getForm(): FormGroup {
+    return this.fb.group({
+      step: [TimelineStep.DAY, Validators.required],
+      timelineTo: [new Date(), [Validators.required, isGreaterThanDate('timelineFrom')]],
+      timelineFrom: [new Date(Date.now() - 1000 * 3600 * 24 * 40), Validators.required]
+    });
+  }
+
+*****案例
+https://github.com/giuliano72/salon-locator/tree/4b8d9b1bc44a42455a26851aaea732813b6e0d84
+
+           this.componentInfo = this.fb.group({
+                name: ['', [Validators.required, Validators.maxLength(250)], [PortalValidators.chartUniqueName(this.chartsClient)]],
+                displayName: ['', [Validators.required, Validators.maxLength(250)]],
+                app: [this.edittingChart.appId, [Validators.required]],
+                chartTitle: ['', [Validators.required, Validators.maxLength(250)]],
+                chartType: [ChartType.VerticalBarChart, Validators.required],
+                layoutType: [PageSectionLayoutType.OneColumn.toString(), Validators.required],
+                mappingProjection: ['name=name;value=value;group=group', Validators.required]
+            })
+
+\\\\\\\\\\\\\\\\\\\\\\\\\
+    public static chartUniqueName(chartsClient: ChartsClient): AsyncValidatorFn {
+        return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
+            return timer(500).pipe(
+                switchMap(() => {
+                    return chartsClient.checkExist(control.value).pipe(
+                        map(
+                            exist => {
+                                return exist ? { uniqueName: true } : null;
+                            }
+                        )
+                    )
+                })
+            )
+        };
+    }
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    checkExist(name: string | null): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/charts/check-exist/{name}";
+        if (name === undefined || name === null)
+            throw new Error("The parameter 'name' must be defined.");
+        url_ = url_.replace("{name}", encodeURIComponent("" + name));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCheckExist(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCheckExist(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+    
+************************
+    
