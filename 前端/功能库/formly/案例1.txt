@@ -1,0 +1,21 @@
+formly-form
+https://github.com/ce-box/CE3101-CoTEC-Map
+https://github.com/ce-box/CE3101-CoTEC-Map
+
+fieldGroup: [ 
+         { 
+           className: 'col-6', 
+           type: 'input', 
+           key: 'state', 
+           templateOptions: { 
+            required: true 
+           }, 
+           hooks: { 
+             onInit: (field: FormlyFieldConfig) => { 
+              field.templateOptions.label = this.data.Keys[0]; 
+              field.form.controls.state.setValue(this.data.Selection['value'][this.data.Keys[0]]); 
+             
+##########2  ####
+https://github.com/TeMU-BSC/ictusnet-webapp/tree/534af4996bf8784c05075a2788335e033def5c66
+
+https://github.com/TeMU-BSC/ictusnet-webapp/blob/534af4996bf8784c05075a2788335e033def5c66/frontend/src/app/components/form/panels/panels-builder.ts

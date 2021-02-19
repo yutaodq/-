@@ -1,27 +1,35 @@
+########## 20210209   ##############
+æŒ‡ä»¤åº“ - directive
+
+ng g lib directive --directory=shared/ui --tags=scope:shared,type:ui
+
+
+
 ########## 20210205   ##############
-±íµ¥Àà¿â - ngx-formly
-Ñ§Ï°°¸Àı£º
+
+è¡¨å•ç±»åº“ - ngx-formly
+å­¦ä¹ æ¡ˆä¾‹ï¼š
 ***
-Ê¹ÓÃµÄ°¸ÀıÊÇ£º
+ä½¿ç”¨çš„æ¡ˆä¾‹æ˜¯ï¼š
 https://github.com/Anthony-Lardy/trace-app/blob/6426f2b9c6591bd53599873ee95a93b1db102597/front/src/app/formly-config.module.ts
 
-***¿ÉÑ§Ï°°¸Àı
-https://github.com/KikstartDev/kikstart-ui£¨½ÏºÃ-¶àÄ£¿é£©
+***å¯å­¦ä¹ æ¡ˆä¾‹
+https://github.com/KikstartDev/kikstart-uiï¼ˆè¾ƒå¥½-å¤šæ¨¡å—ï¼‰
 
 https://github.com/colmena/colmena/blob/develop/package.json
 ****
-ngx-formly Àà¿â
+ngx-formly ç±»åº“
 ng g lib form --directory=shared/ui --tags=scope:shared,type:ui
 
 
 
 ########## 20210204   ##############
-ÊµÏÖÁËÌí¼Ó¼ÇÂ¼¹¦ÄÜ £¨add ¹¦ÄÜ£©
+å®ç°äº†æ·»åŠ è®°å½•åŠŸèƒ½ ï¼ˆadd åŠŸèƒ½ï¼‰
 ****
-error-page Àà¿â
+error-page ç±»åº“
 
 ng g lib ngrx-error --directory=shared/data-access/store --tags=scope:shared,type:data-access
-/// Ê¹ÓÃµÄÊÇ£º 
+/// ä½¿ç”¨çš„æ˜¯ï¼š 
 https://github.com/gothinkster/realworld#community-created-resources
 
 https://github.com/stefanoslig/angular-ngrx-nx-realworld-example-app
@@ -30,25 +38,25 @@ https://github.com/stefanoslig/angular-ngrx-nx-realworld-example-app
 
 ########## 20210202   ##############
 
-ÏûÏ¢Àà¿â
+æ¶ˆæ¯ç±»åº“
 
 ng g lib message --directory=shared/util --tags=scope:shared,type:util
 
 ****
 
-ÈÕÖ¾Àà
+æ—¥å¿—ç±»
 
 ng g lib log4 --directory=shared/util --tags=scope:shared,type:util
 
-## ¹ÙÍø
+## å®˜ç½‘
 https://github.com/dbfannin/ngx-logger
-## °²×° 
+## å®‰è£… 
 yarn add  ngx-logger
 
 ########## 20210131   ##############
 
 ***
-ag-grid Ä£¿é
+ag-grid æ¨¡å—
 
 ng g lib ui --directory=shared/grid --tags=scope:shared,type:ui
 
@@ -56,7 +64,7 @@ ng g lib core --directory=shared/grid --tags=scope:shared,type:util
 
 
 ****
-translate - i18n-¹ú¼Ê»¯Ä£¿é
+translate - i18n-å›½é™…åŒ–æ¨¡å—
 ng g lib i18n --directory=shared/util --tags=scope:shared,type:util
 
 
@@ -89,19 +97,19 @@ ng g lib ivms --directory=layout/feature --tags=scope:ivms,type:feature
 
 
 ****
-1 - ÑùÊ½¿â
+1 - æ ·å¼åº“
 ng g lib styles --directory=shared/ui --tags=scope:shared,type:ui
 
-2 - environments£¨»·¾³£©¿â
+2 - environmentsï¼ˆç¯å¢ƒï¼‰åº“
 ng g lib environments --directory=shared/util --tags=scope:shared,type:util
 
-3 - assets(×ÊÔ´)¿â
+3 - assets(èµ„æº)åº“
 ng g lib assets --directory=shared/util --tags=scope:shared,type:util
 
 
 
 **** 
-common ¿â
+common åº“
 ng g lib not-found --directory=feature/common --tags=scope:not-found,type:feature
 
 containers
@@ -110,13 +118,13 @@ containers
 
 ng g lib base --directory=shared/ui --tags=scope:shared,type:ui
 
-1 - ĞŞ¸Ä zyweb\libs\shared\ui\base\tsconfig.lib.json
+1 - ä¿®æ”¹ zyweb\libs\shared\ui\base\tsconfig.lib.json
     "types": ["node"],
-2 - ĞŞ¸Ä×é¼şºÍÖ¸ÁîµÄÇ°×º
+2 - ä¿®æ”¹ç»„ä»¶å’ŒæŒ‡ä»¤çš„å‰ç¼€
   C:\yutao\software\zyweb\libs\shared\ui\base\tslint.json
     "directive-selector": [true, "attribute", "zy", "camelCase"],
     "component-selector": [true, "element", "zy", "kebab-case"]
-3 - ĞŞ¸ÄÀà¿âµÄÒıµ¼Â·¾¶
+3 - ä¿®æ”¹ç±»åº“çš„å¼•å¯¼è·¯å¾„
    C:\yutao\software\zyweb\tsconfig.base.json
    
    "paths": {
@@ -149,7 +157,7 @@ ng g lib ivms-layout --directory=feature --tags=scope:ivms-layout,type:feature
 ng g lib primeng-message --directory=shared/util --tags=scope:shared,type:util
 
 ### 
-¼ÓÈëÑùÊ½  C:\yutao\software\zyweb\angular.json
+åŠ å…¥æ ·å¼  C:\yutao\software\zyweb\angular.json
 
             "styles": [
               "apps/ivms/src/styles.scss",
@@ -163,8 +171,8 @@ ng g lib primeng-message --directory=shared/util --tags=scope:shared,type:util
             ],
 
 
-### ÅäÖÃ json-server
-  ¼û¡¶20210129-JSON-ServerÊ¹ÓÃËµÃ÷.txt¡·
+### é…ç½® json-server
+  è§ã€Š20210129-JSON-Serverä½¿ç”¨è¯´æ˜.txtã€‹
   
 ### 
 create-nx-workspace zyweb
@@ -174,4 +182,5 @@ app name : ivms
 
 Intelligent Vehicle Management System
 
-³µÁ¾ÖÇÄÜ¹ÜÀíÏµÍ³
+è½¦è¾†æ™ºèƒ½ç®¡ç†ç³»ç»Ÿ
+                                          
