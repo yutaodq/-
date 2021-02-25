@@ -1,3 +1,8 @@
+########## 20210225   ##############
+vehicle 库的创建
+ng g lib main --directory=vehicle/vehicle --tags=scope:main,type:feature
+ng g lib store --directory=vehicle/vehicle/data-access --tags=scope:shared,type:data-access
+
 ########## 20210209   ##############
 指令库 - directive
 
