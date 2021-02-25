@@ -3,6 +3,9 @@ ngrx/entity
 ////////
 
 *****
+增删改查功能
+https://github.com/avatsaev/angular-contacts-app-example
+
 https://indepth.dev/posts/1312/make-ngrx-hold-business-logic-dumb-components-smart-store
 https://github.com/co-IT/ngrx-vis
 
@@ -32,9 +35,6 @@ D:\temp\nx-giorgiofederici-master\libs\giorgiofederici\skills\features\skill-lis
 
 https://github.com/blueskyfish/blue-paper
 
-
-****
-https://github.com/avatsaev/angular-contacts-app-example 
 
 *****
 https://github.com/tomastrajan/angular-ngrx-material-starter
