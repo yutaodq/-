@@ -1,0 +1,4 @@
+### ngrx/data
+
+https://github.com/ebertsch/avengers-gg
+https://github.com/vitalii-andriiovskyi/recipe-app-ngrx
