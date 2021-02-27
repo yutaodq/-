@@ -1,3 +1,7 @@
+########## 20210228   ##############
+ng g lib utility --directory=shared/util --tags=scope:shared,type:util
+
+component
 ########## 20210225   ##############
 vehicle 库的创建
 ng g lib main --directory=vehicle/vehicle --tags=scope:main,type:feature

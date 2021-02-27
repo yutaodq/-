@@ -1,0 +1,105 @@
+#####
+@NgModule({
+  imports: [
+    StoreModule.forRoot({}),
+
+    StoreDevtoolsModule.instrument({
+      name: '作业大队应用程序',
+
+    }),
+    EffectsModule.forRoot(),
+  EntityDataModule.forRoot(entityConfig),
+  ],
+  providers: [
+    AppEntityServices,
+    { provide: EntityServices, useExisting: AppEntityServices },
+    { provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig }
+    ]
+})
+
+export class SharedDataAccessStoreLvmsRootModule {
+  static forRoot(): ModuleWithProviders<any> {
+    return {
+      ngModule: SharedDataAccessStoreLvmsRootModule
+    };
+  }
+
+  constructor(
+    @Optional()
+    @SkipSelf()
+      parentModule: SharedDataAccessStoreLvmsRootModule
+  ) {
+    if (parentModule) {
+      throw new Error(
+        `${parentModule} has already been loaded. Import StateModule in the AppModule only.`
+      );
+    }
+  }
+}
+
+##
+export const defaultDataServiceConfig: DefaultDataServiceConfig = {
+  root: environment.clientApiUrl,
+  timeout: 3000, // request timeout
+}
+
+##
+const entityMetadata: EntityMetadataMap = {
+  Vehicle: {},
+  // VehicleUseType: {},
+};
+
+const pluralNames = {
+};
+
+export const entityConfig = {
+  entityMetadata,
+  pluralNames
+};
+
+##
+export class AppEntityServices extends EntityServicesBase {
+  constructor(
+    elements: EntityServicesElements,
+    // 注入自定义服务，在EntityServices中注册它们，并在API中公开.
+    readonly vehicleCollectionService: VehicleCollectionService
+  ) {
+    super(elements);
+    this.registerEntityCollectionServices([
+      vehicleCollectionService
+    ]);
+  }
+
+}
+
+##
+@Injectable({ providedIn: 'root' })
+export class VehicleCollectionService extends EntityCollectionServiceBase<Vehicle> {
+  constructor(serviceElementsFactory: EntityCollectionServiceElementsFactory) {
+    super('Vehicle', serviceElementsFactory);
+  }
+}
+
+##
+export class VehicleFacade extends Sandbox{
+  private _collectionService: EntityCollectionService<Vehicle>
+  private subscriptions: Array<Subscription> = [];
+
+  constructor(
+    private _appState$: Store<fromVehicle.State>,
+    entityServices: EntityServices
+  ) {
+    super(_appState$);
+    this._collectionService = entityServices.getEntityCollectionService('Vehicle');
+
+    this.registerEvents();
+  }
+
+  get loading$() {
+    return this._collectionService.loading$;
+  }
+  get vehicles$(): Observable<Vehicle[]> {
+    return this._collectionService.entities$;
+  }
+  
+}
