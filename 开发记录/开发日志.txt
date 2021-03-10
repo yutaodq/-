@@ -1,3 +1,9 @@
+########## 20210305   ##############
+use-state
+ng g lib store --directory=vehicle/use-state/data-access --tags=scope:shared,type:data-access
+
+ng g lib main --directory=vehicle/use-state --tags=scope:main,type:feature
+
 ########## 20210302   ##############
 yarn add  ngx-toastr
 
