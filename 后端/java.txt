@@ -1,0 +1,14 @@
+1 根据 C:\yutao\software\documents\后端\架构\Hexagonal Architecture with Java and Spring
+构建应用程序架构 
+   https://reflectoring.io/spring-hexagonal/
+2 模仿案例：
+   
+   https://github.com/yassineazimani/clean-architecture-pizza
+
+
+2021-4-4
+
+1 - 初始化数据库
+   
+   见 \documents\后端\application-dev.yml.txt
+   
