@@ -1,0 +1,14 @@
+解决跨域请求问题
+
+Access to XMLHttpRequest at 'http://localhost:8080/api/vehicleStates' 
+from origin 'http://localhost:4200' has been blocked by CORS policy: 
+No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+大概能有两种方式可以解决这个问题： 
+    一个是在服务器端设置这个响应头，
+    二就是设置CORS。
+
+如果是使用Spring Boot创建的项目，直接添加一句注解到controller和方法就可以了
+
+@CrossOrigin
+public class VehicleStateController {
