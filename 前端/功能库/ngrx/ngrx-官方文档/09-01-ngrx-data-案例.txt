@@ -1,0 +1,59 @@
+###
+shared\data-access\facade\lvms\src\lib\vehicle-use-state\vehicle-use-state-collection.service.ts
+
+@Injectable({ providedIn: 'root' })
+export class VehicleUseStateCollectionService extends EntityCollectionServiceBase<VehicleUseState> {
+  constructor(serviceElementsFactory: EntityCollectionServiceElementsFactory) {
+    super('VehicleUseState', serviceElementsFactory);
+  }
+  private getSelectedId = createSelector(
+    RouteSelectors.getMergedRoute,
+    (mergedRoute) => <string>mergedRoute.params.id
+  );
+
+  selectedId$ = this.store.pipe(select(this.getSelectedId))
+
+  private getSelected = createSelector(
+    this.selectors.selectEntityMap,
+    this.getSelectedId,
+    (entities, selectedId) => <VehicleUseState>(selectedId && entities[selectedId])
+  );
+
+  selected$ = this.store.pipe(select(this.getSelected))
+}
+
+###
+shared\data-access\facade\lvms\src\lib\app-entities.service.ts
+
+@Injectable()
+export class AppEntityServices extends EntityServicesBase {
+  constructor(
+    elements: EntityServicesElements,
+    // 注入自定义服务，在EntityServices中注册它们，并在API中公开.
+    readonly vehicleCollectionService: VehicleCollectionService,
+    readonly vehicleUseStateCollectionService: VehicleUseStateCollectionService,
+    readonly vehicleUseTypeCollectionService: VehicleUseTypeCollectionService,
+
+  ) {
+    super(elements);
+    this.registerEntityCollectionServices([
+      vehicleCollectionService,
+      vehicleUseStateCollectionService,
+      vehicleUseTypeCollectionService
+    ]);
+  }
+}
+
+###
+shared\data-access\facade\lvms\src\lib\shared-data-access-facade-lvms.module.ts
+
+@NgModule({
+  imports: [CommonModule],
+  providers: [
+    AppEntityServices,
+    { provide: EntityServices, useExisting: AppEntityServices }
+  ]
+})
+export class SharedDataAccessFacadeLvmsModule {
+}
+
