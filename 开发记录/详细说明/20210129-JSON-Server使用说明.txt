@@ -45,15 +45,41 @@
 4 -  自定义路由
 自定义路由通俗的讲就是给api请求地址起了个别名，而且和后台商量好后就避免后期了修改接口地址的麻烦。
 
-在mock目录下创建router.json文件，注意每个路由文件应该以/开头。
+// db.json
+{
+  "posts": [
+    { "id": 1, "title": "json-server", "author": "typicode" }
+  ],
+
+}
+
+启动json-server，它默认提供了如下几个接口
+
+http://localhost:3000/posts
+
+但是，很多时候，这种单一的路由接口并不能满足我们的需求，大多数时候，
+我们需要的api接口可能是"http://localhost:3000/api/posts "， 
+或者我们想用的接口并不是3000，而是8080。这就需要一些自定义配置。
+
+首先，我们需要对路由进行简单的自定义配置。
+
+自定义路由——route.json
+在同一文件夹下新建route.json:
+
+{
+  "/api/*": "/$1"         //   /api/posts => /posts
+}
+
+上面route.json的意思就是，当调用/api/posts时，重定向到/posts
+
+
+注意每个路由文件应该以/开头。
 
 {
   "/api": "/list",
   "/api/list/:id": "/list/:id",
   "/api/users?name=:name":"/users?name=:name"
 }
-在这个json文件里key就是真实部署时要访问的api路径，对应的value就是我们开发时虚拟的api路径。
-现在访问 /api/list/1和访问/list/1 都返回/list/1的内容
 
 
 
