@@ -1,0 +1,40 @@
+angular 的environments多环境配置
+
+https://zhuanlan.zhihu.com/p/102695978
+
+1.environment文件夹：
+
+   environment.ts：
+
+   environment.prod.ts：
+
+2 - 修改angular.json文件 (Build下和Serve下的"configurations")
+
+ "projects": {
+    "ivms": {
+      "architect": {
+        "build": {
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "libs/shared/util/environments/src/lib/environment.ts",
+                  "with": "libs/shared/util/environments/src/lib/environment.prod.ts"
+                }
+              ],
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ivms:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ivms:build:production"
+            }
+          }
+        },
+
+3.打包：修改package.json 
+
+    "build": "ng build -c production",
