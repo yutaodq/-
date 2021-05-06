@@ -9,6 +9,9 @@
    https://github.com/akveo/ngx-admin
 *****************
 真实案例
+
+https://github.com/quarano/quarano-application/tree/a7ae2f60a18b55bc14621d71f02c08271dca189f
+
 https://github.com/lxcancino/sx-contabilidad
 https://github.com/lxcancino/sx-compras
 AgGrid学习案例
