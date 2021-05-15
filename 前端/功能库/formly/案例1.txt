@@ -19,3 +19,5 @@ fieldGroup: [
 https://github.com/TeMU-BSC/ictusnet-webapp/tree/534af4996bf8784c05075a2788335e033def5c66
 
 https://github.com/TeMU-BSC/ictusnet-webapp/blob/534af4996bf8784c05075a2788335e033def5c66/frontend/src/app/components/form/panels/panels-builder.ts
+
+https://github.com/kimbanga/angular-o29jy7-kzfpsr/tree/226d1a02bdae91884d9af3d0d52ee38779e94cb1
