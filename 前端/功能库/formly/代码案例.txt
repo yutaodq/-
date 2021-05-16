@@ -39,3 +39,27 @@
     onChanges: field => {
         this._model = {...this._model, pz: 'value', };
 }
+
+/*
+ 改变值得方法：
+ 
+*/    
+
+         {
+            className: 'col-md-6',
+            key: 'zt',
+            type: 'select',
+            templateOptions: {
+              label: '使用状态',
+              // placeholder: 'Placeholder',
+              options: this._createVehicleService.getVehiclesUseState(),
+              valueProp: 'id',
+              labelProp: 'name',
+              change: (field, formControl: AbstractControl) => {
+                console.log('afsfsfsdddddsfdsfds:' + field.formControl.value)
+
+                field.form.get('pz').setValue(field.formControl.value);
+              }
+
+            },
+
