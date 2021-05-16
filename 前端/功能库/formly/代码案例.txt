@@ -1,0 +1,41 @@
+在这节课中，我们将学习如何用Formly的hideExpressions动态隐藏一个表单控件。当表单发生变化时，这些表达式将在运行时自动计算。因此，当没有国家值被选中时，我们可以很容易地隐藏城市下拉栏。
+
+{
+      key: 'cityId',
+      type: 'select',
+      templateOptions: {
+        label: 'Cities',
+        options: [],
+      },
+      expressionProperties: {
+        'templateOptions.disabled': model => !model.nationId,
+        'model.cityId': '!model.nationId ? null: model.cityId',
+      },
+      hideExpression: model => {
+        return !model.nationId;
+      },
+      hooks: {
+        onInit: (field: FormlyFieldConfig) => {
+          field.templateOptions.options = field.form.get('nationId').valueChanges.pipe(
+            startWith(this.model.nationId),
+            switchMap(nationId => this.dataService.getCities(nationId)),
+          );
+        },
+      },
+    },
+    
+/*
+ 改变值得方法：
+ 
+*/    
+ hooks: {
+   onChanges: field => {
+     this.form.get('pz').setValue(field.templateOptions.labelProp);
+   } 
+}
+
+
+ hooks: {
+    onChanges: field => {
+        this._model = {...this._model, pz: 'value', };
+}
