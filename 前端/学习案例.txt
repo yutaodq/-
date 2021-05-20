@@ -17,8 +17,8 @@ https://github.com/lxcancino/sx-compras
 
 &&&&&&&&&
 使用 ngx-formly 和 primeflex 的案例
-https://github.com/hoisel/forms
 
+https://github.com/snello-cms/snello-formly
 
 &&&&&&&&&&
 
