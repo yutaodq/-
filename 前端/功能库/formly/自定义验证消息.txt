@@ -1,0 +1,86 @@
+export  const FORMLY_UNIQUE_NAME = 'uniqueName'
+
+### libs/shared/ui/form/src/lib/validation/formly-validation.ts
+
+export class FormlyValidation {
+  constructor(private formlyConfig: FormlyConfig) {
+  }
+
+  init(): void {
+    // message without params
+    this.formlyConfig.addValidatorMessage(FORMLY_UNIQUE_NAME, (_err, _field) =>
+      '已经存在相同的：' + _field.templateOptions.label + ' 信息'
+    );
+
+  }
+
+}
+
+
+## shared\ui\form\src\lib\shared-ui-form.module.ts
+
+const formlyModuleProviders = FormlyModule.forRoot(config).providers;
+
+const UI_FORM_EXPORTS_MODULE = [
+  FormlyModule,
+  FormlyPrimeNGModule,
+  RxReactiveFormsModule,
+  FormsModule,
+  ReactiveFormsModule,
+  SharedUiFormComponentsModule,
+]
+@NgModule({
+  imports: [
+    CommonModule,
+    FormlyModule,
+    FormlyPrimeNGModule,
+    RxReactiveFormsModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  exports: [
+    ...UI_FORM_EXPORTS_MODULE
+  ],
+  declarations: [FormlyWrapperPanelComponent],
+  providers: [FormlyValidation],
+})
+
+export class SharedUiFormModule {
+  constructor(formlyValidation: FormlyValidation) {
+    formlyValidation.init();
+  }
+
+  static forRoot(): ModuleWithProviders<SharedUiFormModule> {
+    return {
+      ngModule: SharedUiFormModule,
+      providers: [formlyModuleProviders],
+    };
+  }
+
+}
+
+## libs\vehicle\vehicle\main\src\lib\services\load-forms.service.ts
+
+使用：
+export function loadForms(service: CreateVehicleService): Observable<any> {
+  return new Observable<any>((observer) => {
+    observer.next([
+      {
+        fieldGroupClassName: 'row',
+        fieldGroup: [
+          {
+            className: 'col-md-2',
+            key: 'pz',
+            type: 'input',
+            focus: true,
+            templateOptions: {
+              label: '牌照号',
+              required: true
+            },
+            modelOptions: {
+              updateOn: 'blur' //失去焦点后验证
+            },
+            asyncValidators: {
+              uniqueName: service.isPzExists()
+            }
+          },
