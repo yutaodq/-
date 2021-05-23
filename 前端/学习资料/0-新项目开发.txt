@@ -1,0 +1,181 @@
+20200724
+
+1 - 加入库
+@ngrx/store-devtools": "~9.0.0",
+
+2 - 修改AppModule
+   加入additionalImports
+
+3 - 创建recipes   
+20200723
+
+1- 设置主件的前缀 
+   修改D:\yutao\webwork\projects\zy-lib\tslint.json
+   {
+  "extends": "../../tslint.json",
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "miao",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "miao",
+      "kebab-case"
+    ]
+  }
+}
+
+2 - 项目的组件的路径
+
+    (1) 在工作区设置路径
+    D:\yutao\webwork\tsconfig.json
+    "paths": {
+      "zy/zy-lib": [
+        "projects/zy-lib/src/public-api"
+      ],
+     }
+     
+    (2) 在各个项目中设置路径
+    D:\yutao\webwork\projects\zy-lib\tsconfig.lib.json
+         "paths": {
+      "zy/zy-lib": [
+        "projects/zy-lib/src/public-api"
+      ],
+    }
+
+
+20200722
+
+一 、 多项目工作空间
+多项目工作空间适用于对所有 Angular 项目使用单一存储库（单仓库模型）和全局配置的企业。多项目工作空间也能为库开发提供支持。
+https://angular.cn/guide/file-structure#multiple-projects
+
+1 - 安装angular/cli
+   tyarn global add @angular/cli@^9.1.9
+   tyarn global remove  @angular/cli (删除库)
+   
+   ## - ng version  
+      查看版本号
+2 - 创建一个包含全工作空间级配置文件的工作空间，但没有根应用
+
+   ## 非严格模式的工作空间 （应用程序使用的是这个）
+   ng new webwork --createApplication="false" 
+
+   ## --strict  是严格模式
+       ng new webwork --createApplication="false" --strict
+       https://angular.cn/guide/strict-mode
+   
+3 - 创建应用程序
+
+   cd webwork
+   ## 非严格模式的应用程序
+   ng generate application zy-app 
+   
+   ## 严格模式的应用程序
+   ng generate application zy-app --strict
+
+4 - 库项目文件
+   ng generate library zy-lib
+
+   库项目不能使用 --strict
+
+5 - 配置库
+   ng generate library config
+
+二、 cli
+1 - ng g <schematic> [options]
+ng generate可以生成或者修改多种类型的文件，
+通过schematic来指定生成或者修改的文件类型。
+schematic可以设置的类型有：
+   appShell、 生成用于运行应用程序的服务器端版本的应用程序shell。
+   application、在当前工作区的“projects”文件夹下生成一个新的Angular应用。
+   class、在给定或默认项目中创建类
+   component、在给定或默认项目中创建组件
+   directive、在给定或默认项目中创建新的通用指令
+   enum、为给定或默认项目生成新的通用枚举。
+   guard、在给定或默认项目中生成新的通用路由守卫定义。
+   interface、  在给定或默认项目中创建新的通用接口定义。
+   library、在当前工作空间中创建新的通用库项目
+   module、在给定或默认项目中创建新的通用NgModule。
+   pipe、在给定或默认项目中创建新的通用管道。
+   service、在给定或默认项目中创建新的通用服务。
+   serviceWorker、将此原理图传递给“run”命令以创建serviceWorker。
+   universal。将此原理图传递给“run”命令，为应用程序设置服务器端渲染。
+
+三 、 coreConfigModule 模块
+
+1 - 错误
+TSLint: Don't use 'Function' as a type. Avoid using the `Function` type. Prefer a specific function type, like `() => void`.(ban-types)
+
+修改tslint.json文件 ， 加入    "disable-next-line": "ban-types"
+
+2 - 完成ConfigModule的学习
+    （1）
+    @NgModule({
+       imports: [
+       CommonModule,
+       ConfigModule.withConfig(defaultSkipLinkConfig),
+      ],
+ 
+     （2）
+export class B2cStorefrontModule {
+  static withConfig(
+    config?: StorefrontConfig
+  ): ModuleWithProviders<B2cStorefrontModule> {
+    return {
+      ngModule: B2cStorefrontModule,
+      providers: [provideConfig(config)],
+    };
+  }
+}
+
+五、创建eventModule、windowModule
+ng generate library event
+ng generate library window
+
+六、创建stateModule
+
+ng generate library model
+
+七、创建utilModule
+ng generate library util
+
+八、创建stateModule
+
+ng generate library state 
+
+1 - state/config
+
+2 - state/utils/entity
+3 - state/utils/loader
+4 - state/utils/entity-loader
+5 - state/utils/processes-loader
+6 - state/utils/entity-processes-loader
+7 - state/utils/scoped-loader
+    （1）错误
+      D:\应用程序案例\spartacus\projects\core\src\state\utils\scoped-loader\scoped-loader.reducer.ts
+      依赖 product模块
+
+8 - state/event
+8 - state/reducers
+8 - state/services
+
+九、创建processModule
+
+ng generate library process 
+processModule模块依赖stateModule模块
+
+十、创建FeaturesConfigModule
+ng generate library features-config
+FeaturesConfigModule模块依赖ConfigModule模块
+
+十、创建SiteContextModule
+ng generate library site-context
+
+ng generate library shared
+ng generate library cms 
+ng generate library occ 

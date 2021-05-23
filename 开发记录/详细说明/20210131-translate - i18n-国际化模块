@@ -1,4 +1,9 @@
 国际化模块
+
+库：
+https://github.com/ngx-translate/core
+
+
 ng g lib i18n --directory=shared/util/api --tags=scope:shared,type:util
 
 2 - shared\util\i18n\src\lib\shared-util-i18n.module.ts
@@ -33,3 +38,15 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
 })
 export class SharedUtilI18nModule {}
+
+
+C:\yutao\software\zyweb\apps\ivms\src\assets\i18n\zh.json
+
+{
+    "ConfirmPassword": "口令",
+}
+
+
+*** 在html文件中使用
+
+<div>{{ 'ConfirmPassword' | translate }}</div>

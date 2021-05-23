@@ -1,0 +1,14 @@
+##20210523
+学习表单 
+https://github.com/SAP/spartacus
+D:\前端案例\真实案例\spartacus\projects\storefrontlib\src\cms-components\product\product-tabs\product-reviews\product-reviews.component.ts
+
+案例：
+          <cx-form-errors
+            [control]="reviewForm.get('comment')"
+          ></cx-form-errors>
+          
+*******
+学习
+ 国际化模块
+ https://github.com/ngx-translate/core
