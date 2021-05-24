@@ -1,3 +1,14 @@
+##20210524
+*** 1 能够显示错误提示信息 
+ <zyweb-form-errors [control]="form.get('nbpz')"
+        ></zyweb-form-errors>
+ 能够显示错误提示信息    
+****
+D:\spartacus\feature-libs\organization\administration\components\budget\services\budget-item.service.ts    
+
+学习 budget
+
+
 ##20210523
 学习表单 
 https://github.com/SAP/spartacus

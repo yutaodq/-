@@ -17,7 +17,7 @@ const EXPORTS_MODULES = [
   TranslateModule
 ];
 
-// AoT requires an exported function for factories
+// AoT需要为工厂导出功能
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -40,7 +40,24 @@ export function HttpLoaderFactory(http: HttpClient) {
 export class SharedUtilI18nModule {}
 
 
+### 创建国际化文件
 C:\yutao\software\zyweb\apps\ivms\src\assets\i18n\zh.json
+
+　　根据根模块的配置，我们应该在assets文件中再创建一个文件夹i18n，然后在i18n的文件夹下创建国际化文件，可以是en.json(英文)、zh_cn.json(中文)、zh_tw.json(中国台湾)，this.translate.use('en')用的就是en.json翻译文件，如果要使用其他两个翻译文件就是this.translate.use('zh_cn')、this.translate.use('zh_tw')
+
+//en.json
+ 
+{
+    "welcome":"welcome to this app",
+    "getName":"hello I am {{name}}"
+}
+//zh_cn.json
+ 
+{
+    "welcome":"欢迎使用本应用",
+    "getName":"你好，我是{{name}}"
+}
+
 
 {
     "ConfirmPassword": "口令",
@@ -50,3 +67,84 @@ C:\yutao\software\zyweb\apps\ivms\src\assets\i18n\zh.json
 *** 在html文件中使用
 
 <div>{{ 'ConfirmPassword' | translate }}</div>
+
+5、使用国际化
+
+在组件中使用
+1.ts文件使用translateService服务
+
+
+import { TranslateService } from '@ngx-translate/core';
+
+export class AppComponent {
+  title = 'app';
+  en=true;
+  zh=false;
+  constructor(private translate:TranslateService){
+    
+    //添加语言支持
+    translate.addLangs(["en", "zh"]);
+
+    //设置默认语言，一般在无法匹配的时候使用
+    translate.setDefaultLang('zh');
+    
+    //获取当前浏览器环境的语言比如en、 zh
+    let browserLang = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|zh/) ? browserLang : 'zh');
+
+  }
+
+    //切换语言
+    changeLang(lang) {
+      this.translate.use(lang);
+     
+    }
+}
+
+2.html中使用
+
+<div style="margin-top:50px;">{{'welcome' | translate}</div>
+<div>{{'title' | translate}}!</div>
+
+订阅语言切换事件
+通常某些时候我们需要在语言切换以后做一些其他的事情，这时候就需要监听语言包的改变事件了
+
+
+ngOnInit() {
+
+    //订阅语言切换事件
+    this.translate.onLangChange.subscribe((params) => {
+        // do something
+ 
+    });
+    
+}
+
+
+
+  5.1、使用管道来翻译输入信息
+<span>{{ 'welcome '| translate}}</span>
+
+  5.2、使用指令来翻译指定信息
+<span [translate]="'welcome'">welcome</span>
+
+  5.3、使用服务翻译指定信息
+this.translate.get('welcome').subscribe((res: string) => {
+            console.log(res);
+            this.welcomeTranslate = res;
+        });
+        
+  5.4、对带参数的信息进行翻译
+    5.4.1、翻译管道中带参数
+<span>{{getName | translate: {name:"crk"} }}</span>
+    5.4.2、翻译指令带参数
+<span 
+  [translate]="getName" 
+  [translateParams]="{'name':'ggg'}">
+getName
+</span>
+    5.4.3、翻译服务带参数
+this.translate.get('getName',this.param).subscribe((res: string) => {
+            console.log(res);
+            this.getNameTranslate = res;
+        });
