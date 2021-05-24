@@ -1,0 +1,239 @@
+将 查询 组件SearchNgrxComponent和 表格组件 VehicleUseStateGridComponent关联在一起
+ 
+
+@NgModule({
+  imports: [  ],
+  declarations: [
+    ListComponent,
+  ],
+  providers: [ VehicleFacade,
+    ListVehicleService,
+    
+    {provide:SearchNgrxGridService, useClass:VehicleSearchNgrxGridService},
+    ],
+})
+export class VehicleMainContainersListModule {}
+
+####
+
+      <div class="col-md-6 align-self-end">
+        <zyweb-ui-grid-search></zyweb-ui-grid-search>
+      </div>
+
+###
+
+zyweb-ui-grid-search.html
+
+<div class="row justify-content-end">
+  <span class="p-ml-auto p-input-icon-right">
+       <input pInputText type="text" placeholder="请录入要查找的内容"
+              [ngModel]="filter" (keyup)="onFilterChanged($event.target.value)"/>
+       <i class="pi pi-search" *ngIf=" isShowSearchIcon()"></i>
+       <i *ngIf="isShowClearIcon()" class="pi pi-times" (click)="onClearSearch()">  </i>
+  </span>
+
+  <p-button
+    pTooltip="取消查找" tooltipPosition="top"
+    icon="fa fa-power-off"
+    iconPos="left"
+    class="mr-md-3"
+    (onClick)="onClearAllFilters()"
+  >
+  </p-button>
+</div>
+
+
+
+@Component({
+  selector: 'zyweb-ui-grid-search',
+  templateUrl: './search-ngrx.component.html',
+  styleUrls: ['./search-ngrx.component.css'],
+  providers: []
+})
+export class SearchNgrxComponent implements OnInit {
+
+  get filter(): string {
+    return this._filter;
+  }
+
+  private _filter = '';
+
+  constructor(
+     public searchNgrxGridService: SearchNgrxGridService
+  ) { }
+
+  ngOnInit() {
+    //将存储库中的状态query,赋值给过滤条件 filter
+    this.searchNgrxGridService.query$.subscribe( filter => this._filter = filter )
+  }
+
+  onFilterChanged(val) {
+    this.search(val);
+  }
+  private search(filter: string) {
+    this.searchNgrxGridService.search(filter);
+  }
+
+
+  onClearSearch() {
+    this.search('');
+  }
+
+  public isShowSearchIcon(): boolean {
+    return this.filter.length === 0;
+  }
+  public isShowClearIcon(): boolean {
+    return !this.isShowSearchIcon();
+  }
+
+  // public isDisabledClearAllFilters(): boolean {
+  //   return !gridApi?.isAnyFilterPresent();
+  // }
+
+
+  onClearAllFilters() {
+    this.searchNgrxGridService.clearAllFilters();
+  }
+}
+
+#####
+
+export abstract class SearchNgrxGridService {
+
+  private _query$: Observable<string>
+  clearAllFilters$: Subject<string> = new Subject();
+
+  public constructor() {  }
+
+  abstract search(query: string)
+
+  get query$(): Observable<string> {
+    return this._query$;
+  }
+
+  set query$(value: Observable<string>) {
+    this._query$ = value;
+  }
+  clearAllFilters() {
+    this.clearAllFilters$.next('');
+  }
+}
+
+
+@Injectable()
+export class VehicleUseStateSearchNgrxGridService extends  SearchNgrxGridService{
+
+  constructor(
+    protected appState$: Store<fromStates.State>,
+  ) {
+    super();
+    this.query$ = this.appState$.pipe(
+      select(fromSelectors.SearchSelectors.selectSearchQuery));
+  }
+
+  search(query: string) {
+    this.appState$.dispatch(fromActions.CollectionPageActions.searchVehicleUseStates({query}));
+  }
+}
+
+###
+export const searchVehicleUseStates = createAction(
+  '[Vehicle Use State] Collection Page Search',
+  props<{ query: string }>()
+);
+
+###  query 是为了路由到其他页面后，返回到当前页面，查询条件不变
+export interface State {
+  loading: boolean;
+  error: string;
+  query: string;}
+
+const initialState: State = {
+  loading: false,
+  error: '',
+  query: '',
+};
+
+#####
+
+export class VehicleUseStateGridComponent extends GridComponentClass<VehicleUseState> {
+  constructor( vehicleUseStateGridPresenter: VehicleUseStateGridPresenter,
+               searchNgrxGridService: SearchNgrxGridService
+  ) {
+    super();
+    this.gridPresenter = vehicleUseStateGridPresenter;
+    this.searchNgrxGridService = searchNgrxGridService
+  }
+
+}
+
+
+###
+export abstract class GridComponentClass<T> implements OnInit, AfterViewInit, OnDestroy {
+  @Output() selectDataEvent = new EventEmitter<T>();
+
+  private _items: T[];
+
+  private subscriptions: Array<Subscription> = [];
+
+  public gridOptions: IDataGridOptions;
+  public columnDefs;
+  protected gridPresenter: IGridOptionsModel<T>;
+  protected searchNgrxGridService: SearchNgrxGridService;
+
+  constructor() {
+  }
+
+  ngOnInit() {
+    this.gridOptions = this.gridPresenter.gridOptions();
+    this.columnDefs = [...this.gridPresenter.columnDefs()];
+    this.registerEvents();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  private registerEvents(): void {
+    // 订阅车辆详情
+    this.subscriptions.push(
+      this.gridPresenter.select$.subscribe(entity => this.selectDataEvent.emit(entity)),
+      this.searchNgrxGridService.clearAllFilters$
+        .subscribe(query => this.clearAllFilters())
+    );
+  }
+
+  clearAllFilters() {
+    this.gridOptions.api.setFilterModel(null);
+    this.searchNgrxGridService.search('');
+  }
+
+  public ngAfterViewInit(): void {
+    let vale;
+    this.subscriptions.push(
+      this.searchNgrxGridService.query$.pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
+        map(query => vale = query))
+        .subscribe(query => this.quickFilter(query))
+    );
+    this.quickFilter(vale);
+  }
+
+  private quickFilter(filterValue: any) {
+    if (!!this.gridOptions.api) {
+      this.gridOptions.api.setQuickFilter(filterValue);
+    }
+  }
+
+
+  @Input()
+  public set items(value: T[]) {
+    this._items = value;
+  }
+
+  public get items(): T[] {
+    return this._items;
+  }
+}
+
