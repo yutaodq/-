@@ -1,5 +1,6 @@
-import { EntityCollectionService, EntityServices } from '@ngrx/data';
-
+/*
+使用  .entities$.pipe  查找案例
+*/
 
 @Injectable()
 export class VehicleFacade {
@@ -22,6 +23,39 @@ export class VehicleFacade {
     )
 
   }
-
- 
 }
+
+
+  selectEntityById(id: number): Observable<Drug> {
+    return this.entities$.pipe(
+      map(arr => arr.find(e => {
+        return e && e.barcode === id;
+      })),
+    );
+  }
+
+  public selectEntitiesByName(name: string): Observable<Drug[]> {
+    return this.entities$.pipe(
+      map(arr => arr.filter(e => e.name.toLocaleLowerCase().includes(name.toLocaleLowerCase()))),
+    );
+  }
+
+  public selectEntityByName(name: string): Observable<Drug> {
+    return this.entities$.pipe(
+      map(arr => arr.find(e => e.name.toLocaleLowerCase() === name.toLocaleLowerCase())),
+    );
+  }
+
+  public selectEntitiesByBarcode(barcode: number): Observable<Drug[]> {
+    return this.entities$.pipe(
+      map(arr => arr.filter(e => e.barcode.toString().toLocaleLowerCase().startsWith(barcode.toString().toLocaleLowerCase()))),
+    );
+  }
+
+  public selectEntityByBarcode(barcode: number): Observable<Drug> {
+    return this.entities$.pipe(
+      map(arr => arr.find(e => {
+        return e && e.barcode === barcode;
+      })),
+    );
+  }
