@@ -1,0 +1,27 @@
+import { EntityCollectionService, EntityServices } from '@ngrx/data';
+
+
+@Injectable()
+export class VehicleFacade {
+  private _collectionService: EntityCollectionService<Vehicle>;
+  private subscriptions: Array<Subscription> = [];
+
+  constructor(
+    private _appState$: Store<fromStaes.State>,
+    entityServices: EntityServices
+  ) {
+    this._collectionService =
+      entityServices.getEntityCollectionService('Vehicle');
+
+  }
+  //  获得一个实体
+  
+  get entitie$(): Observable<Vehicle> {
+    return this._collectionService.entities$.pipe(
+      map((vehicles) => vehicles.map((vehicle) => vehicle))
+    )
+
+  }
+
+ 
+}
