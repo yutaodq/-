@@ -16,8 +16,21 @@ export class VehicleFacade {
 
   }
   //  获得一个实体
+    vehicleName$: Observable<Vehicle> =  this._vehicleFacade.entities$.pipe(
+    switchMap((vehicles) => vehicles.sort((a, b) => a.name.localeCompare(b.name))),
+    distinct((a: Vehicle) => a.name)
+  );
   
-  get entitie$(): Observable<Vehicle> {
+  //  获得实体数组
+
+    vehicleName$: Observable<Vehicle[]> =  this._vehicleFacade.entities$.pipe(
+    switchMap((vehicles) => vehicles.sort((a, b) => a.name.localeCompare(b.name))),
+    distinct((a: Vehicle) => a.name),
+    toArray()
+  );
+
+// 
+  get entitie$(): Observable<Vehicle[]> {
     return this._collectionService.entities$.pipe(
       map((vehicles) => vehicles.map((vehicle) => vehicle))
     )
