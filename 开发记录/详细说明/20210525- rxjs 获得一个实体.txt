@@ -37,7 +37,33 @@ export class VehicleFacade {
 
   }
 }
+/****
 
+vehicleName$: Vehicle[]
+    this._vehicleFacade.entities$.pipe(
+      map( (value) => value.map((value1) =>  value1))
+    )
+      .subscribe(a => this.vehicleName$ = a);
+      
+
+       console.log(this.vehicleName$)
+结果显示：
+[{id: '1', name: '11', pz: '1'}, {id: '2', name: '22', pz: '2'}，{id: '3', name: '33', pz: '3'}]   
+****/
+
+
+/****
+    this._vehicleFacade.entities$.pipe()
+      .subscribe(a => this.vehicleName$ = a);
+
+    console.log("this.vehicleName$")
+结果显示：
+[{0: {id: '1', name: '11', pz: '1'}}, {1: {id: '2', name: '22', pz: '2'}}，{2: {id: '3', name: '33', pz: '3'}}]   
+
+可索引类型
+[id: number] : Vehicle
+
+****/
 
   selectEntityById(id: number): Observable<Drug> {
     return this.entities$.pipe(
