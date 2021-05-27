@@ -1,0 +1,138 @@
+学习 <p-autoComplete>
+
+    <p-autoComplete
+      formControlName="name"
+      [suggestions]="formDataProvider.vehicleName$ | async "
+      (completeMethod)="formDataProvider.searchName($event)"
+      field="name"
+
+    ></p-autoComplete>
+
+###
+name 没有去重
+
+    this.vehicleName$ = this._vehicleFacade.entities$.pipe(
+      map(arr => arr
+        .filter(e => e.name.toString().toLocaleLowerCase().indexOf(name.toString().toLocaleLowerCase()) !== -1)
+        .sort((a, b) => a.name.localeCompare(b.name))
+      ),
+    );
+
+######
+
+另一种方法 使用http   this._vehicleDataService
+@Injectable()
+export class VehicleCreateFormDataProvider {
+  vehicleName$: Observable<Vehicle[]> = this._vehicleDataService.getAll() ;
+  或者：
+   vehicleName$: Observable<Vehicle[]> = this._vehicleFacade.entities$.pipe(
+     map((vehicles) => vehicles.map(v => v)));
+
+  constructor(
+    private _vehicleDataService: VehicleDataService,
+    private _vehicleFacade: VehicleFacade
+  ) {
+
+  }
+
+
+  get vehicleFacade(): VehicleFacade {
+    return this._vehicleFacade;
+  }
+
+  searchName(event: any) {
+    this.vehicleName$ = of(event.query).pipe(
+      debounceTime(100),
+      distinctUntilChanged(),
+      switchMap(search => this.findByName(search))
+    );
+  }
+
+  findByName(name: string): Observable<Vehicle[]> {
+    return this._vehicleDataService.getAll().pipe(
+      switchMap((vehicles) => vehicles.sort((a, b) => a.name.localeCompare(b.name))),
+      filter(vehicle => vehicle.name.toString().toLocaleLowerCase().indexOf(name.toString().toLocaleLowerCase()) !== -1),
+      distinct(vehicle => vehicle.name),
+      toArray()
+    );
+
+  }
+  
+######
+
+另一种方法 使用ngrx   this._vehicleDataService
+*********************
+    <p-autoComplete
+                    formControlName="name"
+                    #nameAutoComplete
+                    [suggestions]="vehicleName$ | async "
+                    field="name"
+                    [dropdown]="true"
+
+    ></p-autoComplete>
+*********************************************************************
+export class CreateFormComponent implements OnInit, AfterViewInit {
+  @ViewChild('nameAutoComplete') nameAutoComplete: AutoComplete;
+  vehicleName$: Observable<Vehicle[]>;
+
+  @Input()
+  form: FormGroup;
+
+  constructor(public formDataProvider: VehicleCreateFormDataProvider,
+) {
+  }
+
+  ngAfterViewInit() {
+    // this.vehicleName$ = this.formDataProvider.vehicleName$;
+    this.vehicleName$ = this.nameAutoComplete.completeMethod
+      .pipe(
+        debounceTime(100),
+        distinctUntilChanged(),
+        switchMap(search => this.searchName(search))
+      );
+
+
+  }
+  searchName(event: any) {
+    const name = event.query;
+    return this.formDataProvider.findVehicleName(name).pipe(
+      switchMap((vehicles) => vehicles.sort((a, b) => a.name.localeCompare(b.name))),
+      filter(vehicle => vehicle.name.toString().toLocaleLowerCase().indexOf(name.toString().toLocaleLowerCase()) !== -1),
+      distinct( vehicle =>vehicle.name),
+      toArray()
+    )
+  }
+
+}
+**********************
+@Injectable()
+export class VehicleCreateFormDataProvider {
+  private _vehicleName$: Observable<Vehicle[]>
+
+
+  constructor(
+    private _vehicleDataService: VehicleDataService,
+    private _vehicleFacade: VehicleFacade
+  ) {
+
+    this._vehicleName$ = this._vehicleFacade.entities$
+      .pipe(map( (values) => values))
+    ;
+
+  }
+  get vehicleName$(): Observable<Vehicle[]> {
+    return this._vehicleName$;
+  }
+  get vehicleFacade(): VehicleFacade {
+    return this._vehicleFacade;
+  }
+
+
+  findVehicleName(name: string): Observable<Vehicle[]> {
+     const value = this._vehicleFacade.entities$;
+    //const value =  this._vehicleDataService.getAll();
+
+    return value;
+  }
+
+**************************

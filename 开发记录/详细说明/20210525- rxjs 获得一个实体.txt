@@ -53,6 +53,7 @@ export class VehicleFacade {
 
 vehicleName$: Vehicle[]
 
+
     this._vehicleFacade.entities$.pipe(
       map( (value) => value.map((value1) =>  value1))
     )
@@ -77,6 +78,17 @@ vehicleName$: Vehicle[]
 [id: number] : Vehicle
 
 ****/
+
+/****
+
+   this._vehicleFacade.entities$.pipe(map((vehicles) => this.vehicleName$  = vehicles)).subscribe();
+    console.log('aaaaaaaaaaaaaaa: ' + name);
+    console.log(this.vehicleName$)
+Ω·π˚œ‘ æ£∫
+[{0: {id: '1', name: '11', pz: '1'}}, {1: {id: '2', name: '22', pz: '2'}}£¨{2: {id: '3', name: '33', pz: '3'}}]   
+
+****/
+
 
   selectEntityById(id: number): Observable<Drug> {
     return this.entities$.pipe(
@@ -111,3 +123,5 @@ vehicleName$: Vehicle[]
       })),
     );
   }
+  
+  
