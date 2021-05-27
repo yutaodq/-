@@ -17,26 +17,38 @@ export class VehicleFacade {
   }
   //  获得一个实体
     vehicleName$: Observable<Vehicle> =  this._vehicleFacade.entities$.pipe(
-    switchMap((vehicles) => vehicles.sort((a, b) => a.name.localeCompare(b.name))),
-    distinct((a: Vehicle) => a.name)
+      switchMap((vehicles) => vehicles.sort((a, b) => a.name.localeCompare(b.name))),
+      filter(vehicle => vehicle.name.toString().toLocaleLowerCase().indexOf(name.toString().toLocaleLowerCase()) !== -1),
+      distinct( vehicle =>vehicle.name),
   );
   
   //  获得实体数组
 
     vehicleName$: Observable<Vehicle[]> =  this._vehicleFacade.entities$.pipe(
-    switchMap((vehicles) => vehicles.sort((a, b) => a.name.localeCompare(b.name))),
-    distinct((a: Vehicle) => a.name),
-    toArray()
+      switchMap((vehicles) => vehicles.sort((a, b) => a.name.localeCompare(b.name))),
+      filter(vehicle => vehicle.name.toString().toLocaleLowerCase().indexOf(name.toString().toLocaleLowerCase()) !== -1),
+      distinct( vehicle =>vehicle.name),
+      toArray()
   );
 
-// 
+// map()
+
   get entitie$(): Observable<Vehicle[]> {
     return this._collectionService.entities$.pipe(
       map((vehicles) => vehicles.map((vehicle) => vehicle))
     )
-
   }
-}
+  
+  错误的代码： filter(vehicle 中的vehicle 是vehicle[] 不能 vehicle.name
+  get entitie$(): Observable<Vehicle[]> {
+    return this._collectionService.entities$.pipe(
+      map((vehicles) => vehicles.map((vehicle) => vehicle))
+      filter(vehicle => vehicle.name.toString().toLocaleLowerCase().indexOf(name.toString().toLocaleLowerCase()) !== -1),
+      
+    )
+  }
+
+  
 /****
 
 vehicleName$: Vehicle[]
