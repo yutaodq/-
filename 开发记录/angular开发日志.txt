@@ -1,3 +1,11 @@
+##20210527
+学习 <p-autoComplete>
+案例：
+https://github.com/LyubomirPetrovski/mediation-poll/tree/27b4f38728838668250222ee4f1dbf8bde0526b3
+D:\学习案例\primeng\案例\mediation-poll\src\app\poll\company-info\company-info-poll.component.html
+
+
+
 ##20210524
 *** 1 能够显示错误提示信息 
  <zyweb-form-errors [control]="form.get('nbpz')"

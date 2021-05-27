@@ -40,6 +40,7 @@ export class VehicleFacade {
 /****
 
 vehicleName$: Vehicle[]
+
     this._vehicleFacade.entities$.pipe(
       map( (value) => value.map((value1) =>  value1))
     )
