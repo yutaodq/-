@@ -1,0 +1,21 @@
+** 转化操作符
+    转化操作符会对数据进行处理，但转化操作符不会对数据进行过滤，会对数据进行转化和组合。
+
+   map、mapTo、pluck
+map是最简单、最常用的转化操作符。map会对上游数据进行函数处理，并把返回结果传给下游流。
+
+mapTo会把所有数据映射成同一个数据，并传给下游。
+
+pluck类似根据传入参数 key 来取上游数据中对应 key 的值，并传给下游。
+   plunk只能去一个值，而不能嵌套取值。
+   当对应 key 不存在时，pluck可以把传入的第二个参数作为默认值（默认为 undefined）传给下游。
+
+** 合并流
+const length = document.getElementById('length');
+const width = document.getElementById('width');
+
+const length$ = Rx.Observable.formEvent(length,'keyup').pluck('target', 'value');
+const width$ = Rx.Observable.formEvent(width,'keyup').pluck('target', 'value');
+
+const area$ = Rx.Observable.combineLatest(length$, width$, (l, w) => l*w );
+1 - combineLatest

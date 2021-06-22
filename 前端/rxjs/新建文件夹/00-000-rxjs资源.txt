@@ -1,0 +1,28 @@
+1 - 资源
+   （1）官网
+        http://reactivex.io/
+        https://github.com/ReactiveX/rxjs
+        https://rxjs.dev/
+        
+        操作符使用说明及宝珠图
+        https://rxmarbles.com/ 
+   (*)  在线编辑器
+        https://jsbin.com/?html,output
+
+   （2）学习网站
+        
+        https://github.com/btroncone/learn-rxjs
+        学习社区 
+        https://github.com/RxJS-CN
+        https://rxjs-cn.github.io/learn-rxjs-operators/
+        
+        https://www.jianshu.com/p/aa5c30a9eeef
+        
+        30 天精通 RxJS
+        https://www.jianshu.com/p/bc9fdfce728e
+        
+        https://www.jdon.com/reactive.html
+        
+        https://zhuanlan.zhihu.com/p/34357403
+        
+        
