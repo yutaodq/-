@@ -1,0 +1,3 @@
+Java 实体映射工具 MapStruct
+主页
+https://github.com/mapstruct/mapstruct
