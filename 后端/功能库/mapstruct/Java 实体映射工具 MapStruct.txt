@@ -1,7 +1,8 @@
 Java 实体映射工具 MapStruct
-主页
+官方主页
 https://github.com/mapstruct/mapstruct
-
+官方文档：
+https://mapstruct.org/documentation/installation/
 
 https://zhuanlan.zhihu.com/p/368731266
 
