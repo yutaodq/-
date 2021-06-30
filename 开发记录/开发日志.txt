@@ -1,3 +1,20 @@
+########## 20210629   ##############
+1 - 添加表单验证库 reactive-form-validators
+npm install @rxweb/reactive-form-validators
+
+yarn add  @rxweb/reactive-form-validators
+
+import {  RxReactiveFormsModule } from "@rxweb/reactive-form-validators"
+安装完成后，在应用程序的根模块中注册RxReactiveFormsModule
+
+@NgModule({
+  imports:      [ RxReactiveFormsModule,...],
+  declarations: [...],
+})
+export class AppModule { }
+
+
+
 ########## 20210305   ##############
 use-state
 ng g lib store --directory=vehicle/use-state/data-access --tags=scope:shared,type:data-access
