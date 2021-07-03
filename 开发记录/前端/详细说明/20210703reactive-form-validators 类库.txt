@@ -1,0 +1,22 @@
+1 - rxweb/reactive-form-validators 类库
+ng g lib form-validators --directory=shared/ui --tags=scope:shared,type:ui
+
+2 - 修改 tsconfig.lib.json
+C:\yutao\software\zyweb\libs\shared\ui\form-validators\tsconfig.lib.json
+
+    "types": ["node"],
+
+3 - 自定义类库中组件的前缀
+  修改 \frontend-work\angular.json
+修改： C:\yutao\software\zyweb\libs\shared\ui\form-validators\tslint.json
+  "rules": {
+    "directive-selector": [true, "attribute", "zyweb", "camelCase"],
+    "component-selector": [true, "element", "zyweb", "kebab-case"]
+  },
+
+4 - 自定类库的导入路径
+修改：C:\yutao\software\zyweb\tsconfig.base.json 
+
+     "@zyweb/shared/ui/form-validators": [
+        "libs/shared/ui/form-validators/src/index.ts"
+      ]
