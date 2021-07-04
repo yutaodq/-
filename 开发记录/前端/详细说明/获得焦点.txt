@@ -1,0 +1,38 @@
+1 - 在组件中设置获得焦点
+        <div class="form-group col-md-4">
+          <label for="pz">
+            牌照
+            <span class="required">*</span>
+          </label>
+          <input id="pz" #pzInput type="text" pInputText formControlName="pz" />
+          <zyweb-form-errors [control]="form.get('pz')"
+          ></zyweb-form-errors>
+        </div>
+
+export class CreateInformationFormComponent  implements  AfterViewInit {
+  @ViewChild('pzInput') pzInput: ElementRef;
+
+  @Input()
+  form: FormGroup;
+  constructor(
+    public formDataProvider: CreateFormDataProvider,
+) {
+  }
+
+  ngAfterViewInit() {
+    this.pzInput.nativeElement.focus();
+  }
+}
+
+
+2 - 在HTML中利用指令 zywebUpperCase 获得焦点
+
+        <div class="form-group col-md-4">
+          <label for="pz">
+            牌照
+            <span class="required">*</span>
+          </label>
+          <input id="pz" #pzInput type="text" pInputText formControlName="pz" zywebUpperCase />
+          <zyweb-form-errors [control]="form.get('pz')"
+          ></zyweb-form-errors>
+        </div>

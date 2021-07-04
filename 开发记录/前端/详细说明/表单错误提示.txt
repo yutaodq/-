@@ -1,0 +1,20 @@
+1 - 表单错误提示组件
+    C:\yutao\software\zyweb\libs\shared\ui\base\src\lib\form\form-errors\form-errors.component.ts
+    
+  <p *ngFor="let errorName of errors$ | async">
+    {{ prefix + '.' + errorName | translate  }}
+  </p>
+
+
+2 - i18n.module
+C:\yutao\software\zyweb\libs\shared\util\i18n\src\lib\shared-util-i18n.module.ts
+
+3 - zh.json
+
+C:\yutao\software\zyweb\apps\ivms\src\assets\i18n\zh.json
+
+  "formErrors": {
+    "required": "必须填写项",
+    "formUniqueName": "已经存在相同的记录",
+    "notEmpty":  "必须填写项"
+  }

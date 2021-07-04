@@ -1,0 +1,11 @@
+1 - 日期组件
+          <p-calendar id="ccrq"
+                      formControlName="ccrq"
+                      dateFormat="yy-mm-dd"
+                      showIcon="true"
+                      monthNavigator="true"
+                      yearNavigator="true"
+                      yearRange="1949:2050"
+
+          ></p-calendar>
+
