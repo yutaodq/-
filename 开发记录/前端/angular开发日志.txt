@@ -1,3 +1,43 @@
+##20210707 
+
+3 - 表结构 -organization
+    C:\yutao\software\zyweb\libs\shared\data-access\model\lvms\src\lib\organization.ts
+2 - 共享的数据访问库- store
+目录结构：C:\yutao\software\zyweb\libs\organization\organization\data-access\store
+
+ng g lib store --directory=organization/organization/data-access --tags=scope:shared,type:data-access
+
+1 - 新建组织功能库-feature-organization
+目录结构： libs/organization/organization/feature-organization
+ng g lib feature-organization --directory=organization/organization --tags=scope:feature-organization,type:feature
+
+(1)  tsconfig.lib.json 。加入"node"
+     C:\yutao\software\zyweb\libs\organization\organization\feature-organization\tsconfig.lib.json
+     修改内容：     "types": ["node"],
+（2）自定义类库中组件的前缀
+
+//  修改 \frontend-work\angular.json
+//         "schematics": {
+//        "@schematics/angular:component": {
+//            "prefix": "zy",
+//            "styleExt": "scss"
+//        },
+//        "@schematics/angular:directive": {
+//            "spec": false,
+//            "prefix": "zy"
+//        },
+
+修改 C:\yutao\software\zyweb\libs\organization\organization\feature-organization\tslint.json
+"directive-selector": [true, "attribute", "zyweb", "camelCase"],
+"component-selector": [true, "element", "zyweb", "kebab-case"]
+
+（3）自定类库的导入路径
+修改 C:\yutao\software\zyweb\tsconfig.base.json
+      "@zyweb/organization/organization/feature-organization": [
+        "libs/organization/organization/feature-organization/src/index.ts"
+      ]
+      
+
 ##20210527
 学习 <p-autoComplete>
 案例：
