@@ -4,3 +4,7 @@ https://indepth.dev/posts/1109/ngrx-creator-functions-101
 
 https://indepth.dev/posts/1199/understanding-the-magic-behind-ngrx-store
 https://indepth.dev/posts/1206/understanding-the-magic-behind-ngrx-effects
+
+https://laptrinhx.com/how-to-write-effects-for-actions-in-ngrx-data-652481965/
+
+https://www.it1352.com/tag/angular-ngrx-data
