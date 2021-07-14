@@ -25,14 +25,14 @@ export class CreateInformationFormComponent  implements  AfterViewInit {
 }
 
 
-2 - 在HTML中利用指令 zywebUpperCase 获得焦点
+2 - 在HTML中利用指令 zywebAutofocus 获得焦点
 
         <div class="form-group col-md-4">
           <label for="pz">
             牌照
             <span class="required">*</span>
           </label>
-          <input id="pz" #pzInput type="text" pInputText formControlName="pz" zywebUpperCase />
+          <input id="pz" #pzInput type="text" pInputText formControlName="pz" zywebAutofocus />
           <zyweb-form-errors [control]="form.get('pz')"
           ></zyweb-form-errors>
         </div>
